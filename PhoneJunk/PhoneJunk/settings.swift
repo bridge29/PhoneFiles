@@ -10,7 +10,9 @@
 //      -Add photo, video, and unlock/lock icons
 // Design New Folder scene
 //      -include lock/unlock, days to delete (temp folder)
-// Design 
+// Folder lock feature
+// Photo shoot feature
+// Menu
 
 import UIKit
 
