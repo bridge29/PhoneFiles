@@ -1,0 +1,205 @@
+//
+//  NewFileViewController.swift
+//  PhoneJunk
+//
+//  Created by Scott Bridgman on 12/18/15.
+//  Copyright © 2015 Tohism. All rights reserved.
+//
+
+import UIKit
+import CoreData
+import AVFoundation
+import AVKit
+import MobileCoreServices
+import AssetsLibrary
+
+class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
+    
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var descTextView: UITextView!
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var dataView: UIView!
+    var folder      : Folders!
+    var fileType    : String!
+    var fileImage   : UIImage!
+    var editFile    : Files!
+    var firstAction : String!
+    var avPlayerVC  : AVPlayerViewController!
+    var urlVideo    : NSURL!
+    var hasFileInfo = false
+    var editMode    = false
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let firstWordOfTitle = (editMode) ? "Edit" : "New"
+        self.navigationItem.title = "\(firstWordOfTitle) \(fileType)"
+        self.titleTextField.text  = (editMode) ? self.editFile.title : PRE_TITLE_TEXT
+        self.descTextView.text    = (editMode) ? self.editFile.desc  : PRE_DESC_TEXT
+        self.titleTextField.delegate = self
+        self.descTextView.delegate   = self
+        
+        switch (fileType){
+            case "Photo":
+                self.imageView.contentMode = UIViewContentMode.ScaleAspectFit
+                self.dataView.addSubview(self.imageView)
+            case "Video":
+                self.imageView.hidden = true
+                self.avPlayerVC   = AVPlayerViewController()
+                self.addChildViewController(self.avPlayerVC)
+                self.avPlayerVC.view.frame = CGRectMake(0,0,self.dataView.bounds.width,self.dataView.bounds.height)
+                self.dataView.addSubview(self.avPlayerVC.view)
+            default:
+                break
+        }
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+
+        if (editMode){
+            
+            switch (fileType){
+                case "Photo":
+                    self.imageView.image = UIImage(contentsOfFile: getFilePath(self.editFile.fileName!))
+                case "Video":
+                    self.urlVideo = NSURL(fileURLWithPath: getFilePath(self.editFile.fileName!))
+                    let player    = AVPlayer(URL: self.urlVideo)
+                    self.avPlayerVC.player = player
+                default:
+                    break
+            }
+        } else {
+            
+            switch (fileType){
+                case "Photo":
+                    if (self.firstAction == "take" || self.firstAction == "choose"){
+                        let imagePickCont = UIImagePickerController()
+                        imagePickCont.delegate = self
+                        if (self.firstAction == "take"){
+                            imagePickCont.sourceType = UIImagePickerControllerSourceType.Camera
+                        }else if (self.firstAction == "choose"){
+                            imagePickCont.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+                        }
+                        self.presentViewController(imagePickCont, animated: true, completion: nil)
+                    }
+                case "Video":
+                    if (self.firstAction == "take" || self.firstAction == "choose"){
+                        let ipcVideo = UIImagePickerController()
+                        ipcVideo.delegate = self
+                        if (self.firstAction == "take"){
+                            ipcVideo.sourceType = UIImagePickerControllerSourceType.Camera
+                        }else if (self.firstAction == "choose"){
+                            ipcVideo.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+                        }
+                        let kUTTypeMovieAnyObject : AnyObject = kUTTypeMovie as AnyObject
+                        ipcVideo.mediaTypes = [kUTTypeMovieAnyObject as! String]
+                        self.presentViewController(ipcVideo, animated: true, completion: nil)
+                    }
+                default:
+                    snp()
+            }
+            self.firstAction = ""
+        }
+    }
+    
+    // MARK: - Delegate Methods
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        if (textField.text == PRE_TITLE_TEXT){
+            textField.text = ""
+        }
+    }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if (textView.text == PRE_DESC_TEXT) {
+            textView.text = ""
+        }
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        if (self.fileType == "Video") {
+            self.urlVideo = info[UIImagePickerControllerMediaURL] as! NSURL
+            self.dismissViewControllerAnimated(true, completion: nil)
+            let player        = AVPlayer(URL: self.urlVideo)
+            self.avPlayerVC.player = player
+
+        }else {
+            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+            self.fileImage = image
+            self.imageView.image = self.fileImage
+        }
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func saveFile(sender: AnyObject) {
+        
+        var title    = self.titleTextField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        var desc     = self.descTextView.text!
+        title        = (title == PRE_TITLE_TEXT) ? "" : title
+        desc         = (desc  == PRE_DESC_TEXT)  ? "" : desc
+        let fileExt  = (fileType == "Photo") ? "jpg" : "mov"
+        let fileName = (editMode) ? self.editFile.fileName! : "\(Int(NSDate().timeIntervalSince1970)).\(fileExt)"
+        
+        if (saveData(fileName)){
+            
+            if (editMode){
+                // why doesn't this work ? self.editFile.edit_date = NSDate()
+                self.editFile.title = title
+                self.editFile.desc  = desc
+            } else {
+                let newFile = NSEntityDescription.insertNewObjectForEntityForName("Files", inManagedObjectContext: self.moc)
+                newFile.setValue(fileType, forKey: "fileType")
+                newFile.setValue(title, forKey: "title")
+                newFile.setValue(desc, forKey: "desc")
+                newFile.setValue(NSDate(), forKey: "create_date")
+                newFile.setValue(NSDate(), forKey: "edit_date")
+                newFile.setValue(fileName, forKey: "fileName")
+                newFile.setValue(self.folder, forKey: "whichFolder")
+            }
+            saveContext()
+        }else {
+            print("File was not saved")
+        }
+        
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    @IBAction func cancelFile(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    // MARK: - Other Methods
+    
+    func saveData(fileName:String) -> Bool{
+        
+        switch fileType {
+            case "Photo":
+                if let image = self.imageView.image {
+                    UIImageJPEGRepresentation(image,1.0)!.writeToFile(getFilePath(fileName), atomically: true)
+                    return true
+                }
+            case "Video":
+                if let url = self.urlVideo {
+                    let newFileURL = NSURL(fileURLWithPath: getFilePath(fileName))
+                    let videoData = NSData(contentsOfURL: url)
+                    videoData?.writeToURL(newFileURL, atomically: true)
+                    
+                    pl("HI")
+                    return true
+                }
+            default:
+                return false
+        }
+        return false
+    }
+
+}
+
