@@ -2,7 +2,7 @@
 //  Files+CoreDataProperties.swift
 //  PhoneJunk
 //
-//  Created by Scott Bridgman on 2/2/16.
+//  Created by Scott Bridgman on 2/21/16.
 //  Copyright © 2016 Tohism. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu

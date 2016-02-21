@@ -6,13 +6,12 @@
 //  Copyright © 2015 Tohism. All rights reserved.
 //
 // TODO:
-// Design Folder table view
-//      -Add photo, video, and unlock/lock icons
-// Design New Folder scene
-//      -include lock/unlock, days to delete (temp folder)
-// Folder lock feature
-// Photo shoot feature
 // Menu
+// Sorting functionality in files scene
+// 
+// VERSION 2:
+//     - cloud/non-cloud option 
+//     - Photo shoot feature (also will be in separate app)
 
 import UIKit
 
@@ -20,9 +19,25 @@ let fileTypes = ["Photo","Video"] //,"Audio","Text"]
 let PRE_TITLE_TEXT = "Title..."
 let PRE_DESC_TEXT  = "Description..."
 
+enum FilesView: Int {
+    case Small  = 0
+    case Medium = 1
+    case Large  = 2
+}
+
+enum SortBy: Int16 {
+    case CreateRecent = 0
+    case CreateOldest = 1
+    case EditRecent   = 2
+    case EditOldest   = 3
+}
+
+func getDocumentPath() -> String{
+    return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+}
+
 func getFilePath(fileName:String) -> String{
-    let documentPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-    return documentPath.stringByAppendingString("/" + fileName)
+    return getDocumentPath().stringByAppendingString("/" + fileName)
 }
 
 var securityMethod : String {

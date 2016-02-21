@@ -23,11 +23,11 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
     var fileType    : String!
     var fileImage   : UIImage!
     var editFile    : Files!
-    var firstAction : String!
     var avPlayerVC  : AVPlayerViewController!
     var urlVideo    : NSURL!
     var hasFileInfo = false
     var editMode    = false
+    var firstAction = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,11 +53,14 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
                 break
         }
         
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-
+        if (self.firstAction == "") {
+            self.view.viewWithTag(10)?.hidden = true
+        }
+        
         if (editMode){
+            
+            print(self.editFile.edit_date)
+            print(self.editFile.create_date)
             
             switch (fileType){
                 case "Photo":
@@ -72,32 +75,32 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
         } else {
             
             switch (fileType){
-                case "Photo":
-                    if (self.firstAction == "take" || self.firstAction == "choose"){
-                        let imagePickCont = UIImagePickerController()
-                        imagePickCont.delegate = self
-                        if (self.firstAction == "take"){
-                            imagePickCont.sourceType = UIImagePickerControllerSourceType.Camera
-                        }else if (self.firstAction == "choose"){
-                            imagePickCont.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-                        }
-                        self.presentViewController(imagePickCont, animated: true, completion: nil)
+            case "Photo":
+                if (self.firstAction == "take" || self.firstAction == "choose"){
+                    let imagePickCont = UIImagePickerController()
+                    imagePickCont.delegate = self
+                    if (self.firstAction == "take"){
+                        imagePickCont.sourceType = UIImagePickerControllerSourceType.Camera
+                    }else if (self.firstAction == "choose"){
+                        imagePickCont.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
                     }
-                case "Video":
-                    if (self.firstAction == "take" || self.firstAction == "choose"){
-                        let ipcVideo = UIImagePickerController()
-                        ipcVideo.delegate = self
-                        if (self.firstAction == "take"){
-                            ipcVideo.sourceType = UIImagePickerControllerSourceType.Camera
-                        }else if (self.firstAction == "choose"){
-                            ipcVideo.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-                        }
-                        let kUTTypeMovieAnyObject : AnyObject = kUTTypeMovie as AnyObject
-                        ipcVideo.mediaTypes = [kUTTypeMovieAnyObject as! String]
-                        self.presentViewController(ipcVideo, animated: true, completion: nil)
+                    self.presentViewController(imagePickCont, animated: true, completion: nil)
+                }
+            case "Video":
+                if (self.firstAction == "take" || self.firstAction == "choose"){
+                    let ipcVideo = UIImagePickerController()
+                    ipcVideo.delegate = self
+                    if (self.firstAction == "take"){
+                        ipcVideo.sourceType = UIImagePickerControllerSourceType.Camera
+                    }else if (self.firstAction == "choose"){
+                        ipcVideo.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
                     }
-                default:
-                    snp()
+                    let kUTTypeMovieAnyObject : AnyObject = kUTTypeMovie as AnyObject
+                    ipcVideo.mediaTypes = [kUTTypeMovieAnyObject as! String]
+                    self.presentViewController(ipcVideo, animated: true, completion: nil)
+                }
+            default:
+                snp()
             }
             self.firstAction = ""
         }
@@ -122,18 +125,24 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
         }
     }
     
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        self.view.viewWithTag(10)?.hidden = true
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if (self.fileType == "Video") {
             self.urlVideo = info[UIImagePickerControllerMediaURL] as! NSURL
             self.dismissViewControllerAnimated(true, completion: nil)
-            let player        = AVPlayer(URL: self.urlVideo)
+            let player             = AVPlayer(URL: self.urlVideo)
             self.avPlayerVC.player = player
 
         }else {
             let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-            self.fileImage = image
+            self.fileImage       = image
             self.imageView.image = self.fileImage
         }
+        self.view.viewWithTag(10)?.hidden = true
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -151,7 +160,7 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
         if (saveData(fileName)){
             
             if (editMode){
-                // why doesn't this work ? self.editFile.edit_date = NSDate()
+                self.editFile.edit_date = NSDate.timeIntervalSinceReferenceDate()
                 self.editFile.title = title
                 self.editFile.desc  = desc
             } else {
@@ -167,6 +176,8 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
             saveContext()
         }else {
             print("File was not saved")
+            notifyAlert(self, title: "Uh Oh", message: "\(fileType) was not saved. Take a \(fileType) or select one from your Camera Roll.")
+            return
         }
         
         self.navigationController?.popViewControllerAnimated(true)
@@ -191,12 +202,10 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
                     let newFileURL = NSURL(fileURLWithPath: getFilePath(fileName))
                     let videoData = NSData(contentsOfURL: url)
                     videoData?.writeToURL(newFileURL, atomically: true)
-                    
-                    pl("HI")
                     return true
                 }
             default:
-                return false
+                break
         }
         return false
     }

@@ -14,10 +14,11 @@
         <attribute name="isLocked" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="orderPosition" optional="YES" attributeType="Integer 16" defaultValueString="200" syncable="YES"/>
+        <attribute name="sortBy" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="files" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Files" inverseName="whichFolder" inverseEntity="Files" syncable="YES"/>
     </entity>
     <elements>
         <element name="Files" positionX="-344" positionY="-108" width="128" height="150"/>
-        <element name="Folders" positionX="-549" positionY="-109" width="128" height="120"/>
+        <element name="Folders" positionX="-549" positionY="-109" width="128" height="135"/>
     </elements>
 </model>

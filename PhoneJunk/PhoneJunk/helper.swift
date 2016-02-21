@@ -37,3 +37,20 @@ func notifyAlert(target:UIViewController, title:String, message:String) {
     actionSheetController.addAction(okAction)
     target.presentViewController(actionSheetController, animated: true, completion: nil)
 }
+
+///// PhoneJunk Helper
+
+func printFileContents(){
+    print("Contents in \(getDocumentPath())")
+    do {
+        let contents = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(getDocumentPath())
+        for content in contents{
+            print(content)
+        }
+    } catch {
+        fatalError("Error pulling contents: \(error)")
+    }
+    
+}
+
+

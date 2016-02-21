@@ -15,11 +15,12 @@
 		92BADC401C208A3F001EB5FD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 92BADC3E1C208A3F001EB5FD /* LaunchScreen.storyboard */; };
 		92BADC481C208B0A001EB5FD /* FolderTVController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BADC471C208B0A001EB5FD /* FolderTVController.swift */; };
 		92BADC4A1C21EBAC001EB5FD /* FileTVController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BADC491C21EBAC001EB5FD /* FileTVController.swift */; };
+		92D6038B1C7942BB005586A8 /* Files+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D603871C7942BB005586A8 /* Files+CoreDataProperties.swift */; };
+		92D6038C1C7942BB005586A8 /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D603881C7942BB005586A8 /* Files.swift */; };
+		92D6038D1C7942BB005586A8 /* Folders+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D603891C7942BB005586A8 /* Folders+CoreDataProperties.swift */; };
+		92D6038E1C7942BB005586A8 /* Folders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D6038A1C7942BB005586A8 /* Folders.swift */; };
+		92D785CD1C6318A300825673 /* FolderTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D785CC1C6318A200825673 /* FolderTVCell.swift */; };
 		92FD74E01C2261210064B4E2 /* PhoneJunk.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 92FD74DE1C2261210064B4E2 /* PhoneJunk.xcdatamodeld */; };
-		92FD75091C232D250064B4E2 /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92FD75051C232D250064B4E2 /* Files.swift */; };
-		92FD750B1C232D250064B4E2 /* Folders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92FD75071C232D250064B4E2 /* Folders.swift */; };
-		92FD75161C232DF00064B4E2 /* Folders+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92FD75141C232DF00064B4E2 /* Folders+CoreDataProperties.swift */; };
-		92FD75171C232DF00064B4E2 /* Files+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92FD75151C232DF00064B4E2 /* Files+CoreDataProperties.swift */; };
 		92FD75191C238E680064B4E2 /* NewFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92FD75181C238E680064B4E2 /* NewFolderViewController.swift */; };
 		92FD751B1C23A3D90064B4E2 /* BaseClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92FD751A1C23A3D90064B4E2 /* BaseClasses.swift */; };
 		92FD751D1C2446EA0064B4E2 /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92FD751C1C2446EA0064B4E2 /* helper.swift */; };
@@ -38,12 +39,13 @@
 		92BADC411C208A3F001EB5FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		92BADC471C208B0A001EB5FD /* FolderTVController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderTVController.swift; sourceTree = "<group>"; };
 		92BADC491C21EBAC001EB5FD /* FileTVController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileTVController.swift; sourceTree = "<group>"; };
+		92D603871C7942BB005586A8 /* Files+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Files+CoreDataProperties.swift"; path = "PhoneJunk/Files+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		92D603881C7942BB005586A8 /* Files.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Files.swift; sourceTree = "<group>"; };
+		92D603891C7942BB005586A8 /* Folders+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Folders+CoreDataProperties.swift"; path = "PhoneJunk/Folders+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		92D6038A1C7942BB005586A8 /* Folders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Folders.swift; sourceTree = "<group>"; };
+		92D785CC1C6318A200825673 /* FolderTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderTVCell.swift; sourceTree = "<group>"; };
 		92FD74DF1C2261210064B4E2 /* PhoneJunk.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PhoneJunk.xcdatamodel; sourceTree = "<group>"; };
 		92FD74E11C2325B90064B4E2 /* PhoneJunk-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PhoneJunk-Bridging-Header.h"; sourceTree = "<group>"; };
-		92FD75051C232D250064B4E2 /* Files.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Files.swift; sourceTree = "<group>"; };
-		92FD75071C232D250064B4E2 /* Folders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Folders.swift; sourceTree = "<group>"; };
-		92FD75141C232DF00064B4E2 /* Folders+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Folders+CoreDataProperties.swift"; path = "PhoneJunk/Folders+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		92FD75151C232DF00064B4E2 /* Files+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Files+CoreDataProperties.swift"; path = "PhoneJunk/Files+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		92FD75181C238E680064B4E2 /* NewFolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFolderViewController.swift; sourceTree = "<group>"; };
 		92FD751A1C23A3D90064B4E2 /* BaseClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseClasses.swift; sourceTree = "<group>"; };
 		92FD751C1C2446EA0064B4E2 /* helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
@@ -65,8 +67,8 @@
 		92BADC261C208A3F001EB5FD = {
 			isa = PBXGroup;
 			children = (
-				92FD75141C232DF00064B4E2 /* Folders+CoreDataProperties.swift */,
-				92FD75151C232DF00064B4E2 /* Files+CoreDataProperties.swift */,
+				92D603871C7942BB005586A8 /* Files+CoreDataProperties.swift */,
+				92D603891C7942BB005586A8 /* Folders+CoreDataProperties.swift */,
 				92BADC311C208A3F001EB5FD /* PhoneJunk */,
 				92BADC301C208A3F001EB5FD /* Products */,
 				92FD74E11C2325B90064B4E2 /* PhoneJunk-Bridging-Header.h */,
@@ -94,8 +96,9 @@
 				92FD75221C244B5F0064B4E2 /* NewFileViewController.swift */,
 				922B14611C416AE3004DE991 /* DisplayViewController.swift */,
 				929C56101C27C7BB000D1CEA /* FileTVCell.swift */,
-				92FD75071C232D250064B4E2 /* Folders.swift */,
-				92FD75051C232D250064B4E2 /* Files.swift */,
+				92D785CC1C6318A200825673 /* FolderTVCell.swift */,
+				92D603881C7942BB005586A8 /* Files.swift */,
+				92D6038A1C7942BB005586A8 /* Folders.swift */,
 				92BADC361C208A3F001EB5FD /* Main.storyboard */,
 				92BADC3E1C208A3F001EB5FD /* LaunchScreen.storyboard */,
 				92BADC3C1C208A3F001EB5FD /* Assets.xcassets */,
@@ -178,19 +181,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				92FD74E01C2261210064B4E2 /* PhoneJunk.xcdatamodeld in Sources */,
+				92D6038D1C7942BB005586A8 /* Folders+CoreDataProperties.swift in Sources */,
 				92BADC331C208A3F001EB5FD /* AppDelegate.swift in Sources */,
 				92FD751F1C2447B00064B4E2 /* settings.swift in Sources */,
+				92D785CD1C6318A300825673 /* FolderTVCell.swift in Sources */,
 				92BADC481C208B0A001EB5FD /* FolderTVController.swift in Sources */,
 				92FD751B1C23A3D90064B4E2 /* BaseClasses.swift in Sources */,
+				92D6038E1C7942BB005586A8 /* Folders.swift in Sources */,
 				929C56111C27C7BB000D1CEA /* FileTVCell.swift in Sources */,
 				92FD75231C244B5F0064B4E2 /* NewFileViewController.swift in Sources */,
-				92FD75161C232DF00064B4E2 /* Folders+CoreDataProperties.swift in Sources */,
 				92FD75191C238E680064B4E2 /* NewFolderViewController.swift in Sources */,
+				92D6038C1C7942BB005586A8 /* Files.swift in Sources */,
+				92D6038B1C7942BB005586A8 /* Files+CoreDataProperties.swift in Sources */,
 				92BADC4A1C21EBAC001EB5FD /* FileTVController.swift in Sources */,
 				922B14621C416AE3004DE991 /* DisplayViewController.swift in Sources */,
-				92FD75091C232D250064B4E2 /* Files.swift in Sources */,
-				92FD750B1C232D250064B4E2 /* Folders.swift in Sources */,
-				92FD75171C232DF00064B4E2 /* Files+CoreDataProperties.swift in Sources */,
 				92FD751D1C2446EA0064B4E2 /* helper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

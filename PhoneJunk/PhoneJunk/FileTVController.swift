@@ -13,23 +13,18 @@ import AVFoundation
 
 class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     
-    @IBOutlet weak var dataSizeSlider: UISlider!
-    var folder       : Folders!
-    var dataViewSize : Float = 4.0
-    var dataSizeInc  : CGFloat!
-    var timer        : NSTimer!
-    var timerIsOn = false
-    
+    var folder : Folders!
+    var currView:FilesView!
     lazy var fetchedResultsController: NSFetchedResultsController = {
-        let filesFetchRequest = NSFetchRequest(entityName: "Files")
-        filesFetchRequest.predicate = NSPredicate(format: "whichFolder == %@", self.folder)
-        
-        let primarySortDescriptor = NSSortDescriptor(key: "create_date", ascending: true)
-        //let secondarySortDescriptor = NSSortDescriptor(key: "commonName", ascending: true)
-        filesFetchRequest.sortDescriptors = [primarySortDescriptor]
+//        let filesFetchRequest = NSFetchRequest(entityName: "Files")
+//        filesFetchRequest.predicate = NSPredicate(format: "whichFolder == %@", self.folder)
+//        
+//        let primarySortDescriptor = NSSortDescriptor(key: "create_date", ascending: ((self.folder.sortBy! == "recent") ? true : false))
+//        //let secondarySortDescriptor = NSSortDescriptor(key: "commonName", ascending: true)
+//        filesFetchRequest.sortDescriptors = [primarySortDescriptor]
         
         let frc = NSFetchedResultsController(
-            fetchRequest: filesFetchRequest,
+            fetchRequest: self.getFileFetchRequest(),
             managedObjectContext: self.moc,
             sectionNameKeyPath: nil,
             cacheName: nil)
@@ -50,14 +45,15 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
 
         self.navigationItem.title = self.folder.valueForKey("name") as? String
         
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            print("An error occurred")
-        }
-        
-        self.dataSizeSlider.value = self.dataViewSize
-        self.dataSizeInc = self.tableView.bounds.width / CGFloat(10)
+        self.frcFetch()
+
+        if let num = NSUserDefaults.standardUserDefaults().objectForKey("\(self.folder.name)_filesView") as? Int {
+            currView = FilesView(rawValue: num)
+        }else {
+            currView = FilesView.Small
+            NSUserDefaults.standardUserDefaults().setObject(currView.rawValue, forKey: "\(self.folder.name)_filesView")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }        
     }
     
     // MARK: - Table view data source
@@ -99,6 +95,9 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
                 cell.dataImageView.hidden = false
                 cell.dataImageView.image = UIImage(contentsOfFile: getFilePath(fileName))
                 cell.dataImageView.contentMode = UIViewContentMode.ScaleAspectFit
+//                if let img = cell.dataImageView.image {
+//                    cell.aspectRatioConstraint.priority = (img.size.width > img.size.height) ? 750 : 750
+//                }
                 
             } else {
                 
@@ -134,12 +133,17 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         self.performSegueWithIdentifier("file2display", sender: indexPath)
     }
     
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // the cells you would like the actions to appear needs to be editable
+        return true
+    }
+    
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         // need to invoke this method to have editActions work. No code needed.
     }
     
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let editAction = UITableViewRowAction(style: .Normal, title: "Edit") { action, index in
+        let editAction = UITableViewRowAction(style: .Normal, title: "  Edit  ") { action, index in
             self.performSegueWithIdentifier("file2editFile", sender: indexPath)
         }
         editAction.backgroundColor = UIColor.blueColor()
@@ -150,18 +154,13 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         blankAction.backgroundColor = UIColor.whiteColor()
         
         let deleteAction = UITableViewRowAction(style: .Normal, title: "Delete") { action, index in
-            let managedObject:NSManagedObject = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Files
-            self.moc.deleteObject(managedObject)
+            let fileToDelete = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Files
+            self.deleteFile(fileToDelete)
             self.saveContext()
         }
         deleteAction.backgroundColor = UIColor.redColor()
         
-        return [deleteAction, blankAction, editAction]
-    }
-    
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // the cells you would like the actions to appear needs to be editable
-        return true
+        return [editAction, blankAction, deleteAction]
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
@@ -169,29 +168,55 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return self.dataSizeInc * CGFloat(self.dataViewSize)
+        let file = fetchedResultsController.objectAtIndexPath(indexPath) as! Files
+        if currView == .Small {
+            return 80.0;
+        }
+        if file.fileType == "Photo" {
+            if let img = UIImage(contentsOfFile: getFilePath(file.fileName!)){
+                if img.size.width > img.size.height{
+                    return self.view.bounds.width * (3/4.0)
+                }else {
+                    return self.view.bounds.width * (4/3.0)
+                }
+                
+            }
+        }
+        return self.view.bounds.width * (3/4.0)
     }
     
     // MARK: - IBActions
     
-    
-    @IBAction func sizeSliderChanged(sender: UISlider) {
-        if (!self.timerIsOn) {
-            checkIfShouldRefresh()
-        }
+    @IBAction func changeSort(sender: AnyObject) {
         
-//        let roundedValue = round(sender.value)
-//        sender.value = roundedValue
-//        if (roundedValue != self.dataViewSize){
-//            pl("\(sender.value)")
-//            self.dataViewSize = roundedValue
-//            self.tableView.reloadData()
+        self.folder.sortBy = (self.folder.sortBy + 1) % 4
+        self.saveContext()
+        self.fetchedResultsController.setValue(self.getFileFetchRequest(), forKey:"fetchRequest")
+        self.frcFetch()
+        self.tableView.reloadData()
+        
+//        let ac = UIAlertController(title: "Choose Sort Option", message: nil, preferredStyle: .ActionSheet)
+//        
+//        for alertOption in ["Create Date Recent","Create Date Oldest","Edit Date Recent","Edit Date Oldest"] {
+//            ac.addAction(UIAlertAction(title: alertOption, style: .Default, handler: sortFiles))
 //        }
+//        
+//        ac.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+//        presentViewController(ac, animated: true, completion: nil)
     }
+    
+    @IBAction func changeView(sender: AnyObject) {
+        let newNum = (currView.rawValue + 1) % 3
+        currView = FilesView(rawValue: newNum)
+        NSUserDefaults.standardUserDefaults().setObject(currView.rawValue, forKey: "\(self.folder.name)_filesView")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        self.tableView.reloadData()
+    }
+    
     @IBAction func newFile(sender: AnyObject) {
         let ac = UIAlertController(title: "Choose Option", message: nil, preferredStyle: .ActionSheet)
         
-        for alertOption in ["Take Photo","Take Video","Choose Photo","Choose Video","Text"] {
+        for alertOption in ["Take Photo","Take Video","Choose Photo","Choose Video"] {
             ac.addAction(UIAlertAction(title: alertOption, style: .Default, handler: openNewFile))
         }
         
@@ -201,15 +226,41 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     
     // MARK: - Other Methods
     
-    func checkIfShouldRefresh() {
-        if (self.dataSizeSlider.value == self.dataViewSize) {
-            self.timerIsOn = false
-            self.tableView.reloadData()
-            
-        }else{
-            self.dataViewSize = self.dataSizeSlider.value
-            self.timerIsOn    = true
-            timer             = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("checkIfShouldRefresh"), userInfo: nil, repeats: false)
+    func getFileFetchRequest() -> NSFetchRequest {
+        let filesFetchRequest = NSFetchRequest(entityName: "Files")
+        filesFetchRequest.predicate = NSPredicate(format: "whichFolder == %@", self.folder)
+        
+        var sortDate  = "create_date"
+        var sortOrder = "recent"
+        
+        switch (SortBy(rawValue: self.folder.sortBy)!){
+            case .CreateRecent:
+                sortDate  = "create_date"
+                sortOrder = "recent"
+            case .CreateOldest:
+                sortDate  = "create_date"
+                sortOrder = "oldest"
+            case .EditRecent:
+                sortDate  = "edit_date"
+                sortOrder = "recent"
+            case .EditOldest:
+                sortDate  = "edit_date"
+                sortOrder = "oldest"
+        }
+        
+        print("HI \(sortDate) \(sortOrder)")
+        
+        let primarySortDescriptor = NSSortDescriptor(key: sortDate, ascending: ((sortOrder == "recent") ? true : false))
+        //let secondarySortDescriptor = NSSortDescriptor(key: "commonName", ascending: true)
+        filesFetchRequest.sortDescriptors = [primarySortDescriptor]
+        return filesFetchRequest
+    }
+    
+    func frcFetch(){
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            print("An error occurred: \(error)")
         }
     }
     
@@ -240,8 +291,6 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
                 dvc.firstAction = "take"
             }else if title.rangeOfString("Choose") != nil {
                 dvc.firstAction = "choose"
-            }else {
-                dvc.firstAction = ""
             }
             
             if (title.rangeOfString("Photo") != nil) {

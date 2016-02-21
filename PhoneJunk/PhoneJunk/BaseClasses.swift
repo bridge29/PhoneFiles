@@ -19,7 +19,7 @@ class BasePhoneJunkVC: UIViewController {
     }
     
     //// Creates folder item in core data
-    func createFolder(name:String, isLocked:Bool){
+    func createFolder(name:String, isLocked:Bool, daysTilDelete:Int = 0){
         
         //// Make fetch request to check if folder already exists.
         //// Can't have two folders with same name.
@@ -40,8 +40,9 @@ class BasePhoneJunkVC: UIViewController {
         let newFolder = NSEntityDescription.insertNewObjectForEntityForName("Folders", inManagedObjectContext: self.moc)
         newFolder.setValue(name, forKey: "name")
         newFolder.setValue(isLocked, forKey: "isLocked")
+        newFolder.setValue(daysTilDelete, forKey:"daysTilDelete")
         saveContext()
-        print("Created Folder: \(name)")
+        //print("Created Folder: \(name)")
     }
     
     func saveContext(){
@@ -63,8 +64,23 @@ class BasePhoneJunkTVC: UITableViewController {
         self.moc = appDel.managedObjectContext
     }
     
+    //// Delete File
+    func deleteFile(file:Files){
+        
+        if let fn = file.fileName {
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(getFilePath(fn))
+            } catch {
+                fatalError("Failed fetch request: \(error)")
+            }
+        }
+        
+        self.moc.deleteObject(file)
+        
+    }
+    
     //// Creates folder item in core data
-    func createFolder(name:String, isLocked:Bool){
+    func createFolder(name:String, isLocked:Bool, daysTilDelete:Int = 0){
         
         //// Make fetch request to check if folder already exists.
         //// Can't have two folders with same name.
@@ -81,12 +97,12 @@ class BasePhoneJunkTVC: UITableViewController {
             fatalError("Failed fetch request: \(error)")
         }
         
-        
         let newFolder = NSEntityDescription.insertNewObjectForEntityForName("Folders", inManagedObjectContext: self.moc)
         newFolder.setValue(name, forKey: "name")
         newFolder.setValue(isLocked, forKey: "isLocked")
+        newFolder.setValue(daysTilDelete, forKey:"daysTilDelete")
         saveContext()
-        print("Created Folder: \(name)")
+        //print("Created Folder: \(name)")
     }
 
     func saveContext(){
