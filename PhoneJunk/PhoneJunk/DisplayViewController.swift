@@ -10,8 +10,6 @@ import UIKit
 
 class DisplayViewController: UIViewController {
 
-    @IBOutlet weak var descLabel: UITextView!
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var mainView: UIView!
     var fileList : [Files]!
@@ -30,27 +28,15 @@ class DisplayViewController: UIViewController {
         swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
         self.mainView.addGestureRecognizer(swipeLeft)
         
-        let tapGest = UITapGestureRecognizer(target: self, action: "mainViewTapped")
-        tapGest.numberOfTapsRequired = 1
-        self.mainView.addGestureRecognizer(tapGest)
-        
         showFile()
-    }
-    
-    func mainViewTapped() {
-        self.hideDetails       = !self.hideDetails
-        self.titleLabel.hidden = self.hideDetails
-        self.descLabel.hidden  = self.hideDetails
     }
     
     func showFile() {
         
-        self.titleLabel.text = self.currFile.title
-        self.descLabel.text  = self.currFile.desc
-        
         if currFile.fileType == "Photo" {
             self.imageView.image = UIImage(contentsOfFile: getFilePath(currFile.fileName!))
         }
+        
     }
     
     func prevFile () {
@@ -78,15 +64,5 @@ class DisplayViewController: UIViewController {
     @IBAction func exitDisplay(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -13,15 +13,11 @@ import AVFoundation
 
 class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     
-    var folder : Folders!
-    var currView:FilesView!
+    var folder        : Folders!
+    var currView      : FilesView!
+    var useDateFormat : Bool!
+    
     lazy var fetchedResultsController: NSFetchedResultsController = {
-//        let filesFetchRequest = NSFetchRequest(entityName: "Files")
-//        filesFetchRequest.predicate = NSPredicate(format: "whichFolder == %@", self.folder)
-//        
-//        let primarySortDescriptor = NSSortDescriptor(key: "create_date", ascending: ((self.folder.sortBy! == "recent") ? true : false))
-//        //let secondarySortDescriptor = NSSortDescriptor(key: "commonName", ascending: true)
-//        filesFetchRequest.sortDescriptors = [primarySortDescriptor]
         
         let frc = NSFetchedResultsController(
             fetchRequest: self.getFileFetchRequest(),
@@ -54,6 +50,15 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
             NSUserDefaults.standardUserDefaults().setObject(currView.rawValue, forKey: "\(self.folder.name)_filesView")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
+        
+        if let udf = NSUserDefaults.standardUserDefaults().objectForKey("\(self.folder.name)_useDateFormat") as? Bool {
+            useDateFormat = udf
+        }else {
+            useDateFormat = true
+            NSUserDefaults.standardUserDefaults().setObject(useDateFormat, forKey: "\(self.folder.name)_useDateFormat")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+        
         self.tableView.reloadData()
     }
     
@@ -88,7 +93,13 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         //t// cell.descViewTopConstraint.priority = (cell.file.title == "") ? 750 : 250
         cell.titleLabel.text   = cell.file.title
         cell.descTextView.text = cell.file.desc
+        cell.dateLabel.text    = getFileDateLabelText(cell.file.create_date, useDateFormat: useDateFormat)
         cell.dataScrollView.viewWithTag(20)?.removeFromSuperview()
+        
+        //// Add recognizer to dateLabel
+        let dateTap = UITapGestureRecognizer(target: self, action: "dateLabelTapped")
+        dateTap.numberOfTapsRequired = 1
+        cell.dateLabel.addGestureRecognizer(dateTap)
         
         //// Remove and re-add width constraint from dataScrollView based in currView
         for c in cell.constraints{
@@ -101,10 +112,19 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         switch (currView!){
         case .Small:
             mult = 0.2
+            cell.titleDateStackView.axis      = .Horizontal
+            cell.titleDateStackView.alignment = .Center
+            cell.titleLabel.font = UIFont (name: "Helvetica Neue", size: 20)
         case .Medium:
             mult = 0.6
+            cell.titleDateStackView.axis      = .Vertical
+            cell.titleDateStackView.alignment = .Trailing
+            cell.titleLabel.font = UIFont(name: "Helvetica Neue", size: 18)
         case .Large:
             mult = 0.95
+            cell.titleLabel.text   = ""
+            cell.descTextView.text = ""
+            cell.dateLabel.text    = ""
         }
         
         let aspectRatioConstraint = NSLayoutConstraint(item: cell.dataScrollView,
@@ -118,13 +138,12 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         cell.addConstraint(aspectRatioConstraint)
         cell.layoutIfNeeded()
         
-        
         if let fileName = cell.file.fileName {
         
             if cell.file.fileType == "Photo"{
                 
                 if let image = UIImage(contentsOfFile: getFilePath(fileName)){
-                    cell.configureImageView(image)
+                    cell.configureImageView(image, currView:currView)
                 }
                 
             } else {
@@ -153,19 +172,13 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
 //                }
             }
         }
-//        
-//        print("HI\n")
-//        print(cell.dataScrollView.contentSize)
-//        print(cell.dataScrollView.frame.size, cell.dataScrollView.bounds)
-//        print(cell.dataImageView.frame.size)
         
-        //print(cell.subviews.count)
         return cell
     }
     
-//    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        self.performSegueWithIdentifier("file2display", sender: indexPath)
-//    }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("file2display", sender: indexPath)
+    }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // the cells you would like the actions to appear needs to be editable
@@ -207,14 +220,6 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         let mult:CGFloat!
         var aspectRatio:CGFloat = 1.0
         
-        switch (currView!){
-            case .Small:
-                mult = 0.2
-            case .Medium:
-                mult = 0.6
-            case .Large:
-                mult = 0.95
-        }
         if file.fileType == "Photo" {
             if let img = UIImage(contentsOfFile: getFilePath(file.fileName!)){
                 aspectRatio = img.size.height / img.size.width
@@ -222,6 +227,17 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         }else{ /// VIDEO
             aspectRatio = 1.5
         }
+        
+        switch (currView!){
+            case .Small:
+                mult        = 0.2
+                aspectRatio = 1.0
+            case .Medium:
+                mult = 0.6
+            case .Large:
+                mult = 0.95
+        }
+        
         
         return self.view.bounds.width * aspectRatio * mult
     }
@@ -257,6 +273,13 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     }
     
     // MARK: - Other Methods
+    
+    func dateLabelTapped(){
+        useDateFormat = !useDateFormat
+        NSUserDefaults.standardUserDefaults().setObject(useDateFormat, forKey: "\(self.folder.name)_useDateFormat")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        self.tableView.reloadData()
+    }
     
     func getFileFetchRequest() -> NSFetchRequest {
         let filesFetchRequest = NSFetchRequest(entityName: "Files")

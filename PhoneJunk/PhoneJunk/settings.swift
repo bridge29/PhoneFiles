@@ -7,7 +7,7 @@
 //
 // TODO:
 // Menu
-// Sorting functionality in files scene
+// Pop up messgae (used to show when sorting changes)
 // 
 // VERSION 2:
 //     - cloud/non-cloud option 
@@ -32,14 +32,6 @@ enum SortBy: Int16 {
     case EditOldest   = 3
 }
 
-func getDocumentPath() -> String{
-    return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-}
-
-func getFilePath(fileName:String) -> String{
-    return getDocumentPath().stringByAppendingString("/" + fileName)
-}
-
 var securityMethod : String {
     get {
         var returnValue: String? = NSUserDefaults.standardUserDefaults().objectForKey("securityMethod") as? String
@@ -52,5 +44,49 @@ var securityMethod : String {
     set {
         NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "securityMethod")
         NSUserDefaults.standardUserDefaults().synchronize()
+    }
+}
+
+func getDocumentPath() -> String{
+    return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+}
+
+func getFilePath(fileName:String) -> String{
+    return getDocumentPath().stringByAppendingString("/" + fileName)
+}
+
+func getFileDateLabelText(date:NSTimeInterval, useDateFormat:Bool=true) ->String{
+    
+    if (useDateFormat){
+        
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        formatter.dateFormat = "MM/dd"
+        return formatter.stringFromDate(NSDate(timeIntervalSinceReferenceDate:date))
+        
+    }else{
+        
+        let seconds = Int(NSDate.timeIntervalSinceReferenceDate() - date)
+        var num = 1
+        var unit = "min"
+        
+        switch(seconds){
+        case 0..<60:
+            num  = 1
+            unit = "min"
+        case 60..<3600:
+            num  = seconds/60
+            unit = "min"
+        case 3600..<86400:
+            num  = seconds/3600
+            unit = "hour"
+        case  86400..<604800:
+            num  = seconds/86400
+            unit = "day"
+        default:
+            return "\(seconds/604800)w"
+        }
+        unit = (num == 1) ? unit : unit + "s"
+        return "\(num) \(unit)"
     }
 }

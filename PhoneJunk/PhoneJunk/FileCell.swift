@@ -10,6 +10,8 @@ import UIKit
 
 class FileCell: UITableViewCell, UIScrollViewDelegate {
 
+    @IBOutlet weak var titleDateStackView: UIStackView!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var descTextView: UITextView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dataScrollView: UIScrollView!
@@ -20,6 +22,7 @@ class FileCell: UITableViewCell, UIScrollViewDelegate {
         super.awakeFromNib()
         
         dataScrollView.delegate = self
+        //descTextView.contentInset = UIEdgeInsetsMake(-7.0,0.0,0,0.0)
         
         let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewDoubleTapped:")
         doubleTapRecognizer.numberOfTapsRequired = 2
@@ -28,7 +31,7 @@ class FileCell: UITableViewCell, UIScrollViewDelegate {
         
     }
     
-    func configureImageView(image:UIImage){
+    func configureImageView(image:UIImage, currView:FilesView){
         dataImageView.removeFromSuperview()
         dataImageView = UIImageView(image: image)
         dataImageView.contentMode  = UIViewContentMode.Center
@@ -40,9 +43,10 @@ class FileCell: UITableViewCell, UIScrollViewDelegate {
         let scaleWidth      = scrollViewFrame.size.width / dataScrollView.contentSize.width
         let scaleHeight     = scrollViewFrame.size.height / dataScrollView.contentSize.height
         let minScale        = min(scaleWidth, scaleHeight)
+        let maxScale        = max(scaleWidth, scaleHeight)
         dataScrollView.minimumZoomScale = minScale
         dataScrollView.maximumZoomScale = 1.0
-        dataScrollView.zoomScale        = minScale
+        dataScrollView.zoomScale        = (currView == .Small) ? maxScale : minScale
         dataScrollView.addSubview(dataImageView)
     }
     
