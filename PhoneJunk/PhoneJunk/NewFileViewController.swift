@@ -59,9 +59,6 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
         
         if (editMode){
             
-            print(self.editFile.edit_date)
-            print(self.editFile.create_date)
-            
             switch (fileType){
                 case "Photo":
                     self.imageView.image = UIImage(contentsOfFile: getFilePath(self.editFile.fileName!))

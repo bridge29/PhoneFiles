@@ -50,11 +50,17 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         if let num = NSUserDefaults.standardUserDefaults().objectForKey("\(self.folder.name)_filesView") as? Int {
             currView = FilesView(rawValue: num)
         }else {
-            currView = FilesView.Small
+            currView = FilesView.Large
             NSUserDefaults.standardUserDefaults().setObject(currView.rawValue, forKey: "\(self.folder.name)_filesView")
             NSUserDefaults.standardUserDefaults().synchronize()
-        }        
+        }
+        self.tableView.reloadData()
     }
+    
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+//        self.tableView.reloadData()
+//    }
     
     // MARK: - Table view data source
     
@@ -75,41 +81,64 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell: FileTVCell = tableView.dequeueReusableCellWithIdentifier("FileCell", forIndexPath: indexPath) as! FileTVCell
+        let cell: FileCell = tableView.dequeueReusableCellWithIdentifier("FileCell", forIndexPath: indexPath) as! FileCell
+        
         cell.file = fetchedResultsController.objectAtIndexPath(indexPath) as! Files
         
-        if (cell.file.title == ""){
-            cell.descViewTopConstraint.priority = 750
-        }else{
-            cell.descViewTopConstraint.priority = 250
-        }
-        
+        //t// cell.descViewTopConstraint.priority = (cell.file.title == "") ? 750 : 250
         cell.titleLabel.text   = cell.file.title
         cell.descTextView.text = cell.file.desc
-        cell.dataViewWrapper.viewWithTag(20)?.removeFromSuperview()
+        cell.dataScrollView.viewWithTag(20)?.removeFromSuperview()
+        
+        //// Remove and re-add width constraint from dataScrollView based in currView
+        for c in cell.constraints{
+            if (c.identifier == "dataScrollViewWidth"){
+                c.active = false
+            }
+        }
+        
+        let mult:CGFloat!
+        switch (currView!){
+        case .Small:
+            mult = 0.2
+        case .Medium:
+            mult = 0.6
+        case .Large:
+            mult = 0.95
+        }
+        
+        let aspectRatioConstraint = NSLayoutConstraint(item: cell.dataScrollView,
+            attribute: NSLayoutAttribute.Width,
+            relatedBy: NSLayoutRelation.Equal,
+            toItem: cell,
+            attribute: NSLayoutAttribute.Width,
+            multiplier: mult,
+            constant: 0)
+        aspectRatioConstraint.identifier = "dataScrollViewWidth"
+        cell.addConstraint(aspectRatioConstraint)
+        cell.layoutIfNeeded()
+        
         
         if let fileName = cell.file.fileName {
         
             if cell.file.fileType == "Photo"{
                 
-                cell.dataImageView.hidden = false
-                cell.dataImageView.image = UIImage(contentsOfFile: getFilePath(fileName))
-                cell.dataImageView.contentMode = UIViewContentMode.ScaleAspectFit
-//                if let img = cell.dataImageView.image {
-//                    cell.aspectRatioConstraint.priority = (img.size.width > img.size.height) ? 750 : 750
-//                }
+                if let image = UIImage(contentsOfFile: getFilePath(fileName)){
+                    cell.configureImageView(image)
+                }
                 
             } else {
                 
-                cell.dataImageView.hidden = true
-                let url = NSURL(fileURLWithPath: getFilePath(fileName))
-                let avPlayerVC = AVPlayerViewController()
-                let player     = AVPlayer(URL: url)
+                cell.dataScrollView.userInteractionEnabled = false
+                cell.dataImageView.hidden                  = true
+                let url           = NSURL(fileURLWithPath: getFilePath(fileName))
+                let avPlayerVC    = AVPlayerViewController()
+                let player        = AVPlayer(URL: url)
                 avPlayerVC.player = player
                 self.addChildViewController(avPlayerVC)
-                avPlayerVC.view.frame = CGRectMake(0,0,cell.dataViewWrapper.bounds.width, cell.dataViewWrapper.bounds.height)
-                avPlayerVC.view.tag = 20
-                cell.dataViewWrapper.addSubview(avPlayerVC.view)
+                avPlayerVC.view.frame = CGRectMake(0,0,cell.dataScrollView.bounds.width, cell.dataScrollView.bounds.height)
+                avPlayerVC.view.tag   = 20
+                cell.dataScrollView.addSubview(avPlayerVC.view)
 
                 
 //                let asset = AVURLAsset(URL: url, options: nil)
@@ -124,14 +153,19 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
 //                }
             }
         }
+//        
+//        print("HI\n")
+//        print(cell.dataScrollView.contentSize)
+//        print(cell.dataScrollView.frame.size, cell.dataScrollView.bounds)
+//        print(cell.dataImageView.frame.size)
         
         //print(cell.subviews.count)
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("file2display", sender: indexPath)
-    }
+//    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        self.performSegueWithIdentifier("file2display", sender: indexPath)
+//    }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // the cells you would like the actions to appear needs to be editable
@@ -169,20 +203,27 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let file = fetchedResultsController.objectAtIndexPath(indexPath) as! Files
-        if currView == .Small {
-            return 80.0;
+
+        let mult:CGFloat!
+        var aspectRatio:CGFloat = 1.0
+        
+        switch (currView!){
+            case .Small:
+                mult = 0.2
+            case .Medium:
+                mult = 0.6
+            case .Large:
+                mult = 0.95
         }
         if file.fileType == "Photo" {
             if let img = UIImage(contentsOfFile: getFilePath(file.fileName!)){
-                if img.size.width > img.size.height{
-                    return self.view.bounds.width * (3/4.0)
-                }else {
-                    return self.view.bounds.width * (4/3.0)
-                }
-                
+                aspectRatio = img.size.height / img.size.width
             }
+        }else{ /// VIDEO
+            aspectRatio = 1.5
         }
-        return self.view.bounds.width * (3/4.0)
+        
+        return self.view.bounds.width * aspectRatio * mult
     }
     
     // MARK: - IBActions
@@ -194,15 +235,6 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         self.fetchedResultsController.setValue(self.getFileFetchRequest(), forKey:"fetchRequest")
         self.frcFetch()
         self.tableView.reloadData()
-        
-//        let ac = UIAlertController(title: "Choose Sort Option", message: nil, preferredStyle: .ActionSheet)
-//        
-//        for alertOption in ["Create Date Recent","Create Date Oldest","Edit Date Recent","Edit Date Oldest"] {
-//            ac.addAction(UIAlertAction(title: alertOption, style: .Default, handler: sortFiles))
-//        }
-//        
-//        ac.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-//        presentViewController(ac, animated: true, completion: nil)
     }
     
     @IBAction func changeView(sender: AnyObject) {
@@ -247,8 +279,6 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
                 sortDate  = "edit_date"
                 sortOrder = "oldest"
         }
-        
-        print("HI \(sortDate) \(sortOrder)")
         
         let primarySortDescriptor = NSSortDescriptor(key: sortDate, ascending: ((sortOrder == "recent") ? true : false))
         //let secondarySortDescriptor = NSSortDescriptor(key: "commonName", ascending: true)
