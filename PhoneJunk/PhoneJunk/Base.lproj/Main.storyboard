@@ -320,19 +320,19 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="hLG-UN-thA">
                                             <rect key="frame" x="163" y="8" width="424" height="144"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="c1R-SL-WTw">
-                                                    <rect key="frame" x="0.0" y="0.0" width="424" height="21"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="c1R-SL-WTw">
+                                                    <rect key="frame" x="0.0" y="0.0" width="424" height="18"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title of File" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="toW-GB-R5S">
-                                                            <rect key="frame" x="0.0" y="2" width="369" height="18"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of File" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="toW-GB-R5S">
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0lS-bX-wCP">
-                                                            <rect key="frame" x="374" y="2" width="50" height="18"/>
+                                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0lS-bX-wCP">
+                                                            <rect key="frame" x="364" y="0.0" width="60" height="18"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="50" id="p5A-gU-bZ2"/>
+                                                                <constraint firstAttribute="width" constant="60" id="p5A-gU-bZ2"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -340,8 +340,8 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" text="Desc of File" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mYh-gh-ZIJ">
-                                                    <rect key="frame" x="0.0" y="21" width="424" height="123"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Desc of File" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mYh-gh-ZIJ">
+                                                    <rect key="frame" x="0.0" y="18" width="424" height="126"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -350,7 +350,7 @@
                                             <constraints>
                                                 <constraint firstItem="c1R-SL-WTw" firstAttribute="width" secondItem="hLG-UN-thA" secondAttribute="width" id="F9z-C7-5Vb"/>
                                                 <constraint firstItem="mYh-gh-ZIJ" firstAttribute="width" secondItem="hLG-UN-thA" secondAttribute="width" id="Jy8-oV-YgB"/>
-                                                <constraint firstAttribute="bottom" secondItem="mYh-gh-ZIJ" secondAttribute="bottom" id="QpM-FB-jjb"/>
+                                                <constraint firstAttribute="bottom" secondItem="mYh-gh-ZIJ" secondAttribute="bottom" identifier="descBottomCon" id="QpM-FB-jjb"/>
                                                 <constraint firstItem="mYh-gh-ZIJ" firstAttribute="top" secondItem="c1R-SL-WTw" secondAttribute="bottom" id="f15-8T-J9k"/>
                                             </constraints>
                                         </stackView>
@@ -367,17 +367,9 @@
                                         <constraint firstItem="Ahd-Tv-Pla" firstAttribute="height" secondItem="V0U-B1-AZ0" secondAttribute="height" multiplier="14/15" id="RSL-6c-i8T"/>
                                         <constraint firstItem="hLG-UN-thA" firstAttribute="leading" secondItem="Ahd-Tv-Pla" secondAttribute="trailing" constant="5" id="VAk-Td-CL5"/>
                                         <constraint firstItem="Ahd-Tv-Pla" firstAttribute="leading" secondItem="V0U-B1-AZ0" secondAttribute="leadingMargin" id="g9s-mK-hji"/>
-                                        <constraint firstItem="hLG-UN-thA" firstAttribute="leading" secondItem="Ahd-Tv-Pla" secondAttribute="leading" id="i4M-3x-rcy"/>
                                         <constraint firstItem="hLG-UN-thA" firstAttribute="top" secondItem="V0U-B1-AZ0" secondAttribute="topMargin" id="kC8-kQ-VRT"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="hLG-UN-thA" secondAttribute="trailing" constant="5" id="ksN-zO-0Cn"/>
-                                        <constraint firstItem="hLG-UN-thA" firstAttribute="leading" secondItem="Ahd-Tv-Pla" secondAttribute="leading" constant="5" id="v0c-dR-4Us"/>
                                     </constraints>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="i4M-3x-rcy"/>
-                                            <exclude reference="v0c-dR-4Us"/>
-                                        </mask>
-                                    </variation>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="dataScrollView" destination="Ahd-Tv-Pla" id="f7r-jT-S93"/>
@@ -385,6 +377,7 @@
                                     <outlet property="descTextView" destination="mYh-gh-ZIJ" id="3Fd-RZ-Ytl"/>
                                     <outlet property="titleDateStackView" destination="c1R-SL-WTw" id="pFB-ug-bid"/>
                                     <outlet property="titleLabel" destination="toW-GB-R5S" id="sLm-Vn-aKD"/>
+                                    <outlet property="vertStackView" destination="hLG-UN-thA" id="CJR-mV-scs"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

@@ -16,6 +16,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     var folder        : Folders!
     var currView      : FilesView!
     var useDateFormat : Bool!
+    var sortDate      : String! = "create_date"
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
         
@@ -32,7 +33,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //// Folder must exist to load this TVC
         if (self.folder == nil) {
             print("Error: Folder was not established")
@@ -60,6 +61,9 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         }
         
         self.tableView.reloadData()
+        
+        //// Debug Statements
+        //printFiles()
     }
     
 //    override func viewDidAppear(animated: Bool) {
@@ -88,13 +92,14 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         
         let cell: FileCell = tableView.dequeueReusableCellWithIdentifier("FileCell", forIndexPath: indexPath) as! FileCell
         
-        cell.file = fetchedResultsController.objectAtIndexPath(indexPath) as! Files
-        
-        //t// cell.descViewTopConstraint.priority = (cell.file.title == "") ? 750 : 250
-        cell.titleLabel.text   = cell.file.title
+        cell.file              = fetchedResultsController.objectAtIndexPath(indexPath) as! Files
+        cell.titleLabel.text   = (cell.file.title == "") ? "  " : cell.file.title
         cell.descTextView.text = cell.file.desc
-        cell.dateLabel.text    = getFileDateLabelText(cell.file.create_date, useDateFormat: useDateFormat)
         cell.dataScrollView.viewWithTag(20)?.removeFromSuperview()
+        
+        //// Add dateLabel text
+        let date = (sortDate == "create_date") ? cell.file.create_date : cell.file.edit_date
+        cell.dateLabel.text = getFileDateLabelText(date, useDateFormat: useDateFormat)
         
         //// Add recognizer to dateLabel
         let dateTap = UITapGestureRecognizer(target: self, action: "dateLabelTapped")
@@ -111,12 +116,13 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         let mult:CGFloat!
         switch (currView!){
         case .Small:
-            mult = 0.2
+            mult = 0.15
             cell.titleDateStackView.axis      = .Horizontal
             cell.titleDateStackView.alignment = .Center
             cell.titleLabel.font = UIFont (name: "Helvetica Neue", size: 20)
+            cell.descTextView.text = ""
         case .Medium:
-            mult = 0.6
+            mult = 0.5
             cell.titleDateStackView.axis      = .Vertical
             cell.titleDateStackView.alignment = .Trailing
             cell.titleLabel.font = UIFont(name: "Helvetica Neue", size: 18)
@@ -125,6 +131,14 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
             cell.titleLabel.text   = ""
             cell.descTextView.text = ""
             cell.dateLabel.text    = ""
+        }
+        
+        if (cell.descTextView.text == "" || currView! != .Medium) {
+            cell.descTextView.scrollEnabled          = false
+            cell.descTextView.userInteractionEnabled = false
+        } else {
+            cell.descTextView.scrollEnabled          = true
+            cell.descTextView.userInteractionEnabled = true
         }
         
         let aspectRatioConstraint = NSLayoutConstraint(item: cell.dataScrollView,
@@ -148,7 +162,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
                 
             } else {
                 
-                cell.dataScrollView.userInteractionEnabled = false
+                cell.dataScrollView.userInteractionEnabled = true
                 cell.dataImageView.hidden                  = true
                 let url           = NSURL(fileURLWithPath: getFilePath(fileName))
                 let avPlayerVC    = AVPlayerViewController()
@@ -159,17 +173,6 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
                 avPlayerVC.view.tag   = 20
                 cell.dataScrollView.addSubview(avPlayerVC.view)
 
-                
-//                let asset = AVURLAsset(URL: url, options: nil)
-//                let imgGenerator = AVAssetImageGenerator(asset: asset)
-//                do {
-//                    let cgImage = try imgGenerator.copyCGImageAtTime(CMTimeMake(0, 1), actualTime: nil)
-//                    let imageView = UIImageView(frame: CGRectMake(0,0,cell.dataViewWrapper.bounds.width, cell.dataViewWrapper.bounds.height))
-//                    imageView.image = UIImage(CGImage: cgImage)
-//                    cell.dataViewWrapper.addSubview(imageView)
-//                } catch {
-//                    print("An error occurred")
-//                }
             }
         }
         
@@ -230,10 +233,10 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         
         switch (currView!){
             case .Small:
-                mult        = 0.2
+                mult        = 0.15
                 aspectRatio = 1.0
             case .Medium:
-                mult = 0.6
+                mult = 0.5
             case .Large:
                 mult = 0.95
         }
@@ -285,7 +288,6 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         let filesFetchRequest = NSFetchRequest(entityName: "Files")
         filesFetchRequest.predicate = NSPredicate(format: "whichFolder == %@", self.folder)
         
-        var sortDate  = "create_date"
         var sortOrder = "recent"
         
         switch (SortBy(rawValue: self.folder.sortBy)!){

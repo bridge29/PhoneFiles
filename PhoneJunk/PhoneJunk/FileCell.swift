@@ -10,6 +10,7 @@ import UIKit
 
 class FileCell: UITableViewCell, UIScrollViewDelegate {
 
+    @IBOutlet weak var vertStackView: UIStackView!
     @IBOutlet weak var titleDateStackView: UIStackView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var descTextView: UITextView!
@@ -28,7 +29,7 @@ class FileCell: UITableViewCell, UIScrollViewDelegate {
         doubleTapRecognizer.numberOfTapsRequired = 2
         doubleTapRecognizer.numberOfTouchesRequired = 1
         dataScrollView.addGestureRecognizer(doubleTapRecognizer)
-        
+        descTextView.scrollEnabled = false
     }
     
     func configureImageView(image:UIImage, currView:FilesView){

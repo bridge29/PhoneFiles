@@ -55,6 +55,24 @@ func getFilePath(fileName:String) -> String{
     return getDocumentPath().stringByAppendingString("/" + fileName)
 }
 
+func printFiles(){
+    do {
+        let allFiles = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(getDocumentPath())
+        var files:[String] = []
+        for file in allFiles{
+            if file.hasPrefix("14") && (file.hasSuffix("jpg") || file.hasSuffix("mov")) {
+                files.append(file)
+            }
+        }
+        print("\(files.count) files:")
+        for file in files{
+            print(file)
+        }
+    } catch {
+        print("Error: \(error)")
+    }
+}
+
 func getFileDateLabelText(date:NSTimeInterval, useDateFormat:Bool=true) ->String{
     
     if (useDateFormat){
@@ -80,7 +98,7 @@ func getFileDateLabelText(date:NSTimeInterval, useDateFormat:Bool=true) ->String
         case 3600..<86400:
             num  = seconds/3600
             unit = "hour"
-        case  86400..<604800:
+        case  86400..<1209600:
             num  = seconds/86400
             unit = "day"
         default:
