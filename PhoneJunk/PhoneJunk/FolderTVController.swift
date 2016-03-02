@@ -68,7 +68,15 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         tableView.reloadData()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        for folder in fetchedResultsController.fetchedObjects as! [Folders]{
+            self.deleteTempFiles(folder)
+        }
     }
     
     // MARK: - Table view data source
@@ -77,7 +85,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         if let sections = fetchedResultsController.sections {
             return sections.count
         }
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -85,7 +93,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
             let currentSection = sections[section]
             return currentSection.numberOfObjects
         }
-        return 0
+        return 1
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -116,21 +124,20 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         checkAuth(cell, segueIdent: "folder2file")
     }
     
-    //override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        //let managedObject:NSManagedObject = fetchedResultsController.objectAtIndexPath(indexPath) as! Folders
-        //self.moc.deleteObject(managedObject)
-        
-        // TODO: Ask if they are sure you want to delete folder w/ images, then ask for finger print. Then delete all images first
-        // make left side for editing.
-        
-        //saveContext()
-    //}
-    
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableView.reloadData()
     }
     
     func cellActionTapped(gesture:UIGestureRecognizer){
+        
+        self.showPopupMessage("HI")
+        return
+        
+        if (maxFileCount > 0 && getFileCount() >= maxFileCount) {
+            notifyAlert(self, title: "Uh Oh", message: "The free version only allows \(maxFileCount) files. Go to menu to upgrade to unlimited files for only $\(PREMIUM_COST).")
+            return
+        }
+        
         let location : CGPoint = gesture.locationInView(self.tableView)
         let cellIndexPath:NSIndexPath = self.tableView.indexPathForRowAtPoint(location)!
         let cell = self.tableView.cellForRowAtIndexPath(cellIndexPath) as! FolderTVCell
@@ -223,7 +230,6 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         
         /// Delete Folder
         self.moc.deleteObject(folderToDelete)
-        
         self.saveContext()
     }
     
@@ -279,16 +285,19 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         switch segue.identifier! {
+            
             case "folder2file":
                 let dvc = segue.destinationViewController as! FileTVController
                 let cell = sender as! FolderTVCell
                 dvc.folder = cell.folder
+            
             case "folder2newFile":
                 let dvc = segue.destinationViewController as! NewFileViewController
                 let cell = sender as! FolderTVCell
                 dvc.folder = cell.folder
                 dvc.fileType = (cell.tag == 10) ? "Photo" : "Video"
                 dvc.firstAction = "take"
+            
             case "folder2newFolder":
                 let dvc = segue.destinationViewController as! NewFolderViewController
                 if (object_getClass(sender).description() == "NSIndexPath"){

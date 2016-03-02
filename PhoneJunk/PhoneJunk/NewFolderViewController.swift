@@ -75,11 +75,11 @@ class NewFolderViewController: BasePhoneJunkVC, UITextFieldDelegate, UIPickerVie
     @IBAction func showQuestionMarkMessage(sender: UIButton) {
         switch (sender.tag) {
             case 11:
-                notifyAlert(self, title: "Folder Name", message: "The name of your folder. Give a name that identifies the type of files in the folder, e.g. 'Travel Docs'")
+                notifyAlert(self, title: "Folder Name", message: "The name of your folder. Give a name that identifies the type of files in the folder (e.g. Recipes)")
             case 12:
-                notifyAlert(self, title: "Lock Option", message: "If a folder is in lock mode, the files can only be accessed using the phone owner's fingerprint touch. Use lock if you want to keep files private.")
+                notifyAlert(self, title: "Lock Option", message: "If a folder is locked, the files can only be accessed using Touch ED. Use lock if you want to keep files private (e.g. passwords)")
             case 13:
-                notifyAlert(self, title: "Days to Delete", message: "If you know the folder will only store temporary files, then you can set the number of days to delete a file. This helps reduce clutter without having to clean files up yourself. One 'Temp' folder may be sufficient for you.")
+                notifyAlert(self, title: "Days to Delete", message: "How many days to wait to delete a file. This helps reduce clutter with files you don't care to keep after a certain time (e.g. A boarding pass)")
             default:
                 break
         }

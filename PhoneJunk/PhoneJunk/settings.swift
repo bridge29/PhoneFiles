@@ -7,17 +7,20 @@
 //
 // TODO:
 // Menu
-// Pop up messgae (used to show when sorting changes)
-// 
+// -Pop up messgae (used to show when sorting changes, also used for things like "text sent")
+// -Display scene with tab buttons for text/email/save/crop
+// -Menu table view
+//    - What is PhoneJunk, Upgrade: Unlimited Files for $1.99, Folder Suggestions, File Suggestions, Rate Us, Contact Us
 // VERSION 2:
 //     - cloud/non-cloud option 
 //     - Photo shoot feature (also will be in separate app)
 
 import UIKit
 
-let fileTypes = ["Photo","Video"] //,"Audio","Text"]
+let fileTypes      = ["Photo","Video"] //,"Audio","Text"]
 let PRE_TITLE_TEXT = "Title..."
 let PRE_DESC_TEXT  = "Description..."
+let PREMIUM_COST   = "1.99"
 
 enum FilesView: Int {
     case Small  = 0
@@ -32,9 +35,22 @@ enum SortBy: Int16 {
     case EditOldest   = 3
 }
 
+func getSortName(sortBy:SortBy) -> String{
+    switch (sortBy) {
+    case .CreateRecent:
+        return "Create Date Recent First"
+    case .CreateOldest:
+        return "Create Date Oldest First"
+    case .EditRecent:
+        return "Last Edit Recent First"
+    case .EditOldest:
+        return "Last Edit Oldest First"
+    }
+}
+
 var securityMethod : String {
     get {
-        var returnValue: String? = NSUserDefaults.standardUserDefaults().objectForKey("securityMethod") as? String
+        var returnValue = NSUserDefaults.standardUserDefaults().objectForKey("securityMethod") as? String
         if returnValue == nil //Check for first run of app
         {
             returnValue = "finger" // securityMethod can be finger or pass.
@@ -47,12 +63,42 @@ var securityMethod : String {
     }
 }
 
+var maxFileCount : Int {
+    get {
+        var returnValue = NSUserDefaults.standardUserDefaults().objectForKey("maxFileCount") as? Int
+        if returnValue == nil {
+            returnValue = 10
+        }
+        return returnValue!
+    }
+    set {
+        NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "maxFileCount")
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+}
+
 func getDocumentPath() -> String{
     return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
 }
 
 func getFilePath(fileName:String) -> String{
     return getDocumentPath().stringByAppendingString("/" + fileName)
+}
+
+func getFileCount() -> Int{
+    do {
+        let allFiles = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(getDocumentPath())
+        var files:[String] = []
+        for file in allFiles{
+            if file.hasPrefix("1") && (file.hasSuffix("jpg") || file.hasSuffix("mov")) {
+                files.append(file)
+            }
+        }
+        return files.count
+    } catch {
+        print("Error: \(error)")
+    }
+    return 0
 }
 
 func printFiles(){

@@ -206,7 +206,6 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         let deleteAction = UITableViewRowAction(style: .Normal, title: "Delete") { action, index in
             let fileToDelete = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Files
             self.deleteFile(fileToDelete)
-            self.saveContext()
         }
         deleteAction.backgroundColor = UIColor.redColor()
         
@@ -254,6 +253,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         self.fetchedResultsController.setValue(self.getFileFetchRequest(), forKey:"fetchRequest")
         self.frcFetch()
         self.tableView.reloadData()
+        self.showPopupMessage("Sorted by \(getSortName(SortBy(rawValue:folder.sortBy)!))")
     }
     
     @IBAction func changeView(sender: AnyObject) {

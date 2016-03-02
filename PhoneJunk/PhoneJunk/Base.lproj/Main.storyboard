@@ -31,7 +31,7 @@
                                                 <constraint firstAttribute="width" constant="171" id="CZA-EB-S5w"/>
                                                 <constraint firstAttribute="height" constant="54" id="Zr7-cK-bP7"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
@@ -643,8 +643,8 @@
         <image name="video" width="250" height="192"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bdT-zr-Ebo"/>
         <segue reference="bmq-3D-eUm"/>
-        <segue reference="mpo-8V-6aB"/>
+        <segue reference="wdV-nB-HgV"/>
+        <segue reference="bdT-zr-Ebo"/>
     </inferredMetricsTieBreakers>
 </document>
