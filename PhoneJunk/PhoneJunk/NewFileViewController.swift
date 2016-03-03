@@ -28,6 +28,7 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
     var hasFileInfo = false
     var editMode    = false
     var firstAction = ""
+    var isTextMode  = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +57,11 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
         if (self.firstAction == "") {
             self.view.viewWithTag(10)?.hidden = true
         }
-        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+    
         if (editMode){
             
             switch (fileType){
@@ -107,6 +112,7 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        animateTextField(false)
         return true
     }
     
@@ -114,12 +120,27 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
         if (textField.text == PRE_TITLE_TEXT){
             textField.text = ""
         }
+        animateTextField(true)
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
         if (textView.text == PRE_DESC_TEXT) {
             textView.text = ""
         }
+        animateTextField(true)
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        textView.resignFirstResponder()
+        animateTextField(false)
+    }
+    
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -186,6 +207,20 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
     
     // MARK: - Other Methods
     
+    func animateTextField(up: Bool) {
+        
+        if (up && isTextMode){
+            return
+        }
+        isTextMode = up
+        
+        let movement:CGFloat = (up ? -200 : 200)
+        
+        UIView.animateWithDuration(0.3, animations: {
+            self.view.frame = CGRectOffset(self.view.frame, 0, movement)
+        })
+    }
+    
     func saveData(fileName:String) -> Bool{
         
         switch fileType {
@@ -208,4 +243,23 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
     }
 
 }
+
+//// Keep in portrait mode
+//extension UINavigationController {
+//    public override func shouldAutorotate() -> Bool {
+//        
+//        if visibleViewController is NewFileViewController {
+//            return false
+//        }
+//        return true
+//    }
+//    
+//    public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+//        
+//        if visibleViewController is NewFileViewController {
+//            return UIInterfaceOrientationMask.Portrait
+//        }
+//        return UIInterfaceOrientationMask.All
+//    }
+//}
 

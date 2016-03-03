@@ -7,8 +7,8 @@
 //
 // TODO:
 // Menu
-// -Pop up messgae (used to show when sorting changes, also used for things like "text sent")
-// -Display scene with tab buttons for text/email/save/crop
+// -Display scene with tab buttons for text/email/save to Cam Roll/crop (crop only when has zoomed)
+// -allow to view text views when typing for creating file
 // -Menu table view
 //    - What is PhoneJunk, Upgrade: Unlimited Files for $1.99, Folder Suggestions, File Suggestions, Rate Us, Contact Us
 // VERSION 2:
@@ -38,13 +38,13 @@ enum SortBy: Int16 {
 func getSortName(sortBy:SortBy) -> String{
     switch (sortBy) {
     case .CreateRecent:
-        return "Create Date Recent First"
+        return "Created date, recent first"
     case .CreateOldest:
-        return "Create Date Oldest First"
+        return "Created date, oldest first"
     case .EditRecent:
-        return "Last Edit Recent First"
+        return "Edited date, recent first"
     case .EditOldest:
-        return "Last Edit Oldest First"
+        return "Edited date, oldest first"
     }
 }
 

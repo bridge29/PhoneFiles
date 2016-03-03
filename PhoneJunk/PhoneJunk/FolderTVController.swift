@@ -130,9 +130,6 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     
     func cellActionTapped(gesture:UIGestureRecognizer){
         
-        self.showPopupMessage("HI")
-        return
-        
         if (maxFileCount > 0 && getFileCount() >= maxFileCount) {
             notifyAlert(self, title: "Uh Oh", message: "The free version only allows \(maxFileCount) files. Go to menu to upgrade to unlimited files for only $\(PREMIUM_COST).")
             return

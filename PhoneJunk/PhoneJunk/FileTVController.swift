@@ -17,6 +17,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     var currView      : FilesView!
     var useDateFormat : Bool!
     var sortDate      : String! = "create_date"
+    var lastDeletePrompt : NSTimeInterval = 0
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
         
@@ -115,22 +116,25 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         
         let mult:CGFloat!
         switch (currView!){
-        case .Small:
-            mult = 0.15
-            cell.titleDateStackView.axis      = .Horizontal
-            cell.titleDateStackView.alignment = .Center
-            cell.titleLabel.font = UIFont (name: "Helvetica Neue", size: 20)
-            cell.descTextView.text = ""
-        case .Medium:
-            mult = 0.5
-            cell.titleDateStackView.axis      = .Vertical
-            cell.titleDateStackView.alignment = .Trailing
-            cell.titleLabel.font = UIFont(name: "Helvetica Neue", size: 18)
-        case .Large:
-            mult = 0.95
-            cell.titleLabel.text   = ""
-            cell.descTextView.text = ""
-            cell.dateLabel.text    = ""
+            case .Small:
+                mult = 0.15
+                cell.titleDateStackView.axis      = .Horizontal
+                cell.titleDateStackView.alignment = .Center
+                cell.titleLabel.font = UIFont (name: "Helvetica Neue", size: 20)
+                cell.descTextView.text = ""
+                cell.descTextView.backgroundColor = UIColor.whiteColor()
+            case .Medium:
+                mult = 0.5
+                cell.titleDateStackView.axis      = .Vertical
+                cell.titleDateStackView.alignment = .Trailing
+                cell.titleLabel.font = UIFont(name: "Helvetica Neue", size: 18)
+                cell.descTextView.backgroundColor = (cell.descTextView.text != "") ? UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0) : UIColor.whiteColor()
+            case .Large:
+                mult = 0.95
+                cell.titleLabel.text   = ""
+                cell.descTextView.text = ""
+                cell.dateLabel.text    = ""
+                cell.descTextView.backgroundColor = UIColor.whiteColor()
         }
         
         if (cell.descTextView.text == "" || currView! != .Medium) {
@@ -193,23 +197,39 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     }
     
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        
         let editAction = UITableViewRowAction(style: .Normal, title: "  Edit  ") { action, index in
             self.performSegueWithIdentifier("file2editFile", sender: indexPath)
         }
+        
         editAction.backgroundColor = UIColor.blueColor()
         
-        // Added just as a filler between edit and delete
-        let blankAction = UITableViewRowAction(style: .Normal, title: "     ") { action, index in
-        }
-        blankAction.backgroundColor = UIColor.whiteColor()
-        
         let deleteAction = UITableViewRowAction(style: .Normal, title: "Delete") { action, index in
-            let fileToDelete = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Files
-            self.deleteFile(fileToDelete)
+            
+            if NSDate().timeIntervalSinceReferenceDate - self.lastDeletePrompt > 60 {
+            
+                let actionSheetController: UIAlertController = UIAlertController(title: "Delete File?", message: "If yes we will supress this prompt for 1 minute.", preferredStyle: .Alert)
+                let noAction: UIAlertAction     = UIAlertAction(title: "Nope", style: .Default) { action -> Void in }
+                let deleteAction: UIAlertAction = UIAlertAction(title: "Yes", style: .Default) { action -> Void in
+                    
+                    self.lastDeletePrompt = NSDate().timeIntervalSinceReferenceDate
+                    let fileToDelete = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Files
+                    self.deleteFile(fileToDelete)
+
+                }
+                actionSheetController.addAction(noAction)
+                actionSheetController.addAction(deleteAction)
+                self.presentViewController(actionSheetController, animated: true, completion: nil)
+            } else {
+                self.lastDeletePrompt = NSDate().timeIntervalSinceReferenceDate
+                let fileToDelete = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Files
+                self.deleteFile(fileToDelete)
+            }
         }
+        
         deleteAction.backgroundColor = UIColor.redColor()
         
-        return [editAction, blankAction, deleteAction]
+        return [editAction, deleteAction]
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
@@ -240,7 +260,6 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
                 mult = 0.95
         }
         
-        
         return self.view.bounds.width * aspectRatio * mult
     }
     
@@ -253,7 +272,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         self.fetchedResultsController.setValue(self.getFileFetchRequest(), forKey:"fetchRequest")
         self.frcFetch()
         self.tableView.reloadData()
-        self.showPopupMessage("Sorted by \(getSortName(SortBy(rawValue:folder.sortBy)!))")
+        self.showPopupMessage("Sorted by:\n\(getSortName(SortBy(rawValue:folder.sortBy)!))")
     }
     
     @IBAction func changeView(sender: AnyObject) {
@@ -305,7 +324,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
                 sortOrder = "oldest"
         }
         
-        let primarySortDescriptor = NSSortDescriptor(key: sortDate, ascending: ((sortOrder == "recent") ? true : false))
+        let primarySortDescriptor = NSSortDescriptor(key: sortDate, ascending: ((sortOrder == "recent") ? false : true))
         //let secondarySortDescriptor = NSSortDescriptor(key: "commonName", ascending: true)
         filesFetchRequest.sortDescriptors = [primarySortDescriptor]
         return filesFetchRequest
