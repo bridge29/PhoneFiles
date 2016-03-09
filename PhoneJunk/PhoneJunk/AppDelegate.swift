@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  PhoneJunk
+//  PhoneFiles
 //
 //  Created by Scott Bridgman on 12/15/15.
 //  Copyright © 2015 Tohism. All rights reserved.

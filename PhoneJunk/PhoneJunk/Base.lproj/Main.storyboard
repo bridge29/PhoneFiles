@@ -12,13 +12,13 @@
         <!--Folders-->
         <scene sceneID="cZm-5h-ltR">
             <objects>
-                <tableViewController storyboardIdentifier="folders" id="JHe-BP-CFZ" customClass="FolderTVController" customModule="PhoneJunk" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="folders" id="JHe-BP-CFZ" customClass="FolderTVController" customModule="PhoneFiles" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="KEJ-kD-JcY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FolderCell" rowHeight="90" id="CPo-GM-xGP" customClass="FolderTVCell" customModule="PhoneJunk" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FolderCell" rowHeight="90" id="CPo-GM-xGP" customClass="FolderTVCell" customModule="PhoneFiles" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CPo-GM-xGP" id="zfj-Fc-SvF">
@@ -136,7 +136,7 @@
         <!--New Folder-->
         <scene sceneID="T7V-Id-4Ra">
             <objects>
-                <viewController storyboardIdentifier="newFolder" id="WV8-ge-a8z" customClass="NewFolderViewController" customModule="PhoneJunk" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="newFolder" id="WV8-ge-a8z" customClass="NewFolderViewController" customModule="PhoneFiles" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yUy-En-Vr9"/>
                         <viewControllerLayoutGuide type="bottom" id="mRW-BV-vKq"/>
@@ -304,13 +304,13 @@
         <!--Files-->
         <scene sceneID="FiR-iZ-zxl">
             <objects>
-                <tableViewController storyboardIdentifier="files" id="gey-Ph-OOo" customClass="FileTVController" customModule="PhoneJunk" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="files" id="gey-Ph-OOo" customClass="FileTVController" customModule="PhoneFiles" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="96" sectionHeaderHeight="28" sectionFooterHeight="28" id="GHo-Ue-712">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FileCell" rowHeight="161" id="rc3-C1-g5r" customClass="FileCell" customModule="PhoneJunk" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FileCell" rowHeight="161" id="rc3-C1-g5r" customClass="FileCell" customModule="PhoneFiles" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="161"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rc3-C1-g5r" id="V0U-B1-AZ0">
@@ -420,7 +420,7 @@
         <!--Display View Controller-->
         <scene sceneID="BR8-hS-cBg">
             <objects>
-                <viewController storyboardIdentifier="displayFile" id="GTG-jY-N36" customClass="DisplayViewController" customModule="PhoneJunk" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="displayFile" id="GTG-jY-N36" customClass="DisplayViewController" customModule="PhoneFiles" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QRb-1l-72C"/>
                         <viewControllerLayoutGuide type="bottom" id="oTb-JV-rPR"/>
@@ -470,7 +470,7 @@
         <!--new file-->
         <scene sceneID="rxx-gi-p8P">
             <objects>
-                <viewController storyboardIdentifier="newFiles" id="NH7-R7-6gP" customClass="NewFileViewController" customModule="PhoneJunk" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="newFiles" id="NH7-R7-6gP" customClass="NewFileViewController" customModule="PhoneFiles" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LB1-mZ-jgX"/>
                         <viewControllerLayoutGuide type="bottom" id="0dv-Sz-IXM"/>

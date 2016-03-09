@@ -157,11 +157,6 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         }
         editAction.backgroundColor = UIColor.blueColor()
         
-        // Added just as a filler between edit and delete
-        let blankAction = UITableViewRowAction(style: .Normal, title: "     ") { action, index in
-        }
-        blankAction.backgroundColor = UIColor.whiteColor()
-        
         let deleteAction = UITableViewRowAction(style: .Normal, title: "Delete") { action, index in
             
             let folder = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Folders
@@ -201,7 +196,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         }
         deleteAction.backgroundColor = UIColor.redColor()
         
-        return [editAction, blankAction, deleteAction]
+        return [editAction, deleteAction]
     }
     
     // MARK: - IBActions
