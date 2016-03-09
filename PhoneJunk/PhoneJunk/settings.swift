@@ -8,10 +8,8 @@
 // TODO:
 // Menu
 // -Upgrade functionality
-// -Allow retake in new/edit file
-// -Change PhoneJunk to PhoneFiles
 // -Menu table view
-//    - What is PhoneJunk, Upgrade: Unlimited Files for $1.99, Folder Suggestions, File Suggestions, Rate Us, Contact Us
+//    - What is PhoneFiles, Upgrade: Unlimited Files for $1.99, Folder Suggestions, File Suggestions, Rate Us, Contact Us
 // VERSION 2:
 //     - cloud/non-cloud option 
 //     - Photo shoot feature (also will be in separate app)
@@ -39,15 +37,16 @@ enum SortBy: Int16 {
 }
 
 func getSortName(sortBy:SortBy) -> String{
+    
     switch (sortBy) {
-    case .CreateRecent:
-        return "Created date, recent first"
-    case .CreateOldest:
-        return "Created date, oldest first"
-    case .EditRecent:
-        return "Edited date, recent first"
-    case .EditOldest:
-        return "Edited date, oldest first"
+        case .CreateRecent:
+            return "Created date, recent first"
+        case .CreateOldest:
+            return "Created date, oldest first"
+        case .EditRecent:
+            return "Edited date, recent first"
+        case .EditOldest:
+            return "Edited date, oldest first"
     }
 }
 

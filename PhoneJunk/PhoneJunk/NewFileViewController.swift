@@ -5,6 +5,8 @@
 //  Created by Scott Bridgman on 12/18/15.
 //  Copyright © 2015 Tohism. All rights reserved.
 //
+// Important Tags:
+//  10: CoverView
 
 import UIKit
 import CoreData
@@ -43,10 +45,9 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
         switch (fileType){
             case "Photo":
                 self.imageView.contentMode = UIViewContentMode.ScaleAspectFit
-                self.dataView.addSubview(self.imageView)
             case "Video":
                 self.imageView.hidden = true
-                self.avPlayerVC   = AVPlayerViewController()
+                self.avPlayerVC       = AVPlayerViewController()
                 self.addChildViewController(self.avPlayerVC)
                 self.avPlayerVC.view.frame = CGRectMake(0,0,self.dataView.bounds.width,self.dataView.bounds.height)
                 self.dataView.addSubview(self.avPlayerVC.view)
@@ -54,19 +55,19 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
                 break
         }
         
-        if (self.firstAction == "") {
-            self.view.viewWithTag(10)?.hidden = true
+        if (self.firstAction != "") {
+            let coverView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: view.bounds.size))
+            coverView.tag = 10
+            coverView.backgroundColor = UIColor.whiteColor()
+            view.addSubview(coverView)
         }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
-    
+        
         if (editMode){
             
             switch (fileType){
                 case "Photo":
-                    self.imageView.image = UIImage(contentsOfFile: getFilePath(self.editFile.fileName!))
+                    self.fileImage       = UIImage(contentsOfFile: getFilePath(self.editFile.fileName!))
+                    self.imageView.image = self.fileImage
                 case "Video":
                     self.urlVideo = NSURL(fileURLWithPath: getFilePath(self.editFile.fileName!))
                     let player    = AVPlayer(URL: self.urlVideo)
@@ -76,35 +77,32 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
             }
         } else {
             
-            switch (fileType){
-            case "Photo":
-                if (self.firstAction == "take" || self.firstAction == "choose"){
-                    let imagePickCont = UIImagePickerController()
-                    imagePickCont.delegate = self
-                    if (self.firstAction == "take"){
-                        imagePickCont.sourceType = UIImagePickerControllerSourceType.Camera
-                    }else if (self.firstAction == "choose"){
-                        imagePickCont.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-                    }
-                    self.presentViewController(imagePickCont, animated: true, completion: nil)
-                }
-            case "Video":
-                if (self.firstAction == "take" || self.firstAction == "choose"){
-                    let ipcVideo = UIImagePickerController()
-                    ipcVideo.delegate = self
-                    if (self.firstAction == "take"){
-                        ipcVideo.sourceType = UIImagePickerControllerSourceType.Camera
-                    }else if (self.firstAction == "choose"){
-                        ipcVideo.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-                    }
-                    let kUTTypeMovieAnyObject : AnyObject = kUTTypeMovie as AnyObject
-                    ipcVideo.mediaTypes = [kUTTypeMovieAnyObject as! String]
-                    self.presentViewController(ipcVideo, animated: true, completion: nil)
-                }
-            default:
-                snp()
+            if self.firstAction == "take" {
+                getFileData(true)
+            } else if self.firstAction == "choose" {
+                getFileData(false)
             }
             self.firstAction = ""
+        }
+    }
+    
+    func getFileData(useCamera:Bool){
+        
+        if fileType == "Photo"{
+        
+            let imagePickCont        = UIImagePickerController()
+            imagePickCont.delegate   = self
+            imagePickCont.sourceType = useCamera ? UIImagePickerControllerSourceType.Camera : UIImagePickerControllerSourceType.PhotoLibrary
+            self.presentViewController(imagePickCont, animated: true, completion: nil)
+            
+        } else if fileType == "Video" {
+            
+            let ipcVideo              = UIImagePickerController()
+            ipcVideo.delegate         = self
+            ipcVideo.sourceType       = useCamera ? UIImagePickerControllerSourceType.Camera : UIImagePickerControllerSourceType.PhotoLibrary
+            let kUTTypeMovieAnyObject = kUTTypeMovie as AnyObject
+            ipcVideo.mediaTypes       = [kUTTypeMovieAnyObject as! String]
+            self.presentViewController(ipcVideo, animated: true, completion: nil)
         }
     }
     
@@ -144,27 +142,37 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.view.viewWithTag(10)?.hidden = true
+        self.view.viewWithTag(10)?.removeFromSuperview()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        if (self.fileType == "Video") {
+        if self.fileType == "Video" {
             self.urlVideo = info[UIImagePickerControllerMediaURL] as! NSURL
             self.dismissViewControllerAnimated(true, completion: nil)
             let player             = AVPlayer(URL: self.urlVideo)
             self.avPlayerVC.player = player
 
-        }else {
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-            self.fileImage       = image
+        } else if self.fileType == "Photo" {
+            self.fileImage       = info[UIImagePickerControllerOriginalImage] as! UIImage
             self.imageView.image = self.fileImage
+            plx()
         }
-        self.view.viewWithTag(10)?.hidden = true
+        self.view.viewWithTag(10)?.removeFromSuperview()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: - IBActions
+    
+    @IBAction func takeButtonPushed(sender: AnyObject) {
+        getFileData(true)
+    }
+    
+    
+    @IBAction func chooseButtonPressed(sender: AnyObject) {
+        getFileData(false)
+    }
+    
     
     @IBAction func saveFile(sender: AnyObject) {
         
