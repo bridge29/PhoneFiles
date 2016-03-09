@@ -429,40 +429,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wvK-CI-Ccd">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lUl-B9-gJF">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                    </imageView>
-                                </subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n45-EN-Smy">
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                            </scrollView>
+                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PaU-ev-pim">
+                                <rect key="frame" x="0.0" y="551" width="600" height="49"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="lUl-B9-gJF" firstAttribute="height" secondItem="wvK-CI-Ccd" secondAttribute="height" id="NUI-Xe-XBV"/>
-                                    <constraint firstItem="lUl-B9-gJF" firstAttribute="top" secondItem="wvK-CI-Ccd" secondAttribute="top" id="SNz-rV-wD4"/>
-                                    <constraint firstItem="lUl-B9-gJF" firstAttribute="leading" secondItem="wvK-CI-Ccd" secondAttribute="leading" id="qga-9y-JBj"/>
-                                    <constraint firstItem="lUl-B9-gJF" firstAttribute="width" secondItem="wvK-CI-Ccd" secondAttribute="width" id="xN4-4T-jt0"/>
+                                    <constraint firstAttribute="height" constant="49" id="a4N-Lo-ImA"/>
                                 </constraints>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2S9-Jr-yL2">
-                                <rect key="frame" x="20" y="28" width="37" height="38"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                <state key="normal" title="X"/>
-                                <connections>
-                                    <action selector="exitDisplay:" destination="GTG-jY-N36" eventType="touchUpInside" id="Ura-JX-Pzc"/>
-                                </connections>
-                            </button>
+                                <items>
+                                    <tabBarItem title="Back" id="4rb-HA-JKE"/>
+                                    <tabBarItem tag="1" title="Text" id="Dy5-tB-Iaz"/>
+                                    <tabBarItem tag="2" title="Email" id="sVi-fw-aKG"/>
+                                    <tabBarItem tag="3" title="Save" id="JBY-qg-cN4"/>
+                                    <tabBarItem tag="4" title="Details" id="Rd7-VP-fVB"/>
+                                </items>
+                            </tabBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wvK-CI-Ccd" firstAttribute="leading" secondItem="xaH-Mj-7Ud" secondAttribute="leadingMargin" constant="-20" id="2xy-Vb-EHy"/>
-                            <constraint firstItem="wvK-CI-Ccd" firstAttribute="height" secondItem="xaH-Mj-7Ud" secondAttribute="height" id="IPj-Ih-DWa"/>
-                            <constraint firstItem="wvK-CI-Ccd" firstAttribute="top" secondItem="QRb-1l-72C" secondAttribute="bottom" constant="-20" id="YWx-fb-QhK"/>
-                            <constraint firstItem="wvK-CI-Ccd" firstAttribute="width" secondItem="xaH-Mj-7Ud" secondAttribute="width" id="baE-zK-amf"/>
+                            <constraint firstItem="PaU-ev-pim" firstAttribute="top" secondItem="n45-EN-Smy" secondAttribute="bottom" id="Ju4-fC-F5S"/>
+                            <constraint firstAttribute="trailing" secondItem="PaU-ev-pim" secondAttribute="trailing" id="QQf-MM-Rlz"/>
+                            <constraint firstItem="n45-EN-Smy" firstAttribute="top" secondItem="QRb-1l-72C" secondAttribute="bottom" id="R9N-sc-Db4"/>
+                            <constraint firstItem="oTb-JV-rPR" firstAttribute="top" secondItem="PaU-ev-pim" secondAttribute="bottom" id="gUJ-J9-ARG"/>
+                            <constraint firstItem="PaU-ev-pim" firstAttribute="leading" secondItem="xaH-Mj-7Ud" secondAttribute="leading" id="lSV-7Y-R6J"/>
+                            <constraint firstAttribute="trailing" secondItem="n45-EN-Smy" secondAttribute="trailing" id="ocF-tn-uS2"/>
+                            <constraint firstItem="n45-EN-Smy" firstAttribute="leading" secondItem="xaH-Mj-7Ud" secondAttribute="leading" id="tsd-dH-wYO"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="imageView" destination="lUl-B9-gJF" id="dvU-Qe-EcB"/>
-                        <outlet property="mainView" destination="wvK-CI-Ccd" id="WJC-M4-lOo"/>
+                        <outlet property="dataScrollView" destination="n45-EN-Smy" id="Lw8-Ms-uU6"/>
+                        <outlet property="tabBar" destination="PaU-ev-pim" id="9hB-0l-DPH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZI5-Ez-LEo" userLabel="First Responder" sceneMemberID="firstResponder"/>

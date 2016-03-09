@@ -67,10 +67,12 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         //printFiles()
     }
     
-//    override func viewDidAppear(animated: Bool) {
-//        super.viewDidAppear(animated)
-//        self.tableView.reloadData()
-//    }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if fetchedResultsController.fetchedObjects!.count == 0 {
+            showPopupMessage("No files found.\nTap '+' to add new file.")
+        }
+    }
     
     // MARK: - Table view data source
     
@@ -347,9 +349,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         if (segue.identifier == "file2display") {
             let dvc = segue.destinationViewController as! DisplayViewController
             let indexPath:NSIndexPath = sender as! NSIndexPath
-            dvc.currFile = fetchedResultsController.objectAtIndexPath(indexPath) as! Files
-            dvc.fileList = fetchedResultsController.fetchedObjects as! [Files]
-            dvc.currIdx = indexPath.row
+            dvc.file = fetchedResultsController.objectAtIndexPath(indexPath) as! Files
             return
         }
         

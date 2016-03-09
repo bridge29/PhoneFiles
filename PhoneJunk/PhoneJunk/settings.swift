@@ -7,20 +7,23 @@
 //
 // TODO:
 // Menu
-// -Display scene with tab buttons for text/email/save to Cam Roll/crop (crop only when has zoomed)
-// -allow to view text views when typing for creating file
+// -Upgrade functionality
+// -Allow retake in new/edit file
+// -Change PhoneJunk to PhoneFiles
 // -Menu table view
 //    - What is PhoneJunk, Upgrade: Unlimited Files for $1.99, Folder Suggestions, File Suggestions, Rate Us, Contact Us
 // VERSION 2:
 //     - cloud/non-cloud option 
 //     - Photo shoot feature (also will be in separate app)
+//     - Cropping functionality
 
 import UIKit
 
-let fileTypes      = ["Photo","Video"] //,"Audio","Text"]
+let APP_NAME       = "PhoneFiles"
 let PRE_TITLE_TEXT = "Title..."
 let PRE_DESC_TEXT  = "Description..."
 let PREMIUM_COST   = "1.99"
+let fileTypes      = ["Photo","Video"] //,"Audio","Text"]
 
 enum FilesView: Int {
     case Small  = 0

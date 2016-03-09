@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 
+
 class BasePhoneJunkVC: UIViewController {
     var moc: NSManagedObjectContext!
     
@@ -52,6 +53,32 @@ class BasePhoneJunkVC: UIViewController {
             fatalError("Failure to save context: \(error)")
         }
     }
+    
+    func showPopupMessage(message:String, seconds:NSTimeInterval = 2.5, widthMult:CGFloat = 0.7){
+        let mainView = self.view.superview!
+        let labelWidth = mainView.bounds.width * widthMult
+        let label = UILabel(frame: CGRect(x: (mainView.bounds.width - labelWidth)/2, y: mainView.bounds.height * 0.2, width: labelWidth, height: labelWidth * 0.5))
+        label.text = message
+        label.tag  = 101
+        label.backgroundColor = UIColor(red: 153/255, green: 1, blue: 51/255, alpha: 1)
+        label.layer.cornerRadius = 14.0
+        label.clipsToBounds      = true
+        label.textAlignment      = .Center
+        label.lineBreakMode      = .ByWordWrapping
+        label.numberOfLines      = 3
+        label.font               = UIFont(name: "Helvetica Neue", size: 20)
+        //label.sizeToFit()
+        mainView.addSubview(label)
+        
+        _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: "removePopup", userInfo: nil, repeats: false)
+    }
+    
+    func removePopup(){
+        UIView.animateWithDuration(1.0, animations: {self.view.superview!.viewWithTag(101)?.alpha = 0.0},
+            completion: {(value: Bool) in
+                self.view.superview!.viewWithTag(101)?.removeFromSuperview()
+        })
+    }
 }
 
 class BasePhoneJunkTVC: UITableViewController {
@@ -84,10 +111,12 @@ class BasePhoneJunkTVC: UITableViewController {
     }
     
     func removePopup(){
-        UIView.animateWithDuration(1.0, animations: {self.view.superview!.viewWithTag(101)?.alpha = 0.0},
-            completion: {(value: Bool) in
-                self.view.superview!.viewWithTag(101)?.removeFromSuperview()
-        })
+        if let superview = self.view.superview {
+            UIView.animateWithDuration(1.0, animations: {superview.viewWithTag(101)?.alpha = 0.0},
+                completion: {(value: Bool) in
+                    self.view.superview?.viewWithTag(101)?.removeFromSuperview()
+            })
+        }
     }
     
     //// Delete File
