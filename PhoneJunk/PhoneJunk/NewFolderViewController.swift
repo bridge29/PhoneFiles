@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import EasyTipView
 
 class NewFolderViewController: BasePhoneJunkVC, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
 
@@ -35,6 +36,10 @@ class NewFolderViewController: BasePhoneJunkVC, UITextFieldDelegate, UIPickerVie
             self.lockLabel.text = (self.editFolder.isLocked) ? "Locked" : "Unlocked"
             self.daysTilDeletePicker.selectRow(Int(self.editFolder.daysTilDelete), inComponent: 0, animated: true)
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     // MARK: - Delegate Methods

@@ -16,12 +16,15 @@
 //     - Cropping functionality
 
 import UIKit
+import EasyTipView
 
 let APP_NAME       = "PhoneFiles"
 let PRE_TITLE_TEXT = "Title..."
 let PRE_DESC_TEXT  = "Description..."
 let PREMIUM_COST   = "1.99"
 let fileTypes      = ["Photo","Video"] //,"Audio","Text"]
+let fullTipList    = ["folder_1","folder_2","folder_3","folder_4","folder_5"]
+var activeTips     = fullTipList
 
 enum FilesView: Int {
     case Small  = 0
@@ -35,6 +38,16 @@ enum SortBy: Int16 {
     case EditRecent   = 2
     case EditOldest   = 3
 }
+
+func getTipPreferences() -> EasyTipView.Preferences{
+    var tipPreferences = EasyTipView.Preferences()
+    tipPreferences.drawing.font = UIFont(name: "Futura-Medium", size: 13)!
+    tipPreferences.drawing.foregroundColor = UIColor.whiteColor()
+    tipPreferences.drawing.backgroundColor = UIColor(hue:0.46, saturation:0.99, brightness:0.6, alpha:1)
+    tipPreferences.drawing.arrowPosition = EasyTipView.ArrowPosition.Top
+    return tipPreferences
+}
+
 
 func getSortName(sortBy:SortBy) -> String{
     

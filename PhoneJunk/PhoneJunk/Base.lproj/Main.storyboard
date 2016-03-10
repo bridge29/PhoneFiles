@@ -118,15 +118,10 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Folders" id="OLi-QI-IYo">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="L6L-9e-xad">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pCZ-eY-fpa">
-                                <rect key="frame" x="20" y="10" width="79" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button" image="menuIcon"/>
-                                <connections>
-                                    <segue destination="LZu-XZ-vq6" kind="show" identifier="folder2menu" id="bqE-xZ-A1t"/>
-                                </connections>
-                            </button>
+                        <barButtonItem key="leftBarButtonItem" image="menuIcon" id="L6L-9e-xad">
+                            <connections>
+                                <segue destination="LZu-XZ-vq6" kind="show" identifier="folder2menu" id="dgL-V2-exo"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="q5g-UV-yne">
                             <connections>

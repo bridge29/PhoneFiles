@@ -9,9 +9,9 @@
 import UIKit
 import CoreData
 import LocalAuthentication
+import EasyTipView
 
-class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
-    
+class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, EasyTipViewDelegate {
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
         let foldersFetchRequest = NSFetchRequest(entityName: "Folders")
@@ -79,7 +79,70 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         }
         
         /// TESTING: Menu
-        performSegueWithIdentifier("folder2menu", sender: nil)
+        //performSegueWithIdentifier("folder2menu", sender: nil)
+    }
+    
+    func showTips(){
+        
+        let prefs = getTipPreferences()
+        print(activeTips)
+        
+        let cell2 = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as! FolderTVCell
+        
+        for tip in activeTips {
+            if tip.hasPrefix("folder"){
+                
+                switch (tip){
+                    case "folder_1":
+                        
+                        EasyTipView.show(forView: cell2.titleLabel,
+                            withinSuperview: self.tableView,
+                            text: "Here are your folders which will hold your photos and video files. Tap the name to view folder files.",
+                            preferences: prefs,
+                            delegate: nil)
+                    case "folder_2":
+                        
+                        EasyTipView.show(forView: cell2.cameraIMG,
+                            withinSuperview: self.tableView,
+                            text: "Tap the camera and video icons to quickly take photos and videos.",
+                            preferences: prefs,
+                            delegate: nil)
+                    
+                    case "folder_3":
+                        let cell1 = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! FolderTVCell
+                        EasyTipView.show(forView: cell1.lockIMG,
+                            withinSuperview: self.tableView,
+                            text: "This shows the folder is locked. Locked folders can only be accessed by Touch ID.",
+                            preferences: prefs,
+                            delegate: nil)
+                    
+                    case "folder_4":
+                        let cell3 = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as! FolderTVCell
+                        EasyTipView.show(forView: cell3.videoIMG,
+                            withinSuperview: self.tableView,
+                            text: "Slide folder left to Edit/Delete",
+                            preferences: prefs,
+                            delegate: nil)
+
+                    case "folder_5":
+                        EasyTipView.show(forItem: self.navigationItem.rightBarButtonItem!,
+                            withinSuperview: self.navigationController!.view,
+                            text: "Create a new folder",
+                            preferences: prefs,
+                            delegate: nil)
+                    default:
+                        return
+                }
+                
+                activeTips.removeAtIndex(0)
+                break
+            }
+        }
+        
+    }
+    
+    func easyTipViewDidDismiss(tipView : EasyTipView){
+        plx()
     }
     
     // MARK: - Table view data source
@@ -132,6 +195,9 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
     }
     
     func cellActionTapped(gesture:UIGestureRecognizer){
+        
+        showTips()
+        return
         
         if (maxFileCount > 0 && getFileCount() >= maxFileCount) {
             notifyAlert(self, title: "Uh Oh", message: "The free version only allows \(maxFileCount) files. Go to menu to upgrade to unlimited files for only $\(PREMIUM_COST).")
