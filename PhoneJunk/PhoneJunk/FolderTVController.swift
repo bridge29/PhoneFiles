@@ -77,6 +77,9 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         for folder in fetchedResultsController.fetchedObjects as! [Folders]{
             self.deleteTempFiles(folder)
         }
+        
+        /// TESTING: Menu
+        performSegueWithIdentifier("folder2menu", sender: nil)
     }
     
     // MARK: - Table view data source

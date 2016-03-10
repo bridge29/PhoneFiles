@@ -62,8 +62,6 @@ class NewFolderViewController: BasePhoneJunkVC, UITextFieldDelegate, UIPickerVie
         return true;
     }
     
-    
-    
     // MARK: - IBActions
     
     //// Toggle lock/unlocked text when user toggles switch

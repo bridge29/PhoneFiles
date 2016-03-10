@@ -118,7 +118,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Folders" id="OLi-QI-IYo">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="menuIcon" id="9uw-au-SXM"/>
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="L6L-9e-xad">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pCZ-eY-fpa">
+                                <rect key="frame" x="20" y="10" width="79" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="menuIcon"/>
+                                <connections>
+                                    <segue destination="LZu-XZ-vq6" kind="show" identifier="folder2menu" id="bqE-xZ-A1t"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="q5g-UV-yne">
                             <connections>
                                 <segue destination="WV8-ge-a8z" kind="show" identifier="folder2newFolder" id="bmq-3D-eUm"/>
@@ -504,14 +513,14 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="cDl-Lw-iB7">
                                 <rect key="frame" x="50" y="76" width="500" height="30"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LnB-sN-VgU">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LnB-sN-VgU">
                                         <rect key="frame" x="0.0" y="0.0" width="225" height="30"/>
                                         <state key="normal" title="Take   "/>
                                         <connections>
                                             <action selector="takeButtonPushed:" destination="NH7-R7-6gP" eventType="touchUpInside" id="YyK-nZ-vdL"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lzN-w4-yyJ">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lzN-w4-yyJ">
                                         <rect key="frame" x="275" y="0.0" width="225" height="30"/>
                                         <state key="normal" title="Choose"/>
                                         <connections>
@@ -589,6 +598,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="45m-WU-UdW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="510" y="359"/>
+        </scene>
+        <!--MenuTV Controller-->
+        <scene sceneID="70p-C4-GRD">
+            <objects>
+                <tableViewController id="LZu-XZ-vq6" customClass="MenuTVController" customModule="PhoneFiles" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="28" sectionFooterHeight="28" id="AFu-r3-WnF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuCell" rowHeight="40" id="gYc-dP-ALp">
+                                <rect key="frame" x="0.0" y="92" width="600" height="40"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gYc-dP-ALp" id="cZT-b3-qVF">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="39"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="LZu-XZ-vq6" id="yLp-aV-HBK"/>
+                            <outlet property="delegate" destination="LZu-XZ-vq6" id="Dzu-A9-Dk7"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hAg-Ze-nWS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="510" y="1066"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="98l-4h-KUO">

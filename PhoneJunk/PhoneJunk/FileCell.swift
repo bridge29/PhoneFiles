@@ -101,11 +101,4 @@ class FileCell: UITableViewCell, UIScrollViewDelegate {
     func scrollViewDidZoom(scrollView: UIScrollView) {
         centerScrollViewContents()
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
