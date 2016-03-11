@@ -399,12 +399,12 @@
                                     <action selector="newFile:" destination="gey-Ph-OOo" id="Nla-lJ-NaY"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem systemItem="bookmarks" id="Fif-GD-RxO">
+                            <barButtonItem tag="41" systemItem="bookmarks" id="Fif-GD-RxO">
                                 <connections>
                                     <action selector="changeView:" destination="gey-Ph-OOo" id="cR5-7J-kSQ"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem systemItem="organize" id="ZqD-vG-X2Y">
+                            <barButtonItem tag="40" systemItem="organize" id="ZqD-vG-X2Y">
                                 <connections>
                                     <action selector="changeSort:" destination="gey-Ph-OOo" id="1x1-Og-PkB"/>
                                 </connections>
@@ -690,6 +690,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="bdT-zr-Ebo"/>
         <segue reference="bmq-3D-eUm"/>
-        <segue reference="wdV-nB-HgV"/>
+        <segue reference="mpo-8V-6aB"/>
     </inferredMetricsTieBreakers>
 </document>

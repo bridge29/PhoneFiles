@@ -23,8 +23,8 @@ let PRE_TITLE_TEXT = "Title..."
 let PRE_DESC_TEXT  = "Description..."
 let PREMIUM_COST   = "1.99"
 let fileTypes      = ["Photo","Video"] //,"Audio","Text"]
-let fullTipList    = ["folder_1","folder_2","folder_3","folder_4","folder_5"]
-var activeTips     = fullTipList
+let fullTipList    = ["folder_1","folder_2","folder_3","folder_4","folder_5",
+                      "file_1","file_2","file_3","file_4","file_5"]
 
 enum FilesView: Int {
     case Small  = 0
@@ -39,36 +39,25 @@ enum SortBy: Int16 {
     case EditOldest   = 3
 }
 
-func getTipPreferences() -> EasyTipView.Preferences{
-    var tipPreferences = EasyTipView.Preferences()
-    tipPreferences.drawing.font = UIFont(name: "Futura-Medium", size: 13)!
-    tipPreferences.drawing.foregroundColor = UIColor.whiteColor()
-    tipPreferences.drawing.backgroundColor = UIColor(hue:0.46, saturation:0.99, brightness:0.6, alpha:1)
-    tipPreferences.drawing.arrowPosition = EasyTipView.ArrowPosition.Top
-    return tipPreferences
-}
-
-
-func getSortName(sortBy:SortBy) -> String{
-    
-    switch (sortBy) {
-        case .CreateRecent:
-            return "Created date, recent first"
-        case .CreateOldest:
-            return "Created date, oldest first"
-        case .EditRecent:
-            return "Edited date, recent first"
-        case .EditOldest:
-            return "Edited date, oldest first"
+var activeTips:[String]{
+    get {
+        let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("activeTips") as? [String]
+        if returnValue == nil {
+            return fullTipList
+        }
+        return returnValue!
+    }
+    set {
+        NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "activeTips")
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
 }
 
 var securityMethod : String {
     get {
-        var returnValue = NSUserDefaults.standardUserDefaults().objectForKey("securityMethod") as? String
-        if returnValue == nil //Check for first run of app
-        {
-            returnValue = "finger" // securityMethod can be finger or pass.
+        let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("securityMethod") as? String
+        if returnValue == nil {
+            return "touch_id" // securityMethod can be finger or pass.
         }
         return returnValue!
     }
@@ -80,9 +69,9 @@ var securityMethod : String {
 
 var maxFileCount : Int {
     get {
-        var returnValue = NSUserDefaults.standardUserDefaults().objectForKey("maxFileCount") as? Int
+        let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("maxFileCount") as? Int
         if returnValue == nil {
-            returnValue = 10
+            return 10
         }
         return returnValue!
     }
@@ -131,6 +120,31 @@ func printFiles(){
         }
     } catch {
         print("Error: \(error)")
+    }
+}
+
+func getTipPreferences() -> EasyTipView.Preferences{
+    
+    var tipPreferences = EasyTipView.Preferences()
+    tipPreferences.drawing.font = UIFont(name: "Futura-Medium", size: 13)!
+    tipPreferences.drawing.foregroundColor = UIColor.whiteColor()
+    tipPreferences.drawing.backgroundColor = UIColor(hue:0.46, saturation:0.99, brightness:0.6, alpha:1)
+    tipPreferences.drawing.arrowPosition = EasyTipView.ArrowPosition.Top
+    return tipPreferences
+}
+
+
+func getSortName(sortBy:SortBy) -> String{
+    
+    switch (sortBy) {
+    case .CreateRecent:
+        return "Created date, recent first"
+    case .CreateOldest:
+        return "Created date, oldest first"
+    case .EditRecent:
+        return "Edited date, recent first"
+    case .EditOldest:
+        return "Edited date, oldest first"
     }
 }
 

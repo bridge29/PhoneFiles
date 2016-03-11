@@ -11,7 +11,9 @@ import CoreData
 
 
 class BasePhoneJunkVC: UIViewController {
+    
     var moc: NSManagedObjectContext!
+    var tipIsOpen = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +86,7 @@ class BasePhoneJunkVC: UIViewController {
 class BasePhoneJunkTVC: UITableViewController {
     
     var moc: NSManagedObjectContext!
+    var tipIsOpen = false
     
     override func viewDidLoad() {
         super.viewDidLoad()

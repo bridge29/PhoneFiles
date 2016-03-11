@@ -8,10 +8,10 @@
 
 import UIKit
 
-class MenuTVController: UITableViewController {
+class MenuTVController: BasePhoneJunkTVC {
     
     let menuItems = ["What is PhoneFiles?",
-                     "Turn on Tip Bubbles",
+                     "Reset Tip Popups",
                      "Upgrade: Unlimited files for $\(PREMIUM_COST)",
                      "FAQ",
                      "Rate Us",
@@ -47,6 +47,18 @@ class MenuTVController: UITableViewController {
         cell.textLabel?.text = menuItems[indexPath.row]
         
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        switch (indexPath.row){
+        case 0:
+            break
+        case 1:
+            activeTips = fullTipList
+            showPopupMessage("Helper tips have been reset")
+        default:
+            snp()
+        }
     }
 
     /*

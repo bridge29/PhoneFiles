@@ -10,8 +10,9 @@ import UIKit
 import CoreData
 import AVKit
 import AVFoundation
+import EasyTipView
 
-class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
+class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, EasyTipViewDelegate {
     
     var folder        : Folders!
     var currView      : FilesView!
@@ -71,7 +72,74 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate {
         super.viewDidAppear(animated)
         if fetchedResultsController.fetchedObjects!.count == 0 {
             showPopupMessage("No files found.\nTap '+' to add new file.")
+        } else {
+            showTips()
         }
+    }
+    
+    func showTips(){
+        
+        for tip in activeTips {
+            if tip.hasPrefix("file") && !tipIsOpen {
+                
+                let prefs = getTipPreferences()
+                
+                guard let cell1 = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? FileCell else {
+                    return
+                }
+                
+                switch (tip){
+                    
+                case "file_1":
+                    EasyTipView.show(forView: cell1,
+                        withinSuperview: self.tableView,
+                        text: "Files can be a photo or video with an optional title and description.",
+                        preferences: prefs,
+                        delegate: self)
+                    
+                case "file_2":
+                    EasyTipView.show(forView: cell1.dateLabel,
+                        withinSuperview: self.tableView,
+                        text: "Tap date to change the format.",
+                        preferences: prefs,
+                        delegate: self)
+                    
+                case "file_3":
+                    EasyTipView.show(forView: cell1.dataScrollView,
+                        withinSuperview: self.tableView,
+                        text: "You can zoom in on photos by double tapping or pinching.",
+                        preferences: prefs,
+                        delegate: self)
+                    
+                case "file_4":
+                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![2],
+                        withinSuperview: self.navigationController!.view,
+                        text: "This sorts your files. They can be sorted by their created or last edited date.",
+                        preferences: prefs,
+                        delegate: self)
+                    
+                case "file_5":
+                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![1],
+                        withinSuperview: self.navigationController!.view,
+                        text: "Tap this to change the view size. There are 3 view sizes.",
+                        preferences: prefs,
+                        delegate: self)
+                default:
+                    snp()
+                    return
+                }
+                
+                tipIsOpen = true
+                activeTips = activeTips.filter({$0 != tip})
+                break
+            }
+        }
+        
+    }
+    
+    func easyTipViewDidDismiss(tipView : EasyTipView){
+        tipIsOpen = false
+        showTips()
     }
     
     // MARK: - Table view data source
