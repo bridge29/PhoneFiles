@@ -156,7 +156,6 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
         } else if self.fileType == "Photo" {
             self.fileImage       = info[UIImagePickerControllerOriginalImage] as! UIImage
             self.imageView.image = self.fileImage
-            plx()
         }
         self.view.viewWithTag(10)?.removeFromSuperview()
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -179,6 +178,7 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
         var title    = self.titleTextField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         var desc     = self.descTextView.text!
         title        = (title == PRE_TITLE_TEXT) ? "" : title
+        title        = (title == "") ? "No Title" : title
         desc         = (desc  == PRE_DESC_TEXT)  ? "" : desc
         let fileExt  = (fileType == "Photo") ? "jpg" : "mov"
         let fileName = (editMode) ? self.editFile.fileName! : "\(Int(NSDate().timeIntervalSince1970)).\(fileExt)"
@@ -201,7 +201,6 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
             }
             saveContext()
         }else {
-            print("File was not saved")
             notifyAlert(self, title: "Uh Oh", message: "\(fileType) was not saved. Take a \(fileType) or select one from your Camera Roll.")
             return
         }

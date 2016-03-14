@@ -55,7 +55,7 @@ class MenuTVController: BasePhoneJunkTVC {
             break
         case 1:
             activeTips = fullTipList
-            showPopupMessage("Helper tips have been reset")
+            showPopupMessage("Helper tips have\nbeen reset")
         case 2:
             break
         case 3:

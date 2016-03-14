@@ -22,7 +22,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
         let frc = NSFetchedResultsController(
             fetchRequest: foldersFetchRequest,
             managedObjectContext: self.moc,
-            sectionNameKeyPath: nil,
+            sectionNameKeyPath: "name",
             cacheName: nil)
         
         frc.delegate = self
@@ -45,7 +45,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
         if (NSUserDefaults.standardUserDefaults().valueForKey("v1.0") == nil) {
             
             //// CREATE FOLDERS FOR FIRST TIME USERS
-            for (name, isLocked, daysTilDelete) in [("Utility",false,0), ("Temp", false,7), ("Private", true,0)] {
+            for (name, isLocked, daysTilDelete) in [("Temp", false,7), ("Private", true,0), ("Utility",false,0)] {
                 self.createFolder(name, isLocked: isLocked, daysTilDelete:daysTilDelete)
             }
             
@@ -76,13 +76,14 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
             NSUserDefaults.standardUserDefaults().setInteger(1, forKey: "v1.0")
             NSUserDefaults.standardUserDefaults().synchronize()
             
-            
         }
         
         if rateNumber > 0 {
             rateNumber = rateNumber + 1
         }
         
+        
+                
         ///// DEBUGGING
         //printFileContents()
         
@@ -114,7 +115,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
         for tip in activeTips {
             if tip.hasPrefix("folder") && !tipIsOpen {
                 
-                guard let cell2 = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as? FolderTVCell else {
+                guard let cell2 = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as? FolderTVCell else {
                     return
                 }
                 
@@ -123,40 +124,48 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
                 switch (tip){
                     
                     case "folder_1":
-                        EasyTipView.show(forView: cell2.titleLabel,
+                        EasyTipView.show(forView: cell2,
                             withinSuperview: self.tableView,
-                            text: "These are your folders which will hold your photos and video files. Tap the name to view folder files.",
+                            text: "Welcome to PhoneFiles! These tips will explain the app and how to use it. Tap me to move on to the next tip.",
                             preferences: prefs,
                             delegate: self)
                     
                     case "folder_2":
-                        EasyTipView.show(forView: cell2.cameraIMG,
+                        EasyTipView.show(forView: cell2,
                             withinSuperview: self.tableView,
-                            text: "Tap the camera and video icons to quickly take photos and videos.",
+                            text: "Have you ever taken a photo for something that wasn't a fond memory? Your boarding pass, a recipe, a buisiness card, a bill. How annoying is it searching through your camera roll for these when you need them, not to mention the clutter they create when they are no longer needed...",
                             preferences: prefs,
                             delegate: self)
                     
                     case "folder_3":
-                        let cell1 = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! FolderTVCell
-                        EasyTipView.show(forView: cell1.lockIMG,
+                        EasyTipView.show(forView: cell2,
                             withinSuperview: self.tableView,
-                            text: "Lock icon shows the folder is locked. Locked folders can only be accessed by Touch ID.",
+                            text: "PhoneFiles is your answer! This app let's store those photos/videos in organized folders, ready to be viewed whenever and wherever you need them. The next few tips will show you how to use the app and then you'll be ready to go. Enjoy!!!",
                             preferences: prefs,
                             delegate: self)
                     
-//                    case "folder_4":
-//                        EasyTipView.show(forView: cell2.titleLabel,
-//                            withinSuperview: self.tableView,
-//                            text: "Slide folder left to Edit/Delete",
-//                            preferences: prefs,
-//                            delegate: self)
-
                     case "folder_4":
-                        EasyTipView.show(forItem: self.navigationItem.rightBarButtonItem!,
-                            withinSuperview: self.navigationController!.view,
-                            text: "Create a new folder",
+                        EasyTipView.show(forView: cell2.titleLabel,
+                            withinSuperview: self.tableView,
+                            text: "These are your folders that hold your files. Swipe left to edit/delete them.",
                             preferences: prefs,
                             delegate: self)
+                    
+                    case "folder_5":
+                        EasyTipView.show(forView: cell2.cameraIMG,
+                            withinSuperview: self.tableView,
+                            text: "Tap these icons to quickly take a photo or video.",
+                            preferences: prefs,
+                            delegate: self)
+                    
+                    case "folder_6":
+                        let cell1 = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! FolderTVCell
+                        EasyTipView.show(forView: cell1.lockIMG,
+                            withinSuperview: self.tableView,
+                            text: "You can put a lock on a folder. Locked folders can only be accessed by Touch ID.",
+                            preferences: prefs,
+                            delegate: self)
+
                     default:
                         return
                 }
@@ -166,32 +175,23 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
                 break
             }
         }
-        
     }
     
     func easyTipViewDidDismiss(tipView : EasyTipView){
         tipIsOpen = false
-        if activeTips.count > 0 {
-            showTips()
-        } else {
-            showPopupMessage("No more tips. Enjoy the app!")
-        }
+        showTips()
     }
     
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if let sections = fetchedResultsController.sections {
-            return sections.count
+        if let objects = fetchedResultsController.fetchedObjects {
+            return max(1,objects.count)
         }
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = fetchedResultsController.sections {
-            let currentSection = sections[section]
-            return currentSection.numberOfObjects
-        }
         return 1
     }
     
@@ -296,6 +296,16 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
         deleteAction.backgroundColor = UIColor.redColor()
         
         return [editAction, deleteAction]
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 20
+    }
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = UIColor.clearColor()
+        return headerView;
     }
     
     // MARK: - IBActions

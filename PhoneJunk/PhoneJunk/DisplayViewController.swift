@@ -70,7 +70,7 @@ class DisplayViewController: UIViewController, UITabBarDelegate, UIScrollViewDel
         let width       = self.view.bounds.width * 0.9
         titleLabel      = UILabel(frame: CGRect(x: (view.bounds.width - width)/2, y: self.view.bounds.height * 0.4, width: width, height: 30))
         titleLabel.text = (file.title == "") ? "No Title" : file.title
-        titleLabel.backgroundColor    = UIColor(red: 153/255, green: 1, blue: 51/255, alpha: 1)
+        titleLabel.backgroundColor    = PF_BLUE_COLOR
         titleLabel.layer.cornerRadius = 14.0
         titleLabel.clipsToBounds      = true
         titleLabel.textAlignment      = .Center
@@ -79,14 +79,18 @@ class DisplayViewController: UIViewController, UITabBarDelegate, UIScrollViewDel
         view.addSubview(titleLabel)
         
         
-        descTextView      = UITextView(frame: CGRect(x: (view.bounds.width - width)/2, y: self.view.bounds.height * 0.5, width: width, height: self.view.bounds.height * 0.4))
+        descTextView      = UITextView(frame: CGRect(x: (view.bounds.width - width)/2, y: self.view.bounds.height * 0.4 + 40, width: width, height: self.view.bounds.height * 0.4))
         descTextView.text = (file.desc == "") ? "No description" : file.desc
-        descTextView.backgroundColor    = UIColor(red: 153/255, green: 1, blue: 51/255, alpha: 1)
+        descTextView.backgroundColor    = PF_BLUE_COLOR
         descTextView.layer.cornerRadius = 14.0
         descTextView.clipsToBounds      = true
         descTextView.font               = UIFont(name: "Helvetica Neue", size: 20)
         descTextView.hidden             = true
+        descTextView.selectable         = true
+        descTextView.editable           = false
         view.addSubview(descTextView)
+        
+        tabBar.tintColor = UIColor.greenColor()
     }
     
     func scrollViewDoubleTapped(recognizer: UITapGestureRecognizer) {
@@ -126,6 +130,7 @@ class DisplayViewController: UIViewController, UITabBarDelegate, UIScrollViewDel
     }
     
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
+        
         switch(item.tag){
             
         case 0:

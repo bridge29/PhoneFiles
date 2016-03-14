@@ -62,7 +62,9 @@ class BasePhoneJunkVC: UIViewController {
         let label = UILabel(frame: CGRect(x: (mainView.bounds.width - labelWidth)/2, y: mainView.bounds.height * 0.2, width: labelWidth, height: labelWidth * 0.5))
         label.text = message
         label.tag  = 101
-        label.backgroundColor = UIColor(red: 153/255, green: 1, blue: 51/255, alpha: 1)
+        label.backgroundColor = PF_BLUE_COLOR
+        label.layer.borderWidth  = 10
+        label.layer.borderColor  = UIColor.orangeColor().CGColor
         label.layer.cornerRadius = 14.0
         label.clipsToBounds      = true
         label.textAlignment      = .Center
@@ -100,8 +102,10 @@ class BasePhoneJunkTVC: UITableViewController {
         let label = UILabel(frame: CGRect(x: (mainView.bounds.width - labelWidth)/2, y: mainView.bounds.height * 0.2, width: labelWidth, height: labelWidth * 0.5))
         label.text = message
         label.tag  = 101
-        label.backgroundColor = UIColor(red: 153/255, green: 1, blue: 51/255, alpha: 1)
+        label.backgroundColor = PF_BLUE_COLOR
         label.layer.cornerRadius = 14.0
+        label.layer.borderColor  = UIColor.orangeColor().CGColor
+        label.layer.borderWidth  = 8
         label.clipsToBounds      = true
         label.textAlignment      = .Center
         label.lineBreakMode      = .ByWordWrapping

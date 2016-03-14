@@ -23,18 +23,19 @@ class FileCell: UITableViewCell, UIScrollViewDelegate {
         super.awakeFromNib()
         
         dataScrollView.delegate = self
-        //descTextView.contentInset = UIEdgeInsetsMake(-7.0,0.0,0,0.0)
         
         let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewDoubleTapped:")
         doubleTapRecognizer.numberOfTapsRequired = 2
         doubleTapRecognizer.numberOfTouchesRequired = 1
         dataScrollView.addGestureRecognizer(doubleTapRecognizer)
+        
         descTextView.scrollEnabled = false
+        descTextView.layer.cornerRadius = 10
     }
     
     func configureImageView(image:UIImage, currView:FilesView){
         dataImageView.removeFromSuperview()
-        dataImageView = UIImageView(image: image)
+        dataImageView              = UIImageView(image: image)
         dataImageView.contentMode  = UIViewContentMode.Center
         dataImageView.frame        = CGRect(origin: CGPoint(x: 0, y: 0), size:image.size)
         dataScrollView.contentSize = image.size

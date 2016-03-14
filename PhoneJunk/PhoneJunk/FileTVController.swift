@@ -93,58 +93,59 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
                 case "file_1":
                     EasyTipView.show(forView: cell1,
                         withinSuperview: self.tableView,
-                        text: "Files can be a photo or video. There are 4 parts to every file...",
+                        text: "These are your files. Each one contains...",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_2":
                     EasyTipView.show(forView: cell1.titleLabel,
                         withinSuperview: self.tableView,
-                        text: "An optional title.",
+                        text: "An title (optional)",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_3":
                     EasyTipView.show(forView: cell1.descTextView,
                         withinSuperview: self.tableView,
-                        text: "An optional description. This is helpful to copy/paste info.",
+                        text: "An description (optional). This is helpful to copy/paste info.",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_4":
                     EasyTipView.show(forView: cell1.dateLabel,
                         withinSuperview: self.tableView,
-                        text: "The date of your file. Tap on it to change its format",
+                        text: "The date of your file. Tap on it to change its format.",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_5":
                     EasyTipView.show(forView: cell1.dataScrollView,
                         withinSuperview: self.tableView,
-                        text: "And of course the content. You can zoom in on photos by double tapping or pinching.",
+                        text: "And of course the photo/video. You can zoom in on photos by double tapping or pinching.",
                         preferences: prefs,
                         delegate: self)
-                    
+                
                 case "file_6":
-                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![2],
-                        withinSuperview: self.navigationController!.view,
-                        text: "This sorts your files. They can be sorted by their created or edited date.",
+                    EasyTipView.show(forView: cell1.dataScrollView,
+                        withinSuperview: self.tableView,
+                        text: "Tap the file ",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_7":
-                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![1],
+                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![2],
                         withinSuperview: self.navigationController!.view,
-                        text: "Tap this to change the view size. There are 3 view sizes.",
+                        text: "Change file sorting.",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_8":
-                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![0],
+                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![1],
                         withinSuperview: self.navigationController!.view,
-                        text: "Create a new file",
+                        text: "Change the file view. There are 3 view sizes.",
                         preferences: prefs,
                         delegate: self)
+                    
                 default:
                     snp()
                     return
@@ -160,9 +161,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
     
     func easyTipViewDidDismiss(tipView : EasyTipView){
         tipIsOpen = false
-        if activeTips.count > 0 {
-            showTips()
-        }
+        showTips()
     }
     
     // MARK: - Table view data source
@@ -213,21 +212,27 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
                 mult = 0.15
                 cell.titleDateStackView.axis      = .Horizontal
                 cell.titleDateStackView.alignment = .Center
-                cell.titleLabel.font = UIFont (name: "Helvetica Neue", size: 20)
-                cell.descTextView.text = ""
-                cell.descTextView.backgroundColor = UIColor.whiteColor()
+                cell.titleLabel.font     = UIFont (name: "Helvetica Neue", size: 20)
+                cell.descTextView.hidden = true
+                cell.dateLabel.hidden    = false
             case .Medium:
                 mult = 0.5
                 cell.titleDateStackView.axis      = .Vertical
                 cell.titleDateStackView.alignment = .Trailing
-                cell.titleLabel.font = UIFont(name: "Helvetica Neue", size: 18)
-                cell.descTextView.backgroundColor = (cell.descTextView.text != "") ? UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0) : UIColor.whiteColor()
+                cell.titleLabel.font     = UIFont(name: "Helvetica Neue", size: 18)
+                cell.descTextView.hidden = false
+                cell.dateLabel.hidden    = false
+                if cell.descTextView.text == "" {
+                    cell.descTextView.backgroundColor = UIColor.clearColor()
+                } else {
+                    cell.descTextView.backgroundColor = PF_BLUE_COLOR
+                }
             case .Large:
                 mult = 0.95
                 cell.titleLabel.text   = ""
                 cell.descTextView.text = ""
-                cell.dateLabel.text    = ""
-                cell.descTextView.backgroundColor = UIColor.whiteColor()
+                cell.descTextView.hidden = true
+                cell.dateLabel.hidden    = true
         }
         
         if (cell.descTextView.text == "" || currView! != .Medium) {
@@ -383,7 +388,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
             return
         }
         
-        let ac = UIAlertController(title: "Choose Option", message: nil, preferredStyle: .ActionSheet)
+        let ac = UIAlertController(title: "Create New File", message: nil, preferredStyle: .ActionSheet)
         
         for alertOption in ["Take Photo","Take Video","Choose Photo","Choose Video"] {
             ac.addAction(UIAlertAction(title: alertOption, style: .Default, handler: openNewFile))

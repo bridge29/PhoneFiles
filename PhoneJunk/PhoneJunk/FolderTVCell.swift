@@ -19,7 +19,7 @@ class FolderTVCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        //self.videoIMG.userInteractionEnabled = true
+        layer.cornerRadius = 30
         
     }
 }
