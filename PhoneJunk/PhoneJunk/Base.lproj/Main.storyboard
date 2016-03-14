@@ -345,7 +345,7 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Desc of File" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mYh-gh-ZIJ">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Desc of File" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mYh-gh-ZIJ">
                                                     <rect key="frame" x="0.0" y="18" width="424" height="126"/>
                                                     <color key="backgroundColor" white="0.92754241039878449" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -439,16 +439,15 @@
                             </scrollView>
                             <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PaU-ev-pim">
                                 <rect key="frame" x="0.0" y="551" width="600" height="49"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="49" id="a4N-Lo-ImA"/>
                                 </constraints>
                                 <items>
-                                    <tabBarItem title="Back" id="4rb-HA-JKE"/>
-                                    <tabBarItem tag="1" title="Text" id="Dy5-tB-Iaz"/>
-                                    <tabBarItem tag="2" title="Email" id="sVi-fw-aKG"/>
-                                    <tabBarItem tag="3" title="Save" id="JBY-qg-cN4"/>
-                                    <tabBarItem tag="4" title="Details" id="Rd7-VP-fVB"/>
+                                    <tabBarItem title="Back" image="backIcon" id="4rb-HA-JKE"/>
+                                    <tabBarItem tag="1" title="Text" image="textIcon" id="Dy5-tB-Iaz"/>
+                                    <tabBarItem tag="2" title="Email" image="emailIcon" id="sVi-fw-aKG"/>
+                                    <tabBarItem tag="3" title="Save" image="saveIcon" id="JBY-qg-cN4"/>
+                                    <tabBarItem tag="4" title="Details" image="detailsIcon" id="Rd7-VP-fVB"/>
                                 </items>
                             </tabBar>
                         </subviews>
@@ -682,9 +681,14 @@
         </scene>
     </scenes>
     <resources>
+        <image name="backIcon" width="42" height="20"/>
         <image name="camera" width="250" height="192"/>
+        <image name="detailsIcon" width="64" height="49"/>
+        <image name="emailIcon" width="27" height="27"/>
         <image name="lock" width="144" height="196"/>
         <image name="menuIcon" width="25" height="24"/>
+        <image name="saveIcon" width="64" height="49"/>
+        <image name="textIcon" width="64" height="49"/>
         <image name="video" width="250" height="192"/>
     </resources>
     <inferredMetricsTieBreakers>

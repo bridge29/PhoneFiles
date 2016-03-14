@@ -50,16 +50,37 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
             }
             
             //// CREATE SAMPLE FILES FOR FIRST TIME USERS
-            let newFile = NSEntityDescription.insertNewObjectForEntityForName("Files", inManagedObjectContext: self.moc)
-            newFile.setValue("Passport Info", forKey: "title")
-            newFile.setValue("", forKey: "desc")
-            newFile.setValue(NSDate(), forKey: "create_date")
-            newFile.setValue(NSDate(), forKey: "edit_date")
-            newFile.setValue(fetchedResultsController.fetchedObjects![0], forKey: "whichFolder")
+            let fileName1 = "\(Int(NSDate().timeIntervalSince1970)).jpg"
+            UIImageJPEGRepresentation(UIImage(named: "camera")!,1.0)!.writeToFile(getFilePath(fileName1), atomically: true)
+            let newFile1 = NSEntityDescription.insertNewObjectForEntityForName("Files", inManagedObjectContext: self.moc)
+            newFile1.setValue("Passport Info", forKey: "title")
+            newFile1.setValue("Key Details:\nPassport #:1234567\nIssued:10/10/13\nExpires:10/10/23", forKey: "desc")
+            newFile1.setValue(NSDate(), forKey: "create_date")
+            newFile1.setValue(NSDate(), forKey: "edit_date")
+            newFile1.setValue(fileName1, forKey: "fileName")
+            newFile1.setValue("Photo", forKey: "fileType")
+            newFile1.setValue(fetchedResultsController.fetchedObjects?.last, forKey: "whichFolder")
+            
+            let fileName2 = "\(Int(NSDate().timeIntervalSince1970) + 1).jpg"
+            UIImageJPEGRepresentation(UIImage(named: "video")!,1.0)!.writeToFile(getFilePath(fileName2), atomically: true)
+            let newFile2 = NSEntityDescription.insertNewObjectForEntityForName("Files", inManagedObjectContext: self.moc)
+            newFile2.setValue("Passport Info", forKey: "title")
+            newFile2.setValue("This is an example file\n\nKey Details:\nPassport #:1234567\nIssued:10/10/13\nExpires:10/10/23", forKey: "desc")
+            newFile2.setValue(NSDate(), forKey: "create_date")
+            newFile2.setValue(NSDate(), forKey: "edit_date")
+            newFile2.setValue(fileName2, forKey: "fileName")
+            newFile2.setValue("Photo", forKey: "fileType")
+            newFile2.setValue(fetchedResultsController.fetchedObjects?.last, forKey: "whichFolder")
             saveContext()
 
             NSUserDefaults.standardUserDefaults().setInteger(1, forKey: "v1.0")
             NSUserDefaults.standardUserDefaults().synchronize()
+            
+            
+        }
+        
+        if rateNumber > 0 {
+            rateNumber = rateNumber + 1
         }
         
         ///// DEBUGGING
@@ -78,6 +99,10 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
             self.deleteTempFiles(folder)
         }
         
+        if rateNumber > MAX_RATE_HITS {
+            showRateUs()
+        }
+        
         showTips()
         
         /// TESTING: Menu
@@ -85,7 +110,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
     }
     
     func showTips(){
-        
+                
         for tip in activeTips {
             if tip.hasPrefix("folder") && !tipIsOpen {
                 
@@ -100,7 +125,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
                     case "folder_1":
                         EasyTipView.show(forView: cell2.titleLabel,
                             withinSuperview: self.tableView,
-                            text: "Here are your folders which will hold your photos and video files. Tap the name to view folder files.",
+                            text: "These are your folders which will hold your photos and video files. Tap the name to view folder files.",
                             preferences: prefs,
                             delegate: self)
                     
@@ -119,14 +144,14 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
                             preferences: prefs,
                             delegate: self)
                     
-                    case "folder_4":
-                        EasyTipView.show(forView: cell2.videoIMG,
-                            withinSuperview: self.tableView,
-                            text: "Slide folder left to Edit/Delete",
-                            preferences: prefs,
-                            delegate: self)
+//                    case "folder_4":
+//                        EasyTipView.show(forView: cell2.titleLabel,
+//                            withinSuperview: self.tableView,
+//                            text: "Slide folder left to Edit/Delete",
+//                            preferences: prefs,
+//                            delegate: self)
 
-                    case "folder_5":
+                    case "folder_4":
                         EasyTipView.show(forItem: self.navigationItem.rightBarButtonItem!,
                             withinSuperview: self.navigationController!.view,
                             text: "Create a new folder",
@@ -146,7 +171,11 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
     
     func easyTipViewDidDismiss(tipView : EasyTipView){
         tipIsOpen = false
-        showTips()
+        if activeTips.count > 0 {
+            showTips()
+        } else {
+            showPopupMessage("No more tips. Enjoy the app!")
+        }
     }
     
     // MARK: - Table view data source
@@ -272,6 +301,21 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
     // MARK: - IBActions
     
     // MARK: - Other Methods
+    
+    func showRateUs() {
+        let alert = UIAlertController(title: "Rate Us!", message: "If you like \(APP_NAME), we'd love to hear it. Your rating really helps us get noticed in the App Store. If you hate it then you're in luck, you can skip this ;)", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Rate \(APP_NAME)", style: UIAlertActionStyle.Default, handler: { alertAction in
+            //UIApplication.sharedApplication().openURL(NSURL(string : "LINK_GOES_HERE")!)
+            rateNumber = 0
+        }))
+        alert.addAction(UIAlertAction(title: "No Thanks", style: UIAlertActionStyle.Default, handler: { alertAction in
+            rateNumber = 0
+        }))
+        alert.addAction(UIAlertAction(title: "Maybe Later", style: UIAlertActionStyle.Default, handler: { alertAction in
+            rateNumber = 1
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
     
     func deleteFolder(folderToDelete:Folders){
         

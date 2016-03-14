@@ -23,8 +23,10 @@ let PRE_TITLE_TEXT = "Title..."
 let PRE_DESC_TEXT  = "Description..."
 let PREMIUM_COST   = "1.99"
 let fileTypes      = ["Photo","Video"] //,"Audio","Text"]
-let fullTipList    = ["folder_1","folder_2","folder_3","folder_4","folder_5",
-                      "file_1","file_2","file_3","file_4","file_5"]
+let fullTipList    = ["folder_1","folder_2","folder_3","folder_4",
+                      "file_1","file_2","file_3","file_4","file_5","file_6","file_7","file_8"]
+let MAX_RATE_HITS  = 20 // Number of hits to wait to pop up rate us message
+let FREE_MAX_FILE  = 6  // Number of files allowed if in free mode
 
 enum FilesView: Int {
     case Small  = 0
@@ -37,6 +39,20 @@ enum SortBy: Int16 {
     case CreateOldest = 1
     case EditRecent   = 2
     case EditOldest   = 3
+}
+
+var rateNumber:Int{
+    get {
+        let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("rateNumber") as? Int
+        if returnValue == nil {
+            return 10
+        }
+        return returnValue!
+    }
+    set {
+        NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "rateNumber")
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
 }
 
 var activeTips:[String]{
@@ -71,7 +87,7 @@ var maxFileCount : Int {
     get {
         let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("maxFileCount") as? Int
         if returnValue == nil {
-            return 10
+            return 6
         }
         return returnValue!
     }

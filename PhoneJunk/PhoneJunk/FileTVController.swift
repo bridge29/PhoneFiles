@@ -49,7 +49,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
         if let num = NSUserDefaults.standardUserDefaults().objectForKey("\(self.folder.name)_filesView") as? Int {
             currView = FilesView(rawValue: num)
         }else {
-            currView = FilesView.Large
+            currView = FilesView.Medium
             NSUserDefaults.standardUserDefaults().setObject(currView.rawValue, forKey: "\(self.folder.name)_filesView")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
@@ -93,35 +93,56 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
                 case "file_1":
                     EasyTipView.show(forView: cell1,
                         withinSuperview: self.tableView,
-                        text: "Files can be a photo or video with an optional title and description.",
+                        text: "Files can be a photo or video. There are 4 parts to every file...",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_2":
-                    EasyTipView.show(forView: cell1.dateLabel,
+                    EasyTipView.show(forView: cell1.titleLabel,
                         withinSuperview: self.tableView,
-                        text: "Tap date to change the format.",
+                        text: "An optional title.",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_3":
-                    EasyTipView.show(forView: cell1.dataScrollView,
+                    EasyTipView.show(forView: cell1.descTextView,
                         withinSuperview: self.tableView,
-                        text: "You can zoom in on photos by double tapping or pinching.",
+                        text: "An optional description. This is helpful to copy/paste info.",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_4":
-                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![2],
-                        withinSuperview: self.navigationController!.view,
-                        text: "This sorts your files. They can be sorted by their created or last edited date.",
+                    EasyTipView.show(forView: cell1.dateLabel,
+                        withinSuperview: self.tableView,
+                        text: "The date of your file. Tap on it to change its format",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_5":
+                    EasyTipView.show(forView: cell1.dataScrollView,
+                        withinSuperview: self.tableView,
+                        text: "And of course the content. You can zoom in on photos by double tapping or pinching.",
+                        preferences: prefs,
+                        delegate: self)
+                    
+                case "file_6":
+                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![2],
+                        withinSuperview: self.navigationController!.view,
+                        text: "This sorts your files. They can be sorted by their created or edited date.",
+                        preferences: prefs,
+                        delegate: self)
+                    
+                case "file_7":
                     EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![1],
                         withinSuperview: self.navigationController!.view,
                         text: "Tap this to change the view size. There are 3 view sizes.",
+                        preferences: prefs,
+                        delegate: self)
+                    
+                case "file_8":
+                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![0],
+                        withinSuperview: self.navigationController!.view,
+                        text: "Create a new file",
                         preferences: prefs,
                         delegate: self)
                 default:
@@ -139,7 +160,9 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
     
     func easyTipViewDidDismiss(tipView : EasyTipView){
         tipIsOpen = false
-        showTips()
+        if activeTips.count > 0 {
+            showTips()
+        }
     }
     
     // MARK: - Table view data source
@@ -278,7 +301,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
             
             if NSDate().timeIntervalSinceReferenceDate - self.lastDeletePrompt > 60 {
             
-                let actionSheetController: UIAlertController = UIAlertController(title: "Delete File?", message: "If yes we will supress this prompt for 1 minute.", preferredStyle: .Alert)
+                let actionSheetController: UIAlertController = UIAlertController(title: "Delete File?", message: "This prompt will be supressed for 1 minute if you continue to delete other files.", preferredStyle: .Alert)
                 let noAction: UIAlertAction     = UIAlertAction(title: "Nope", style: .Default) { action -> Void in }
                 let deleteAction: UIAlertAction = UIAlertAction(title: "Yes", style: .Default) { action -> Void in
                     
@@ -354,6 +377,12 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
     }
     
     @IBAction func newFile(sender: AnyObject) {
+        
+        if (maxFileCount > 0 && getFileCount() >= maxFileCount) {
+            notifyAlert(self, title: "Uh Oh", message: "The free version only allows \(maxFileCount) files. Go to menu to upgrade to unlimited files for only $\(PREMIUM_COST).")
+            return
+        }
+        
         let ac = UIAlertController(title: "Choose Option", message: nil, preferredStyle: .ActionSheet)
         
         for alertOption in ["Take Photo","Take Video","Choose Photo","Choose Video"] {

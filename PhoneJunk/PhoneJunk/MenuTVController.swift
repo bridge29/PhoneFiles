@@ -56,6 +56,13 @@ class MenuTVController: BasePhoneJunkTVC {
         case 1:
             activeTips = fullTipList
             showPopupMessage("Helper tips have been reset")
+        case 2:
+            break
+        case 3:
+            break
+        case 4:
+            //UIApplication.sharedApplication().openURL(NSURL(string : "LINK_GOES_HERE")!)
+            break
         default:
             snp()
         }

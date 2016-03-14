@@ -186,6 +186,7 @@ class DisplayViewController: UIViewController, UITabBarDelegate, UIScrollViewDel
                 
                 if let image = UIImage(contentsOfFile: getFilePath(file.fileName!)){
                     UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                    showPopupMessage("Photo saved to camera roll!")
                 }
                 
             } else if file.fileType == "Video" {
@@ -209,7 +210,7 @@ class DisplayViewController: UIViewController, UITabBarDelegate, UIScrollViewDel
             self.titleLabel.hidden = false
         }
         
-        UIView.animateWithDuration(1.0, delay: 0.0, options: animateOpt, animations: {self.titleLabel.alpha = alphaVal},
+        UIView.animateWithDuration(0.3, delay: 0.0, options: animateOpt, animations: {self.titleLabel.alpha = alphaVal},
             completion: {(value: Bool) in
                 if alphaVal == 0.0 {
                     self.titleLabel.hidden = !self.titleLabel.hidden
@@ -221,7 +222,7 @@ class DisplayViewController: UIViewController, UITabBarDelegate, UIScrollViewDel
             self.descTextView.hidden = false
         }
         
-        UIView.animateWithDuration(1.0, delay: 0.0, options: animateOpt, animations: {self.descTextView.alpha = alphaVal},
+        UIView.animateWithDuration(0.4, delay: 0.0, options: animateOpt, animations: {self.descTextView.alpha = alphaVal},
             completion: {(value: Bool) in
                 if alphaVal == 0.0 {
                     self.descTextView.hidden = !self.descTextView.hidden

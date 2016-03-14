@@ -109,7 +109,6 @@ class BasePhoneJunkTVC: UITableViewController {
         label.font               = UIFont(name: "Helvetica Neue", size: 20)
         //label.sizeToFit()
         mainView.addSubview(label)
-        
         _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: "removePopup", userInfo: nil, repeats: false)
     }
     
