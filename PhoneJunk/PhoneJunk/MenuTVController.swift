@@ -20,7 +20,8 @@ class MenuTVController: BasePhoneJunkTVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Menu"
+        //self.view.backgroundColor = VC_BG_COLOR
+        navigationItem.title      = "Menu"
     }
     
     override func viewDidAppear(animated: Bool) {

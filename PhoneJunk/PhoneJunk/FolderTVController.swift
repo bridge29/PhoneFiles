@@ -13,6 +13,8 @@ import EasyTipView
 
 class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, EasyTipViewDelegate {
     
+    var selectedFolder : Folders!
+    
     lazy var fetchedResultsController: NSFetchedResultsController = {
         let foldersFetchRequest = NSFetchRequest(entityName: "Folders")
         let primarySortDescriptor = NSSortDescriptor(key: "name", ascending: true)
@@ -34,6 +36,9 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
         super.viewDidLoad()
         
         NSUserDefaults.standardUserDefaults().setValue(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
+        
+        //// DESIGN
+        self.view.backgroundColor = VC_BG_COLOR
         
         do {
             try fetchedResultsController.performFetch()
@@ -62,7 +67,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
             newFile1.setValue(fetchedResultsController.fetchedObjects?.last, forKey: "whichFolder")
             
             let fileName2 = "\(Int(NSDate().timeIntervalSince1970) + 1).jpg"
-            UIImageJPEGRepresentation(UIImage(named: "video")!,1.0)!.writeToFile(getFilePath(fileName2), atomically: true)
+            UIImageJPEGRepresentation(UIImage(named: "camera")!,1.0)!.writeToFile(getFilePath(fileName2), atomically: true)
             let newFile2 = NSEntityDescription.insertNewObjectForEntityForName("Files", inManagedObjectContext: self.moc)
             newFile2.setValue("Passport Info", forKey: "title")
             newFile2.setValue("This is an example file\n\nKey Details:\nPassport #:1234567\nIssued:10/10/13\nExpires:10/10/23", forKey: "desc")
@@ -82,11 +87,8 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
             rateNumber = rateNumber + 1
         }
         
-        
-                
         ///// DEBUGGING
         //printFileContents()
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -210,9 +212,6 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
         let tapGest1 = UITapGestureRecognizer(target: self, action: "cellActionTapped:")
         tapGest1.numberOfTapsRequired = 1
         cell.cameraIMG.addGestureRecognizer(tapGest1)
-        let tapGest2 = UITapGestureRecognizer(target: self, action: "cellActionTapped:")
-        tapGest2.numberOfTapsRequired = 1
-        cell.videoIMG.addGestureRecognizer(tapGest2)
         
         return cell
     }
@@ -229,16 +228,12 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
     
     func cellActionTapped(gesture:UIGestureRecognizer){
         
-        if (maxFileCount > 0 && getFileCount() >= maxFileCount) {
-            notifyAlert(self, title: "Uh Oh", message: "The free version only allows \(maxFileCount) files. Go to menu to upgrade to unlimited files for only $\(PREMIUM_COST).")
-            return
-        }
-        
         let location : CGPoint = gesture.locationInView(self.tableView)
         let cellIndexPath:NSIndexPath = self.tableView.indexPathForRowAtPoint(location)!
         let cell = self.tableView.cellForRowAtIndexPath(cellIndexPath) as! FolderTVCell
-        cell.tag = gesture.view!.tag
-        self.performSegueWithIdentifier("folder2newFile", sender: cell)
+        
+        selectedFolder = cell.folder as Folders
+        presentNewFileOptions("folder")
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -409,10 +404,8 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
             
             case "folder2newFile":
                 let dvc = segue.destinationViewController as! NewFileViewController
-                let cell = sender as! FolderTVCell
-                dvc.folder = cell.folder
-                dvc.fileType = (cell.tag == 10) ? "Photo" : "Video"
-                dvc.firstAction = "take"
+                dvc.folder = selectedFolder
+                setNewFileDVC(dvc, sender: sender)
             
             case "folder2newFolder":
                 let dvc = segue.destinationViewController as! NewFolderViewController

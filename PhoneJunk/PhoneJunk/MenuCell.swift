@@ -13,6 +13,8 @@ class MenuCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        //self.backgroundColor = VC_BG_COLOR
+        
     }
     
     func configureCell(){

@@ -29,6 +29,7 @@ class BasePhoneJunkVC: UIViewController {
         
         let fetchRequest = NSFetchRequest(entityName: "Folders")
         fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+        
         do {
             let fetchResults = try self.moc.executeFetchRequest(fetchRequest)
             if fetchResults.count > 0 {
@@ -39,13 +40,11 @@ class BasePhoneJunkVC: UIViewController {
             fatalError("Failed fetch request: \(error)")
         }
         
-        
         let newFolder = NSEntityDescription.insertNewObjectForEntityForName("Folders", inManagedObjectContext: self.moc)
         newFolder.setValue(name, forKey: "name")
         newFolder.setValue(isLocked, forKey: "isLocked")
         newFolder.setValue(daysTilDelete, forKey:"daysTilDelete")
         saveContext()
-        //print("Created Folder: \(name)")
     }
     
     func saveContext(){
@@ -62,7 +61,7 @@ class BasePhoneJunkVC: UIViewController {
         let label = UILabel(frame: CGRect(x: (mainView.bounds.width - labelWidth)/2, y: mainView.bounds.height * 0.2, width: labelWidth, height: labelWidth * 0.5))
         label.text = message
         label.tag  = 101
-        label.backgroundColor = PF_BLUE_COLOR
+        label.backgroundColor = VC_FG_COLOR
         label.layer.borderWidth  = 10
         label.layer.borderColor  = UIColor.orangeColor().CGColor
         label.layer.cornerRadius = 14.0
@@ -96,15 +95,63 @@ class BasePhoneJunkTVC: UITableViewController {
         self.moc = appDel.managedObjectContext
     }
     
+    func setNewFileDVC(dvc:NewFileViewController, sender:AnyObject?){
+        
+        let action = sender as! UIAlertAction
+        let title  = action.title!
+        
+        if (title.rangeOfString("Take") != nil) {
+            dvc.firstAction = "take"
+        }else if title.rangeOfString("Choose") != nil {
+            dvc.firstAction = "choose"
+        }
+        
+        if (title.rangeOfString("Photo") != nil) {
+            dvc.fileType = "Photo"
+        }else if (title.rangeOfString("Video") != nil) {
+            dvc.fileType = "Video"
+        }else {
+            dvc.fileType = title
+        }
+    }
+    
+    func segueFile2newFile(action: UIAlertAction!){
+        self.performSegueWithIdentifier("file2newFile", sender: action)
+    }
+    
+    func segueFolder2newFile(action: UIAlertAction!){
+        self.performSegueWithIdentifier("folder2newFile", sender: action)
+    }
+    
+    func presentNewFileOptions(senderName:String) {
+        if (maxFileCount > 0 && getFileCount() >= maxFileCount) {
+            notifyAlert(self, title: "Uh Oh", message: "The free version only allows \(maxFileCount) files. Go to menu to upgrade to unlimited files for only $\(PREMIUM_COST).")
+            return
+        }
+        
+        let ac = UIAlertController(title: "Create New File", message: nil, preferredStyle: .ActionSheet)
+        
+        for alertOption in ["Take Photo","Take Video","Choose Photo","Choose Video"] {
+            if senderName == "folder"{
+                ac.addAction(UIAlertAction(title: alertOption, style: .Default, handler: self.segueFolder2newFile))
+            } else {
+                ac.addAction(UIAlertAction(title: alertOption, style: .Default, handler: self.segueFile2newFile))
+            }
+        }
+        
+        ac.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        presentViewController(ac, animated: true, completion: nil)
+    }
+    
     func showPopupMessage(message:String, seconds:NSTimeInterval = 2.5, widthMult:CGFloat = 0.7){
         let mainView = self.view.superview!
         let labelWidth = mainView.bounds.width * widthMult
         let label = UILabel(frame: CGRect(x: (mainView.bounds.width - labelWidth)/2, y: mainView.bounds.height * 0.2, width: labelWidth, height: labelWidth * 0.5))
         label.text = message
         label.tag  = 101
-        label.backgroundColor = PF_BLUE_COLOR
+        label.backgroundColor = VC_FG_COLOR
         label.layer.cornerRadius = 14.0
-        label.layer.borderColor  = UIColor.orangeColor().CGColor
+        label.layer.borderColor  = VC_BORDER_COLOR.CGColor
         label.layer.borderWidth  = 8
         label.clipsToBounds      = true
         label.textAlignment      = .Center

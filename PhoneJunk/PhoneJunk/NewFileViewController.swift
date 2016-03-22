@@ -186,10 +186,13 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
         if (saveData(fileName)){
             
             if (editMode){
+                
                 self.editFile.edit_date = NSDate.timeIntervalSinceReferenceDate()
                 self.editFile.title = title
                 self.editFile.desc  = desc
+                
             } else {
+                
                 let newFile = NSEntityDescription.insertNewObjectForEntityForName("Files", inManagedObjectContext: self.moc)
                 newFile.setValue(fileType, forKey: "fileType")
                 newFile.setValue(title, forKey: "title")
@@ -199,8 +202,11 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
                 newFile.setValue(fileName, forKey: "fileName")
                 newFile.setValue(self.folder, forKey: "whichFolder")
             }
+            
             saveContext()
+
         }else {
+            
             notifyAlert(self, title: "Uh Oh", message: "\(fileType) was not saved. Take a \(fileType) or select one from your Camera Roll.")
             return
         }
@@ -216,9 +222,7 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
     
     func animateTextField(up: Bool) {
         
-        if (up && isTextMode){
-            return
-        }
+        if (up && isTextMode) { return }
         isTextMode = up
         
         let movement:CGFloat = (up ? -200 : 200)

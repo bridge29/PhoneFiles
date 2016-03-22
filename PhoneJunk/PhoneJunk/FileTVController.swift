@@ -36,6 +36,9 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //// DESIGN
+        self.view.backgroundColor = VC_BG_COLOR
+        
         //// Folder must exist to load this TVC
         if (self.folder == nil) {
             print("Error: Folder was not established")
@@ -225,7 +228,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
                 if cell.descTextView.text == "" {
                     cell.descTextView.backgroundColor = UIColor.clearColor()
                 } else {
-                    cell.descTextView.backgroundColor = PF_BLUE_COLOR
+                    cell.descTextView.backgroundColor = VC_FG_COLOR
                 }
             case .Large:
                 mult = 0.95
@@ -383,19 +386,8 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
     
     @IBAction func newFile(sender: AnyObject) {
         
-        if (maxFileCount > 0 && getFileCount() >= maxFileCount) {
-            notifyAlert(self, title: "Uh Oh", message: "The free version only allows \(maxFileCount) files. Go to menu to upgrade to unlimited files for only $\(PREMIUM_COST).")
-            return
-        }
+        presentNewFileOptions("file")
         
-        let ac = UIAlertController(title: "Create New File", message: nil, preferredStyle: .ActionSheet)
-        
-        for alertOption in ["Take Photo","Take Video","Choose Photo","Choose Video"] {
-            ac.addAction(UIAlertAction(title: alertOption, style: .Default, handler: openNewFile))
-        }
-        
-        ac.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        presentViewController(ac, animated: true, completion: nil)
     }
     
     // MARK: - Other Methods
@@ -442,10 +434,6 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
         }
     }
     
-    func openNewFile(action: UIAlertAction!){
-        self.performSegueWithIdentifier("file2newFile", sender: action)
-    }
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if (segue.identifier == "file2display") {
@@ -460,22 +448,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
         
         if (segue.identifier == "file2newFile"){
             
-            let action = sender as! UIAlertAction
-            let title  = action.title!
-            
-            if (title.rangeOfString("Take") != nil) {
-                dvc.firstAction = "take"
-            }else if title.rangeOfString("Choose") != nil {
-                dvc.firstAction = "choose"
-            }
-            
-            if (title.rangeOfString("Photo") != nil) {
-                dvc.fileType = "Photo"
-            }else if (title.rangeOfString("Video") != nil) {
-                dvc.fileType = "Video"
-            }else {
-                dvc.fileType = title
-            }
+            self.setNewFileDVC(dvc, sender:sender)
             
         } else if (segue.identifier == "file2editFile") {
             

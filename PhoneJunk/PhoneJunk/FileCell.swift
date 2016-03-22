@@ -22,10 +22,12 @@ class FileCell: UITableViewCell, UIScrollViewDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.contentView.backgroundColor = VC_BG_COLOR
+        
         dataScrollView.delegate = self
         
         let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewDoubleTapped:")
-        doubleTapRecognizer.numberOfTapsRequired = 2
+        doubleTapRecognizer.numberOfTapsRequired    = 2
         doubleTapRecognizer.numberOfTouchesRequired = 1
         dataScrollView.addGestureRecognizer(doubleTapRecognizer)
         

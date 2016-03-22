@@ -25,6 +25,9 @@ class DisplayViewController: UIViewController, UITabBarDelegate, UIScrollViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //// DESIGN
+        self.view.backgroundColor = VC_BG_COLOR
+        
         tabBar.delegate         = self
         dataScrollView.delegate = self
         
@@ -70,7 +73,7 @@ class DisplayViewController: UIViewController, UITabBarDelegate, UIScrollViewDel
         let width       = self.view.bounds.width * 0.9
         titleLabel      = UILabel(frame: CGRect(x: (view.bounds.width - width)/2, y: self.view.bounds.height * 0.4, width: width, height: 30))
         titleLabel.text = (file.title == "") ? "No Title" : file.title
-        titleLabel.backgroundColor    = PF_BLUE_COLOR
+        titleLabel.backgroundColor    = VC_FG_COLOR
         titleLabel.layer.cornerRadius = 14.0
         titleLabel.clipsToBounds      = true
         titleLabel.textAlignment      = .Center
@@ -81,7 +84,7 @@ class DisplayViewController: UIViewController, UITabBarDelegate, UIScrollViewDel
         
         descTextView      = UITextView(frame: CGRect(x: (view.bounds.width - width)/2, y: self.view.bounds.height * 0.4 + 40, width: width, height: self.view.bounds.height * 0.4))
         descTextView.text = (file.desc == "") ? "No description" : file.desc
-        descTextView.backgroundColor    = PF_BLUE_COLOR
+        descTextView.backgroundColor    = VC_FG_COLOR
         descTextView.layer.cornerRadius = 14.0
         descTextView.clipsToBounds      = true
         descTextView.font               = UIFont(name: "Helvetica Neue", size: 20)
