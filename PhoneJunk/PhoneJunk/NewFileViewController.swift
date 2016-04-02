@@ -15,13 +15,15 @@ import AVKit
 import MobileCoreServices
 import AssetsLibrary
 
-class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
+class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate, UITextViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
+    @IBOutlet weak var folderView: UIPickerView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var descTextView: UITextView!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var dataView: UIView!
     var folder      : Folders!
+    var folders     : [Folders] = []
     var fileType    : String!
     var fileImage   : UIImage!
     var editFile    : Files!
@@ -41,7 +43,9 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
         self.descTextView.text    = (editMode) ? self.editFile.desc  : PRE_DESC_TEXT
         self.titleTextField.delegate = self
         self.descTextView.delegate   = self
+        self.folderView.delegate     = self
         
+        /// Setup for photo or video
         switch (fileType){
             case "Photo":
                 self.imageView.contentMode = UIViewContentMode.ScaleAspectFit
@@ -55,6 +59,24 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
                 break
         }
         
+        /// Fetch folders to populate folder picker view
+        let fetchRequest = NSFetchRequest(entityName: "Folders")
+        do {
+            let fetchedFolders = try self.moc.executeFetchRequest(fetchRequest) as! [Folders]
+            folders.append(self.folder)
+            for f in fetchedFolders {
+                if f.name != self.folder.name {
+                    folders.append(f)
+                }
+            }
+        } catch {
+            fatalError("Failed fetch request: \(error)")
+        }
+        
+        /// Hide Picker lines
+        
+        /// Hack to show white screen in transition to ImagePicker view.
+        /// View will get removed when the ImagePicker view is popped
         if (self.firstAction != "") {
             let coverView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: view.bounds.size))
             coverView.tag = 10
@@ -84,6 +106,19 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
             }
             self.firstAction = ""
         }
+    }
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return folders.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let folder = folders[row]
+        return folder.name
     }
     
     func getFileData(useCamera:Bool){
@@ -190,6 +225,7 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
                 self.editFile.edit_date = NSDate.timeIntervalSinceReferenceDate()
                 self.editFile.title = title
                 self.editFile.desc  = desc
+                self.editFile.whichFolder = self.folders[folderView.selectedRowInComponent(0)]
                 
             } else {
                 
@@ -200,7 +236,7 @@ class NewFileViewController: BasePhoneJunkVC, UINavigationControllerDelegate, UI
                 newFile.setValue(NSDate(), forKey: "create_date")
                 newFile.setValue(NSDate(), forKey: "edit_date")
                 newFile.setValue(fileName, forKey: "fileName")
-                newFile.setValue(self.folder, forKey: "whichFolder")
+                newFile.setValue(self.folders[folderView.selectedRowInComponent(0)], forKey: "whichFolder")
             }
             
             saveContext()

@@ -10,8 +10,7 @@ import UIKit
 
 class MenuTVController: BasePhoneJunkTVC {
     
-    let menuItems = ["What is PhoneFiles?",
-                     "Reset Tip Popups",
+    let menuItems = ["Reset Tip Popups",
                      "Upgrade: Unlimited files for $\(PREMIUM_COST)",
                      "FAQ",
                      "Rate Us",
@@ -21,7 +20,7 @@ class MenuTVController: BasePhoneJunkTVC {
         super.viewDidLoad()
         
         //self.view.backgroundColor = VC_BG_COLOR
-        navigationItem.title      = "Menu"
+        navigationItem.title = "Menu"
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -53,15 +52,13 @@ class MenuTVController: BasePhoneJunkTVC {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch (indexPath.row){
         case 0:
-            break
-        case 1:
             activeTips = fullTipList
             showPopupMessage("Helper tips have\nbeen reset")
+        case 1:
+            break
         case 2:
             break
         case 3:
-            break
-        case 4:
             //UIApplication.sharedApplication().openURL(NSURL(string : "LINK_GOES_HERE")!)
             break
         default:

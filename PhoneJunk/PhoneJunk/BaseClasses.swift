@@ -73,7 +73,7 @@ class BasePhoneJunkVC: UIViewController {
         //label.sizeToFit()
         mainView.addSubview(label)
         
-        _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: "removePopup", userInfo: nil, repeats: false)
+        _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: #selector(BasePhoneJunkVC.removePopup), userInfo: nil, repeats: false)
     }
     
     func removePopup(){
@@ -160,7 +160,7 @@ class BasePhoneJunkTVC: UITableViewController {
         label.font               = UIFont(name: "Helvetica Neue", size: 20)
         //label.sizeToFit()
         mainView.addSubview(label)
-        _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: "removePopup", userInfo: nil, repeats: false)
+        _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: #selector(BasePhoneJunkVC.removePopup), userInfo: nil, repeats: false)
     }
     
     func removePopup(){

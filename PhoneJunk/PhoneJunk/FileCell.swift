@@ -26,7 +26,7 @@ class FileCell: UITableViewCell, UIScrollViewDelegate {
         
         dataScrollView.delegate = self
         
-        let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewDoubleTapped:")
+        let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(FileCell.scrollViewDoubleTapped(_:)))
         doubleTapRecognizer.numberOfTapsRequired    = 2
         doubleTapRecognizer.numberOfTouchesRequired = 1
         dataScrollView.addGestureRecognizer(doubleTapRecognizer)

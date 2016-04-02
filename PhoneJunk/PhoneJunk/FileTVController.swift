@@ -65,7 +65,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
             NSUserDefaults.standardUserDefaults().synchronize()
         }
         
-        self.tableView.reloadData()
+        //self.tableView.reloadData()
         
         //// Debug Statements
         //printFiles()
@@ -198,7 +198,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
         cell.dateLabel.text = getFileDateLabelText(date, useDateFormat: useDateFormat)
         
         //// Add recognizer to dateLabel
-        let dateTap = UITapGestureRecognizer(target: self, action: "dateLabelTapped")
+        let dateTap = UITapGestureRecognizer(target: self, action: #selector(FileTVController.dateLabelTapped))
         dateTap.numberOfTapsRequired = 1
         cell.dateLabel.addGestureRecognizer(dateTap)
         

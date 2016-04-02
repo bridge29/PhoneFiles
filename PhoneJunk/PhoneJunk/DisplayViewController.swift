@@ -31,7 +31,7 @@ class DisplayViewController: UIViewController, UITabBarDelegate, UIScrollViewDel
         tabBar.delegate         = self
         dataScrollView.delegate = self
         
-        let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewDoubleTapped:")
+        let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(DisplayViewController.scrollViewDoubleTapped(_:)))
         doubleTapRecognizer.numberOfTapsRequired = 2
         doubleTapRecognizer.numberOfTouchesRequired = 1
         dataScrollView.addGestureRecognizer(doubleTapRecognizer)
@@ -295,7 +295,7 @@ class DisplayViewController: UIViewController, UITabBarDelegate, UIScrollViewDel
         //label.sizeToFit()
         mainView.addSubview(label)
         
-        _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: "removePopup", userInfo: nil, repeats: false)
+        _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: #selector(DisplayViewController.removePopup), userInfo: nil, repeats: false)
     }
     
     func removePopup(){

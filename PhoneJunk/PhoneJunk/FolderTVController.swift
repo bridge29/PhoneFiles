@@ -16,7 +16,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
     var selectedFolder : Folders!
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
-        let foldersFetchRequest = NSFetchRequest(entityName: "Folders")
+        let foldersFetchRequest   = NSFetchRequest(entityName: "Folders")
         let primarySortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         //let secondarySortDescriptor = NSSortDescriptor(key: "commonName", ascending: true)
         foldersFetchRequest.sortDescriptors = [primarySortDescriptor]
@@ -110,6 +110,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
         
         /// TESTING: Menu
         //performSegueWithIdentifier("folder2menu", sender: nil)
+        
     }
     
     func showTips(){
@@ -209,7 +210,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
             cell.lockIMG.hidden = true
         }
         
-        let tapGest1 = UITapGestureRecognizer(target: self, action: "cellActionTapped:")
+        let tapGest1 = UITapGestureRecognizer(target: self, action: #selector(FolderTVController.cellActionTapped(_:)))
         tapGest1.numberOfTapsRequired = 1
         cell.cameraIMG.addGestureRecognizer(tapGest1)
         

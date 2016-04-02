@@ -38,10 +38,6 @@ class NewFolderViewController: BasePhoneJunkVC, UITextFieldDelegate, UIPickerVie
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
     // MARK: - Delegate Methods
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {

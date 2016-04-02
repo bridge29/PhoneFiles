@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vaP-Pr-X26">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vaP-Pr-X26">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -474,15 +474,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="egm-qF-Y6d">
-                                <rect key="frame" x="50" y="429" width="500" height="30"/>
+                                <rect key="frame" x="50" y="484" width="500" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="pfF-vu-h3H"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="l2y-Yh-CAd">
-                                <rect key="frame" x="50" y="449" width="500" height="124"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="l2y-Yh-CAd">
+                                <rect key="frame" x="50" y="524" width="500" height="71"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -513,17 +513,25 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <pickerView contentMode="center" showsSelectionIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJU-hv-p04">
+                                <rect key="frame" x="50" y="424" width="500" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="rqu-a6-WKE"/>
+                                </constraints>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="l2y-Yh-CAd" firstAttribute="width" secondItem="DsZ-Pb-dWs" secondAttribute="width" multiplier="5/6" id="7eM-yn-0Pm"/>
                             <constraint firstItem="l2y-Yh-CAd" firstAttribute="centerX" secondItem="DsZ-Pb-dWs" secondAttribute="centerX" id="7lA-HL-Y0D"/>
                             <constraint firstItem="b3h-BN-AAN" firstAttribute="centerX" secondItem="DsZ-Pb-dWs" secondAttribute="centerX" id="AMA-GY-vSC"/>
+                            <constraint firstItem="kJU-hv-p04" firstAttribute="width" secondItem="egm-qF-Y6d" secondAttribute="width" id="BT5-jd-fs2"/>
                             <constraint firstItem="gxN-2D-LbX" firstAttribute="width" secondItem="b3h-BN-AAN" secondAttribute="width" id="Jmc-YP-gbi"/>
                             <constraint firstItem="gxN-2D-LbX" firstAttribute="centerX" secondItem="b3h-BN-AAN" secondAttribute="centerX" id="L2d-B9-bhe"/>
                             <constraint firstItem="egm-qF-Y6d" firstAttribute="centerX" secondItem="DsZ-Pb-dWs" secondAttribute="centerX" id="Nai-pM-vC5"/>
+                            <constraint firstItem="kJU-hv-p04" firstAttribute="centerX" secondItem="DsZ-Pb-dWs" secondAttribute="centerX" id="V5g-5c-1Qs"/>
                             <constraint firstItem="gxN-2D-LbX" firstAttribute="centerY" secondItem="b3h-BN-AAN" secondAttribute="centerY" id="VtS-zw-gLR"/>
-                            <constraint firstItem="l2y-Yh-CAd" firstAttribute="top" secondItem="egm-qF-Y6d" secondAttribute="bottom" constant="30" id="beg-2d-pgU"/>
+                            <constraint firstItem="l2y-Yh-CAd" firstAttribute="top" secondItem="egm-qF-Y6d" secondAttribute="bottom" constant="10" id="beg-2d-pgU"/>
                             <constraint firstItem="egm-qF-Y6d" firstAttribute="top" secondItem="b3h-BN-AAN" secondAttribute="bottom" constant="15" id="dZc-S7-6mB"/>
                             <constraint firstItem="b3h-BN-AAN" firstAttribute="height" secondItem="DsZ-Pb-dWs" secondAttribute="height" multiplier="1/2" id="e71-Rj-vpt"/>
                             <constraint firstItem="cDl-Lw-iB7" firstAttribute="centerX" secondItem="DsZ-Pb-dWs" secondAttribute="centerX" id="h7m-0Y-eH8"/>
@@ -531,14 +539,17 @@
                             <constraint firstItem="b3h-BN-AAN" firstAttribute="top" secondItem="LB1-mZ-jgX" secondAttribute="bottom" constant="50" id="iph-nI-jyQ"/>
                             <constraint firstItem="b3h-BN-AAN" firstAttribute="top" secondItem="cDl-Lw-iB7" secondAttribute="bottom" constant="8" id="nVX-wN-ut9"/>
                             <constraint firstItem="egm-qF-Y6d" firstAttribute="width" secondItem="DsZ-Pb-dWs" secondAttribute="width" multiplier="5/6" id="nqL-mo-7JW"/>
-                            <constraint firstItem="0dv-Sz-IXM" firstAttribute="top" secondItem="l2y-Yh-CAd" secondAttribute="bottom" constant="27" id="rY6-BN-6Uz"/>
+                            <constraint firstItem="0dv-Sz-IXM" firstAttribute="top" secondItem="l2y-Yh-CAd" secondAttribute="bottom" constant="5" id="rY6-BN-6Uz"/>
+                            <constraint firstItem="egm-qF-Y6d" firstAttribute="top" secondItem="kJU-hv-p04" secondAttribute="bottom" constant="15" id="s2W-KN-lxc"/>
                             <constraint firstItem="gxN-2D-LbX" firstAttribute="height" secondItem="b3h-BN-AAN" secondAttribute="height" id="sWW-a6-rML"/>
                             <constraint firstItem="cDl-Lw-iB7" firstAttribute="width" secondItem="b3h-BN-AAN" secondAttribute="width" id="tm9-qP-dFG"/>
                             <constraint firstItem="b3h-BN-AAN" firstAttribute="width" secondItem="DsZ-Pb-dWs" secondAttribute="width" multiplier="5/6" id="uct-Mn-L4F"/>
+                            <constraint firstItem="kJU-hv-p04" firstAttribute="top" secondItem="gxN-2D-LbX" secondAttribute="bottom" constant="10" id="xMX-KA-iqd"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="iph-nI-jyQ"/>
+                                <exclude reference="dZc-S7-6mB"/>
                             </mask>
                         </variation>
                     </view>
@@ -557,6 +568,7 @@
                     <connections>
                         <outlet property="dataView" destination="b3h-BN-AAN" id="BLc-XH-xWb"/>
                         <outlet property="descTextView" destination="l2y-Yh-CAd" id="pgb-jm-eKG"/>
+                        <outlet property="folderView" destination="kJU-hv-p04" id="UHB-ah-Pjv"/>
                         <outlet property="imageView" destination="gxN-2D-LbX" id="jnL-5K-kVX"/>
                         <outlet property="titleTextField" destination="egm-qF-Y6d" id="Pub-SC-BRE"/>
                     </connections>
@@ -681,8 +693,8 @@
         <image name="textIcon" width="64" height="49"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="mpo-8V-6aB"/>
         <segue reference="bdT-zr-Ebo"/>
         <segue reference="bmq-3D-eUm"/>
+        <segue reference="wdV-nB-HgV"/>
     </inferredMetricsTieBreakers>
 </document>
