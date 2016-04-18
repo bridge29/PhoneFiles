@@ -77,7 +77,7 @@ class BasePhoneJunkVC: UIViewController {
     }
     
     func removePopup(){
-        UIView.animateWithDuration(1.0, animations: {self.view.superview!.viewWithTag(101)?.alpha = 0.0},
+        UIView.animateWithDuration(0.6, animations: {self.view.superview!.viewWithTag(101)?.alpha = 0.0},
             completion: {(value: Bool) in
                 self.view.superview!.viewWithTag(101)?.removeFromSuperview()
         })
@@ -160,12 +160,12 @@ class BasePhoneJunkTVC: UITableViewController {
         label.font               = UIFont(name: "Helvetica Neue", size: 20)
         //label.sizeToFit()
         mainView.addSubview(label)
-        _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: #selector(BasePhoneJunkVC.removePopup), userInfo: nil, repeats: false)
+        _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: #selector(BasePhoneJunkTVC.removePopup), userInfo: nil, repeats: false)
     }
     
     func removePopup(){
         if let superview = self.view.superview {
-            UIView.animateWithDuration(1.0, animations: {superview.viewWithTag(101)?.alpha = 0.0},
+            UIView.animateWithDuration(0.6, animations: {superview.viewWithTag(101)?.alpha = 0.0},
                 completion: {(value: Bool) in
                     self.view.superview?.viewWithTag(101)?.removeFromSuperview()
             })

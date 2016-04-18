@@ -19,7 +19,7 @@ class FolderTVCell: UITableViewCell {
         super.awakeFromNib()
         
         self.contentView.backgroundColor = VC_FG_COLOR
-        layer.cornerRadius = 30
+        layer.cornerRadius = 15
         layer.borderColor  = VC_BORDER_COLOR.CGColor
         layer.borderWidth  = 4
         

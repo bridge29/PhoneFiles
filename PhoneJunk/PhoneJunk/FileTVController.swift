@@ -309,7 +309,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
             
             if NSDate().timeIntervalSinceReferenceDate - self.lastDeletePrompt > 60 {
             
-                let actionSheetController: UIAlertController = UIAlertController(title: "Delete File?", message: "This prompt will be supressed for 1 minute if you continue to delete other files.", preferredStyle: .Alert)
+                let actionSheetController: UIAlertController = UIAlertController(title: "Delete File?", message: "You will not get prompted if you delete other files.", preferredStyle: .Alert)
                 let noAction: UIAlertAction     = UIAlertAction(title: "Nope", style: .Default) { action -> Void in }
                 let deleteAction: UIAlertAction = UIAlertAction(title: "Yes", style: .Default) { action -> Void in
                     
