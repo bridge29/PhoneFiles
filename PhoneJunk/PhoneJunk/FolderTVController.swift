@@ -108,6 +108,11 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
         
         showTips()
         
+        if activeTips.count == 1 {
+            showPopupMessage("No More Tips\nYou're ready to rock!")
+            activeTips = []
+        }
+        
         /// TESTING: Menu
         //performSegueWithIdentifier("folder2menu", sender: nil)
         
@@ -183,6 +188,21 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
     func easyTipViewDidDismiss(tipView : EasyTipView){
         tipIsOpen = false
         showTips()
+        if !tipIsOpen {
+            
+            if let objects = fetchedResultsController.fetchedObjects {
+                if objects.count >= 3{
+                    self.showPopupMessage("Let's take a look inside a folder...", remove:false)
+                    _ = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: #selector(self.goToFileFromTips), userInfo: nil, repeats: false)
+                }
+            }
+        }
+    }
+    
+    func goToFileFromTips() {
+        let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 2)) as! FolderTVCell
+        performSegueWithIdentifier("folder2file", sender: cell)
+
     }
     
     // MARK: - Table view data source

@@ -55,16 +55,16 @@ class BasePhoneJunkVC: UIViewController {
         }
     }
     
-    func showPopupMessage(message:String, seconds:NSTimeInterval = 2.5, widthMult:CGFloat = 0.7){
+    func showPopupMessage(message:String, seconds:NSTimeInterval = 2.5, widthMult:CGFloat = 0.7, remove:Bool = true){
         let mainView = self.view.superview!
         let labelWidth = mainView.bounds.width * widthMult
         let label = UILabel(frame: CGRect(x: (mainView.bounds.width - labelWidth)/2, y: mainView.bounds.height * 0.2, width: labelWidth, height: labelWidth * 0.5))
         label.text = message
         label.tag  = 101
-        label.backgroundColor = VC_FG_COLOR
-        label.layer.borderWidth  = 10
-        label.layer.borderColor  = UIColor.orangeColor().CGColor
-        label.layer.cornerRadius = 14.0
+        label.backgroundColor = PU_BG_COLOR
+        label.layer.borderWidth  = 6
+        label.layer.borderColor  = PU_BORDER_COLOR.CGColor
+        label.layer.cornerRadius = 10.0
         label.clipsToBounds      = true
         label.textAlignment      = .Center
         label.lineBreakMode      = .ByWordWrapping
@@ -73,14 +73,22 @@ class BasePhoneJunkVC: UIViewController {
         //label.sizeToFit()
         mainView.addSubview(label)
         
-        _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: #selector(BasePhoneJunkVC.removePopup), userInfo: nil, repeats: false)
+        if remove {
+            _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: #selector(BasePhoneJunkVC.removePopup), userInfo: nil, repeats: false)
+        }
     }
     
     func removePopup(){
-        UIView.animateWithDuration(0.6, animations: {self.view.superview!.viewWithTag(101)?.alpha = 0.0},
-            completion: {(value: Bool) in
-                self.view.superview!.viewWithTag(101)?.removeFromSuperview()
-        })
+        if let superview = self.view.superview {
+            UIView.animateWithDuration(0.6, animations: {superview.viewWithTag(101)?.alpha = 0.0},
+               completion: {(value: Bool) in
+                while let view = superview.viewWithTag(101) {
+                    ///let label = view as! UILabel
+                    ///print (label.text)
+                    view.removeFromSuperview()
+                }
+            })
+        }
     }
 }
 
@@ -143,16 +151,16 @@ class BasePhoneJunkTVC: UITableViewController {
         presentViewController(ac, animated: true, completion: nil)
     }
     
-    func showPopupMessage(message:String, seconds:NSTimeInterval = 2.5, widthMult:CGFloat = 0.7){
+    func showPopupMessage(message:String, seconds:NSTimeInterval = 2.5, widthMult:CGFloat = 0.7, remove:Bool = true){
         let mainView = self.view.superview!
         let labelWidth = mainView.bounds.width * widthMult
         let label = UILabel(frame: CGRect(x: (mainView.bounds.width - labelWidth)/2, y: mainView.bounds.height * 0.2, width: labelWidth, height: labelWidth * 0.5))
         label.text = message
         label.tag  = 101
-        label.backgroundColor = VC_FG_COLOR
-        label.layer.cornerRadius = 14.0
-        label.layer.borderColor  = VC_BORDER_COLOR.CGColor
-        label.layer.borderWidth  = 8
+        label.backgroundColor = PU_BG_COLOR
+        label.layer.cornerRadius = 10.0
+        label.layer.borderColor  = PU_BORDER_COLOR.CGColor
+        label.layer.borderWidth  = 6
         label.clipsToBounds      = true
         label.textAlignment      = .Center
         label.lineBreakMode      = .ByWordWrapping
@@ -160,14 +168,21 @@ class BasePhoneJunkTVC: UITableViewController {
         label.font               = UIFont(name: "Helvetica Neue", size: 20)
         //label.sizeToFit()
         mainView.addSubview(label)
-        _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: #selector(BasePhoneJunkTVC.removePopup), userInfo: nil, repeats: false)
+        
+        if remove {
+            _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: #selector(BasePhoneJunkTVC.removePopup), userInfo: nil, repeats: false)
+        }
     }
     
     func removePopup(){
         if let superview = self.view.superview {
             UIView.animateWithDuration(0.6, animations: {superview.viewWithTag(101)?.alpha = 0.0},
                 completion: {(value: Bool) in
-                    self.view.superview?.viewWithTag(101)?.removeFromSuperview()
+                    while let view = superview.viewWithTag(101) {
+                        ///let label = view as! UILabel
+                        ///print (label.text)
+                        view.removeFromSuperview()
+                    }
             })
         }
     }
