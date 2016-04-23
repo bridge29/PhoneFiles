@@ -10,7 +10,10 @@ import UIKit
 
 class MenuTVController: BasePhoneJunkTVC {
     
-    let menuItems = ["Reset Tip Popups",
+    let menuItems = ["Elevator Pitch",
+                     "Why to Use",
+                     "How to Use",
+                     "Important Note!",
                      "Upgrade: Unlimited files for $\(PREMIUM_COST)",
                      "FAQ",
                      "Rate Us",
@@ -52,13 +55,20 @@ class MenuTVController: BasePhoneJunkTVC {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch (indexPath.row){
         case 0:
-            activeTips = fullTipList
-            showPopupMessage("Helper tips have\nbeen reset")
+            let msgStr = "There are photos and videos you have for memories. This app is for everything else. If you don't use your camera for to store info, then you are missing out on a great life hack. If you do, then this app is for you! Declutter your camera roll by keeping your non-memorable photos and videos (i.e. files) here for quick and easy access."
+            showPopupMessage(msgStr, widthMult:0.9, heightMult:0.4, remove:false)
         case 1:
+            // Go to list of ideas
             break
         case 2:
-            break
+            activeTips = fullTipList
+            showPopupMessage("Tips will pop up to guide you through this app. Tap them to dismiss.", remove:false)
         case 3:
+            showPopupMessage("Every day is a cloudless day in PhoneFiles. Files are only stored on your phone, nothing gets synced anywhere (saves us on server cost 😃) but you can save/email/text files for safe keeping.", widthMult:0.9, heightMult:0.4, remove:false)
+            break
+        case 4:
+            break
+        case 5:
             //UIApplication.sharedApplication().openURL(NSURL(string : "LINK_GOES_HERE")!)
             break
         default:

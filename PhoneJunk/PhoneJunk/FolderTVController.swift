@@ -50,7 +50,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
         if (NSUserDefaults.standardUserDefaults().valueForKey("v1.0") == nil) {
             
             //// CREATE FOLDERS FOR FIRST TIME USERS
-            for (name, isLocked, daysTilDelete) in [("Temp", false,7), ("Private", true,0), ("Utility",false,0)] {
+            for (name, isLocked, daysTilDelete) in [("Temp",false,7), ("Private",true,0), ("Misc",false,0)] {
                 self.createFolder(name, isLocked: isLocked, daysTilDelete:daysTilDelete)
             }
             
@@ -270,7 +270,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
         let editAction = UITableViewRowAction(style: .Normal, title: "  Edit  ") { action, index in
             self.performSegueWithIdentifier("folder2newFolder", sender: indexPath)
         }
-        editAction.backgroundColor = UIColor.blueColor()
+        editAction.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 255/255, alpha: 1)
         
         let deleteAction = UITableViewRowAction(style: .Normal, title: "Delete") { action, index in
             
@@ -315,7 +315,7 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 20
+        return 10
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

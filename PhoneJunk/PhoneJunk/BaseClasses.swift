@@ -55,7 +55,7 @@ class BasePhoneJunkVC: UIViewController {
         }
     }
     
-    func showPopupMessage(message:String, seconds:NSTimeInterval = 2.5, widthMult:CGFloat = 0.7, remove:Bool = true){
+    func showPopupMessage(message:String, seconds:NSTimeInterval = 2.5, widthMult:CGFloat = 0.7, heightMult:CGFloat = 0.5, remove:Bool = true){
         let mainView = self.view.superview!
         let labelWidth = mainView.bounds.width * widthMult
         let label = UILabel(frame: CGRect(x: (mainView.bounds.width - labelWidth)/2, y: mainView.bounds.height * 0.2, width: labelWidth, height: labelWidth * 0.5))
@@ -151,23 +151,46 @@ class BasePhoneJunkTVC: UITableViewController {
         presentViewController(ac, animated: true, completion: nil)
     }
     
-    func showPopupMessage(message:String, seconds:NSTimeInterval = 2.5, widthMult:CGFloat = 0.7, remove:Bool = true){
-        let mainView = self.view.superview!
-        let labelWidth = mainView.bounds.width * widthMult
-        let label = UILabel(frame: CGRect(x: (mainView.bounds.width - labelWidth)/2, y: mainView.bounds.height * 0.2, width: labelWidth, height: labelWidth * 0.5))
-        label.text = message
-        label.tag  = 101
-        label.backgroundColor = PU_BG_COLOR
-        label.layer.cornerRadius = 10.0
-        label.layer.borderColor  = PU_BORDER_COLOR.CGColor
-        label.layer.borderWidth  = 6
-        label.clipsToBounds      = true
+    func showPopupMessage(message:String, seconds:NSTimeInterval = 2.5, widthMult:CGFloat = 0.9, heightMult:CGFloat = 0.2, remove:Bool = true){
+        if let superview = self.view.superview {
+            while let view = superview.viewWithTag(101) {
+                view.removeFromSuperview()
+            }
+        }else{
+            snp()
+            return
+        }
+        
+        let heightSize  = CGFloat((Double(message.characters.count) / 50.0) * 30.0)
+        let mainView    = self.view.superview!
+        let labelWidth  = mainView.bounds.width * widthMult
+        let label = UILabel(frame: CGRect(x: (mainView.bounds.width - labelWidth)/2, y: (mainView.bounds.height - heightSize)/2, width: labelWidth, height: 30 + heightSize))
+        label.text               = message
+        label.tag                = 101
+        label.backgroundColor    = PU_BG_COLOR
         label.textAlignment      = .Center
         label.lineBreakMode      = .ByWordWrapping
-        label.numberOfLines      = 3
-        label.font               = UIFont(name: "Helvetica Neue", size: 20)
+        label.numberOfLines      = 20
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
         //label.sizeToFit()
-        mainView.addSubview(label)
+        label.font               = UIFont(name: "Verdana", size:15)
+        
+        let padding = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        
+        let wrapperView:UIView = label.withPadding(padding)
+        wrapperView.frame = label.frame
+        wrapperView.tag                = 101
+        wrapperView.backgroundColor    = PU_BG_COLOR
+        wrapperView.layer.cornerRadius = 20.0
+        wrapperView.clipsToBounds      = true
+        //wrapperView.sizeToFit()
+        mainView.addSubview(wrapperView)
+        
+        label.userInteractionEnabled = true
+        let gest = UITapGestureRecognizer(target: self, action: #selector(BasePhoneJunkTVC.removePopup))
+        gest.numberOfTapsRequired = 1
+        label.addGestureRecognizer(gest)
         
         if remove {
             _ = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: #selector(BasePhoneJunkTVC.removePopup), userInfo: nil, repeats: false)
@@ -177,12 +200,12 @@ class BasePhoneJunkTVC: UITableViewController {
     func removePopup(){
         if let superview = self.view.superview {
             UIView.animateWithDuration(0.6, animations: {superview.viewWithTag(101)?.alpha = 0.0},
-                completion: {(value: Bool) in
-                    while let view = superview.viewWithTag(101) {
-                        ///let label = view as! UILabel
-                        ///print (label.text)
-                        view.removeFromSuperview()
-                    }
+            completion: {(value: Bool) in
+                while let view = superview.viewWithTag(101) {
+                    ///let label = view as! UILabel
+                    ///print (label.text)
+                    view.removeFromSuperview()
+                }
             })
         }
     }
@@ -251,6 +274,23 @@ class BasePhoneJunkTVC: UITableViewController {
         } catch {
             fatalError("Failure to save context: \(error)")
         }
+    }
+}
+
+extension UIView{
+    func withPadding(padding: UIEdgeInsets) -> UIView{
+        let container = UIView()
+        self.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(self)
+        
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
+        "|-(\(padding.left))-[view]-(\(padding.right))-|"
+        , options: [], metrics: nil, views: ["view": self]))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
+        "V:|-(\(padding.top))-[view]-(\(padding.bottom))-|",
+        options: [], metrics: nil, views: ["view": self]))
+        
+        return container
     }
 }
 

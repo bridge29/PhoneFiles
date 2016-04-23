@@ -26,11 +26,11 @@ let fileTypes      = ["Photo","Video"] //,"Audio","Text"]
 let fullTipList    = ["folder_1","folder_2","folder_3","folder_4","folder_5","folder_6",
                       "file_1","file_2","file_3","file_4","file_5","file_6","file_7","file_8","last_tip"]
 let MAX_RATE_HITS   = 20 // Number of hits to wait to pop up rate us message
-let VC_FG_COLOR     = UIColor(red: 150/255, green: 190/255, blue: 225/255, alpha: 1)
-let VC_BG_COLOR     = UIColor(red: 200/255, green: 200/255, blue: 203/255, alpha: 1)
+let VC_FG_COLOR     = UIColor(red: 102/255, green: 204/255, blue: 255/255, alpha: 1)
+let VC_BG_COLOR     = UIColor.whiteColor() //UIColor(red: 200/255, green: 200/255, blue: 203/255, alpha: 1)
 let VC_BORDER_COLOR = UIColor(red: 130/255, green: 120/255, blue: 205/255, alpha: 1)
-let PU_BG_COLOR     = UIColor(red: 130/255, green: 180/255, blue: 205/255, alpha: 1)
-let PU_BORDER_COLOR = UIColor(red: 250/255, green: 120/255, blue: 205/255, alpha: 1)
+let PU_BG_COLOR     = UIColor(red: 102/255, green: 255/255, blue: 255/255, alpha: 1)
+let PU_BORDER_COLOR = PU_BG_COLOR //UIColor(red: 250/255, green: 120/255, blue: 205/255, alpha: 1)
 
 enum FilesView: Int {
     case Small  = 0
