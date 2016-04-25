@@ -21,15 +21,15 @@ import EasyTipView
 let APP_NAME       = "PhoneFiles"
 let PRE_TITLE_TEXT = "Title..."
 let PRE_DESC_TEXT  = "Description..."
-let PREMIUM_COST   = "1.99"
+let PREMIUM_COST   = "2.99"
 let fileTypes      = ["Photo","Video"] //,"Audio","Text"]
-let fullTipList    = ["folder_1","folder_2","folder_3","folder_4","folder_5","folder_6",
-                      "file_1","file_2","file_3","file_4","file_5","file_6","file_7","file_8","last_tip"]
+let fullTipList    = ["folder_1","folder_2","folder_3","folder_4",
+                      "file_1","file_2","file_3","file_4","file_5","file_6"]
 let MAX_RATE_HITS   = 20 // Number of hits to wait to pop up rate us message
 let VC_FG_COLOR     = UIColor(red: 102/255, green: 204/255, blue: 255/255, alpha: 1)
-let VC_BG_COLOR     = UIColor.whiteColor() //UIColor(red: 200/255, green: 200/255, blue: 203/255, alpha: 1)
+let VC_BG_COLOR     = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
 let VC_BORDER_COLOR = UIColor(red: 130/255, green: 120/255, blue: 205/255, alpha: 1)
-let PU_BG_COLOR     = UIColor(red: 102/255, green: 255/255, blue: 255/255, alpha: 1)
+let PU_BG_COLOR     = UIColor(hue:0.46, saturation:0.99, brightness:0.6, alpha:1) //UIColor(red: 102/255, green: 255/255, blue: 255/255, alpha: 1)
 let PU_BORDER_COLOR = PU_BG_COLOR //UIColor(red: 250/255, green: 120/255, blue: 205/255, alpha: 1)
 
 enum FilesView: Int {
@@ -63,7 +63,7 @@ var activeTips:[String]{
     get {
         let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("activeTips") as? [String]
         if returnValue == nil {
-            return fullTipList
+            return []
         }
         return returnValue!
     }

@@ -96,56 +96,42 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
                 case "file_1":
                     EasyTipView.show(forView: cell1,
                         withinSuperview: self.tableView,
-                        text: "These are your files. Each one contains...",
+                        text: "Every file contains a title, date, description and the photo/video.",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_2":
-                    EasyTipView.show(forView: cell1.titleLabel,
+                    EasyTipView.show(forView: cell1.dateLabel,
                         withinSuperview: self.tableView,
-                        text: "An title (optional)",
+                        text: "Tap on date to change its format.",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_3":
-                    EasyTipView.show(forView: cell1.descTextView,
+                    EasyTipView.show(forView: cell1.dataScrollView,
                         withinSuperview: self.tableView,
-                        text: "An description (optional). This is helpful to copy/paste info.",
+                        text: "You can zoom in on photos by double tapping or pinching.",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_4":
-                    EasyTipView.show(forView: cell1.dateLabel,
-                        withinSuperview: self.tableView,
-                        text: "The date of your file. Tap on it to change its format.",
+                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![2],
+                        withinSuperview: self.navigationController!.view,
+                        text: "Change sorting",
                         preferences: prefs,
                         delegate: self)
                     
                 case "file_5":
-                    EasyTipView.show(forView: cell1.dataScrollView,
-                        withinSuperview: self.tableView,
-                        text: "And of course the photo/video. You can zoom in on photos by double tapping or pinching.",
-                        preferences: prefs,
-                        delegate: self)
-                
-                case "file_6":
-                    EasyTipView.show(forView: cell1.dataScrollView,
-                        withinSuperview: self.tableView,
-                        text: "Tap the file ",
-                        preferences: prefs,
-                        delegate: self)
-                    
-                case "file_7":
-                    EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![2],
-                        withinSuperview: self.navigationController!.view,
-                        text: "Change file sorting.",
-                        preferences: prefs,
-                        delegate: self)
-                    
-                case "file_8":
                     EasyTipView.show(forItem: self.navigationItem.rightBarButtonItems![1],
                         withinSuperview: self.navigationController!.view,
-                        text: "Change the file view. There are 3 view sizes.",
+                        text: "Change the view size.",
+                        preferences: prefs,
+                        delegate: self)
+                    
+                case "file_6":
+                    EasyTipView.show(forView: cell1,
+                        withinSuperview: self.tableView,
+                        text: "Tap the cell to view the file.",
                         preferences: prefs,
                         delegate: self)
                     

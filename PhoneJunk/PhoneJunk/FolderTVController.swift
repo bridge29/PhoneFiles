@@ -132,45 +132,31 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
                 switch (tip){
                     
                     case "folder_1":
-                        EasyTipView.show(forView: cell2,
-                            withinSuperview: self.tableView,
-                            text: "Welcome to PhoneFiles! These tips will explain the app and how to use it. Tap me to move on to the next tip.",
-                            preferences: prefs,
-                            delegate: self)
-                    
-                    case "folder_2":
-                        EasyTipView.show(forView: cell2,
-                            withinSuperview: self.tableView,
-                            text: "Have you ever taken a photo for something that wasn't a fond memory? Your boarding pass, a recipe, a buisiness card, a bill. How annoying is it searching through your camera roll for these when you need them, not to mention the clutter they create when they are no longer needed...",
-                            preferences: prefs,
-                            delegate: self)
-                    
-                    case "folder_3":
-                        EasyTipView.show(forView: cell2,
-                            withinSuperview: self.tableView,
-                            text: "PhoneFiles is your answer! This app let's store those photos/videos in organized folders, ready to be viewed whenever and wherever you need them. The next few tips will show you how to use the app and then you'll be ready to go. Enjoy!!!",
-                            preferences: prefs,
-                            delegate: self)
-                    
-                    case "folder_4":
                         EasyTipView.show(forView: cell2.titleLabel,
                             withinSuperview: self.tableView,
                             text: "These are your folders that hold your files. Swipe left to edit/delete them.",
                             preferences: prefs,
                             delegate: self)
                     
-                    case "folder_5":
+                    case "folder_2":
                         EasyTipView.show(forView: cell2.cameraIMG,
                             withinSuperview: self.tableView,
-                            text: "Tap these icons to quickly take a photo or video.",
+                            text: "Create a file.",
                             preferences: prefs,
                             delegate: self)
                     
-                    case "folder_6":
-                        let cell1 = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! FolderTVCell
-                        EasyTipView.show(forView: cell1.lockIMG,
+                    case "folder_3":
+                        //let cell1 = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! FolderTVCell
+                        EasyTipView.show(forView: cell2.lockIMG,
                             withinSuperview: self.tableView,
-                            text: "You can put a lock on a folder. Locked folders can only be accessed by Touch ID.",
+                            text: "You can lock folders. Locked folders can only be accessed by Touch ID.",
+                            preferences: prefs,
+                            delegate: self)
+                    
+                    case "folder_4":
+                        EasyTipView.show(forItem: self.navigationItem.rightBarButtonItem!,
+                            withinSuperview: self.navigationController!.view,
+                            text: "Create a new folder",
                             preferences: prefs,
                             delegate: self)
 
@@ -282,11 +268,11 @@ class FolderTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, 
                 let fetchResults = try self.moc.executeFetchRequest(fetchRequest)
                 if fetchResults.count > 0 {
                     
-                    let actionSheetController1: UIAlertController = UIAlertController(title: "Delete Check 1/2", message: "This folder contains files which will also be deleted. Are sure you want to delete the \"\(folder.name!)\" folder?", preferredStyle: .Alert)
+                    let actionSheetController1: UIAlertController = UIAlertController(title: "Delete", message: "This folder contains files which will be deleted. Are sure you want to delete the \"\(folder.name!)\" folder?", preferredStyle: .Alert)
                     let noAction1: UIAlertAction     = UIAlertAction(title: "Nope", style: .Default) { action -> Void in }
                     let deleteAction1: UIAlertAction = UIAlertAction(title: "Yes", style: .Default) { action -> Void in
                         
-                        let actionSheetController2: UIAlertController = UIAlertController(title: "Delete Check 2/2", message: "Final prompt, are you sure you want to delete this folder?", preferredStyle: .Alert)
+                        let actionSheetController2: UIAlertController = UIAlertController(title: "Final Delete Check", message: "One last time, are you sure you want to delete this folder?", preferredStyle: .Alert)
                         let noAction2: UIAlertAction     = UIAlertAction(title: "Nope", style: .Default) { action -> Void in }
                         let deleteAction2: UIAlertAction = UIAlertAction(title: "DELETE IT!", style: .Default) { action -> Void in
                             self.deleteFolder(folder)

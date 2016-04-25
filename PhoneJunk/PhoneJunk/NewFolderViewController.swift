@@ -30,12 +30,15 @@ class NewFolderViewController: BasePhoneJunkVC, UITextFieldDelegate, UIPickerVie
             dtdArray.append("\(num)")
         }
         
-        if self.editMode {
+        if editMode {
             self.folderName.text = self.editFolder.name
             self.lockSwitch.on   = self.editFolder.isLocked
             self.lockLabel.text = (self.editFolder.isLocked) ? "Locked" : "Unlocked"
             self.daysTilDeletePicker.selectRow(Int(self.editFolder.daysTilDelete), inComponent: 0, animated: true)
         }
+        
+        let firstWordOfTitle = (editMode) ? "Edit" : "New"
+        self.navigationItem.title = "\(firstWordOfTitle) Folder"
     }
     
     // MARK: - Delegate Methods

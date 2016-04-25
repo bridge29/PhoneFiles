@@ -7,17 +7,17 @@
 //
 
 import UIKit
+import EasyTipView
 
-class MenuTVController: BasePhoneJunkTVC {
+class MenuTVController: BasePhoneJunkTVC, EasyTipViewDelegate {
     
-    let menuItems = ["Elevator Pitch",
-                     "Why to Use",
+    let menuItems = ["What is PhoneFiles",
                      "How to Use",
+                     "Suggestions",
                      "Important Note!",
-                     "Upgrade: Unlimited files for $\(PREMIUM_COST)",
-                     "FAQ",
                      "Rate Us",
-                     "Support & Feedback"]
+                     "Support & Feedback",
+                     "Upgrade: Unlimited files for $\(PREMIUM_COST)"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,19 +52,38 @@ class MenuTVController: BasePhoneJunkTVC {
         return cell
     }
     
+    func easyTipViewDidDismiss(tipView : EasyTipView){
+        tipIsOpen = false
+    }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch (indexPath.row){
         case 0:
-            let msgStr = "There are photos and videos you have for memories. This app is for everything else. If you don't use your camera for to store info, then you are missing out on a great life hack. If you do, then this app is for you! Declutter your camera roll by keeping your non-memorable photos and videos (i.e. files) here for quick and easy access."
+            let msgStr = "There are photos and videos you take for memories. This app is for everything else. If you use your camera to store information, then this app is for you! Declutter your camera roll by keeping your non-memorable photos and videos (i.e. files) here for quick and easy access."
             showPopupMessage(msgStr, widthMult:0.9, heightMult:0.4, remove:false)
         case 1:
-            // Go to list of ideas
-            break
-        case 2:
+            self.removePopup()
+            
             activeTips = fullTipList
-            showPopupMessage("Tips will pop up to guide you through this app. Tap them to dismiss.", remove:false)
+            
+            if !tipIsOpen {
+                tipIsOpen = true
+            
+                guard let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as? MenuCell else {
+                    break
+                }
+                let prefs = getTipPreferences()
+                EasyTipView.show(forView: cell,
+                         withinSuperview: self.tableView,
+                         text: "Popup tips will guide you through the app. Tap them to dismiss.",
+                         preferences: prefs,
+                         delegate: self)
+            }
+            
+        case 2:
+            break
         case 3:
-            showPopupMessage("Every day is a cloudless day in PhoneFiles. Files are only stored on your phone, nothing gets synced anywhere (saves us on server cost 😃) but you can save/email/text files for safe keeping.", widthMult:0.9, heightMult:0.4, remove:false)
+            showPopupMessage("Everyday is a cloudless day in PhoneFiles. Files are only stored on your phone.", widthMult:0.9, heightMult:0.4, remove:false)
             break
         case 4:
             break

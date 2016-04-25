@@ -26,8 +26,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="51"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UV9-B0-9XU">
-                                            <rect key="frame" x="18" y="-2" width="420" height="55"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UV9-B0-9XU">
+                                            <rect key="frame" x="18" y="-2" width="430" height="55"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="171" id="CZA-EB-S5w"/>
                                                 <constraint firstAttribute="height" constant="54" id="Zr7-cK-bP7"/>
@@ -41,8 +41,8 @@
                                                 </mask>
                                             </variation>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="lock" translatesAutoresizingMaskIntoConstraints="NO" id="gQc-73-EuK">
-                                            <rect key="frame" x="563" y="15" width="14" height="21"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock_icon" translatesAutoresizingMaskIntoConstraints="NO" id="gQc-73-EuK">
+                                            <rect key="frame" x="561" y="15" width="16" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="97" id="SUw-Wl-lRR"/>
                                                 <constraint firstAttribute="width" constant="72" id="fAY-8g-3Ul"/>
@@ -55,8 +55,8 @@
                                                 </mask>
                                             </variation>
                                         </imageView>
-                                        <imageView tag="10" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="camera" translatesAutoresizingMaskIntoConstraints="NO" id="w6B-r6-jvH">
-                                            <rect key="frame" x="443" y="-9" width="90" height="69"/>
+                                        <imageView tag="10" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera" translatesAutoresizingMaskIntoConstraints="NO" id="w6B-r6-jvH">
+                                            <rect key="frame" x="453" y="-4" width="78" height="59"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="96" id="gV5-sE-hHO"/>
                                                 <constraint firstAttribute="width" secondItem="w6B-r6-jvH" secondAttribute="height" multiplier="125:96" id="mYO-NQ-wvO"/>
@@ -72,7 +72,7 @@
                                     </subviews>
                                     <color key="backgroundColor" red="0.57637746710526316" green="0.75668174342105277" blue="0.88607627467105265" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
-                                        <constraint firstItem="w6B-r6-jvH" firstAttribute="width" secondItem="zfj-Fc-SvF" secondAttribute="width" multiplier="0.15" id="H10-ue-rsu"/>
+                                        <constraint firstItem="w6B-r6-jvH" firstAttribute="width" secondItem="zfj-Fc-SvF" secondAttribute="width" multiplier="0.13" id="H10-ue-rsu"/>
                                         <constraint firstItem="UV9-B0-9XU" firstAttribute="centerY" secondItem="zfj-Fc-SvF" secondAttribute="centerY" id="IGZ-Fc-1aI"/>
                                         <constraint firstItem="w6B-r6-jvH" firstAttribute="centerY" secondItem="zfj-Fc-SvF" secondAttribute="centerY" id="LRO-8b-QRc"/>
                                         <constraint firstItem="gQc-73-EuK" firstAttribute="height" secondItem="zfj-Fc-SvF" secondAttribute="height" multiplier="0.4" id="S1M-Qk-KvS"/>
@@ -329,7 +329,7 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Desc of File" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mYh-gh-ZIJ">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Desc of File" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mYh-gh-ZIJ">
                                                     <rect key="frame" x="0.0" y="18" width="424" height="127"/>
                                                     <color key="backgroundColor" red="0.74117647058823533" green="0.8784313725490196" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -439,6 +439,7 @@
                                     <tabBarItem tag="3" title="Save" image="saveIcon" id="JBY-qg-cN4"/>
                                     <tabBarItem tag="4" title="Details" image="detailsIcon" id="Rd7-VP-fVB"/>
                                 </items>
+                                <color key="selectedImageTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </tabBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -481,7 +482,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="l2y-Yh-CAd">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="l2y-Yh-CAd">
                                 <rect key="frame" x="50" y="524" width="500" height="71"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </string>
@@ -687,14 +688,14 @@
         <image name="camera" width="250" height="192"/>
         <image name="detailsIcon" width="64" height="49"/>
         <image name="emailIcon" width="27" height="27"/>
-        <image name="lock" width="144" height="196"/>
+        <image name="lock_icon" width="144" height="196"/>
         <image name="menuIcon" width="25" height="24"/>
         <image name="saveIcon" width="64" height="49"/>
         <image name="textIcon" width="64" height="49"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bdT-zr-Ebo"/>
         <segue reference="bmq-3D-eUm"/>
-        <segue reference="wdV-nB-HgV"/>
+        <segue reference="bdT-zr-Ebo"/>
+        <segue reference="mpo-8V-6aB"/>
     </inferredMetricsTieBreakers>
 </document>
