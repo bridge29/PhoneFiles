@@ -74,7 +74,7 @@ class FileTVController: BasePhoneJunkTVC, NSFetchedResultsControllerDelegate, Ea
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if fetchedResultsController.fetchedObjects!.count == 0 {
-            showPopupMessage("No files found.\nTap '+' to add new file.")
+            showPopupMessage("No files found.\nTap '+' to add new file.", remove:false)
         } else {
             showTips()
         }

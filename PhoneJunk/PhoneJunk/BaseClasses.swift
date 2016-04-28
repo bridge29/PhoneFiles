@@ -156,7 +156,20 @@ class BasePhoneJunkTVC: UITableViewController {
     
     func presentNewFileOptions(senderName:String) {
         if (maxFileCount > 0 && getFileCount() >= maxFileCount) {
-            notifyAlert(self, title: "Uh Oh", message: "The free version only allows \(maxFileCount) files. Go to menu to upgrade to unlimited files for only $\(PREMIUM_COST).")
+//            notifyAlert(self, title: "Upgrade to Unlimited", message: "The free version only allows \(maxFileCount) files. Go to menu to upgrade to unlimited files for only $\(PREMIUM_COST).")
+//            return
+            let title   = "Uprade to Unlimited"
+            let message = "The free version only allows \(maxFileCount) files. Upgrade to unlimited files for only $\(PREMIUM_COST)."
+            let actionSheetController: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+            let cancelAction: UIAlertAction = UIAlertAction(title: "Not Now", style: .Default) { action -> Void in
+            }
+            let okAction: UIAlertAction = UIAlertAction(title: "Upgrade", style: .Default) { action -> Void in
+                //// Go to in app purchase
+                plx()
+            }
+            actionSheetController.addAction(cancelAction)
+            actionSheetController.addAction(okAction)
+            self.presentViewController(actionSheetController, animated: true, completion: nil)
             return
         }
         

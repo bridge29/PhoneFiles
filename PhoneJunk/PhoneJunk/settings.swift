@@ -7,13 +7,11 @@
 //
 // TODO:
 // Menu
-// -Upgrade functionality
-// -Menu table view
-//    - What is PhoneFiles, Upgrade: Unlimited Files for $1.99, Folder Suggestions, File Suggestions, Rate Us, Contact Us
-// VERSION 2:
-//     - cloud/non-cloud option 
-//     - Photo shoot feature (also will be in separate app)
-//     - Cropping functionality
+// - Issue with sending message - recipients getting covered
+// - Suggestions table, folders and file ideas
+// - Support & feedback on tohism site.
+// - Upgrade functionality - set maxFiles when upgraded.
+
 
 import UIKit
 import EasyTipView
@@ -21,10 +19,10 @@ import EasyTipView
 let APP_NAME       = "PhoneFiles"
 let PRE_TITLE_TEXT = "Title..."
 let PRE_DESC_TEXT  = "Description..."
-let PREMIUM_COST   = "2.99"
+let PREMIUM_COST   = "1.99"
 let fileTypes      = ["Photo","Video"] //,"Audio","Text"]
 let fullTipList    = ["folder_1","folder_2","folder_3","folder_4",
-                      "file_1","file_2","file_3","file_4","file_5","file_6"]
+                      "file_1","file_2","file_3","file_4","file_5","file_6", "last"]
 let MAX_RATE_HITS   = 20 // Number of hits to wait to pop up rate us message
 let VC_FG_COLOR     = UIColor(red: 102/255, green: 204/255, blue: 255/255, alpha: 1)
 let VC_BG_COLOR     = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
@@ -63,7 +61,7 @@ var activeTips:[String]{
     get {
         let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("activeTips") as? [String]
         if returnValue == nil {
-            return []
+            return fullTipList
         }
         return returnValue!
     }
@@ -91,7 +89,7 @@ var maxFileCount : Int {
     get {
         let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("maxFileCount") as? Int
         if returnValue == nil {
-            return 10
+            return 4
         }
         return returnValue!
     }

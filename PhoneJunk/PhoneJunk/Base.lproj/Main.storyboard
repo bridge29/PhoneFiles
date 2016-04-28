@@ -596,6 +596,34 @@
             </objects>
             <point key="canvasLocation" x="510" y="359"/>
         </scene>
+        <!--SuggestTV Controller-->
+        <scene sceneID="9Ld-H7-enh">
+            <objects>
+                <tableViewController id="LXS-xM-zws" customClass="SuggestTVController" customModule="PhoneFiles" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="28" sectionHeaderHeight="28" sectionFooterHeight="28" id="mny-d3-LAY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SuggestCell" rowHeight="28" id="urh-Ey-XMw">
+                                <rect key="frame" x="0.0" y="92" width="600" height="28"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="urh-Ey-XMw" id="aXL-Zl-CeG">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="27"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="LXS-xM-zws" id="pu4-lw-MFE"/>
+                            <outlet property="delegate" destination="LXS-xM-zws" id="CJl-9K-EwS"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ony-YE-kA1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-149" y="1066"/>
+        </scene>
         <!--MenuTV Controller-->
         <scene sceneID="70p-C4-GRD">
             <objects>
@@ -619,6 +647,9 @@
                             <outlet property="delegate" destination="LZu-XZ-vq6" id="Dzu-A9-Dk7"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="LXS-xM-zws" kind="show" identifier="menu2suggest" id="kWW-uw-5Ze"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hAg-Ze-nWS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

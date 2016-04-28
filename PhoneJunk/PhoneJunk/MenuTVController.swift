@@ -12,7 +12,7 @@ import EasyTipView
 class MenuTVController: BasePhoneJunkTVC, EasyTipViewDelegate {
     
     let menuItems = ["What is PhoneFiles",
-                     "How to Use",
+                     "Reset tips",
                      "Suggestions",
                      "Important Note!",
                      "Rate Us",
@@ -81,7 +81,7 @@ class MenuTVController: BasePhoneJunkTVC, EasyTipViewDelegate {
             }
             
         case 2:
-            break
+            performSegueWithIdentifier("menu2suggest", sender: indexPath)
         case 3:
             showPopupMessage("Everyday is a cloudless day in PhoneFiles. Files are only stored on your phone.", widthMult:0.9, heightMult:0.4, remove:false)
             break

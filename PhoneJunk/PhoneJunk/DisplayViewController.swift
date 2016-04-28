@@ -143,6 +143,7 @@ class DisplayViewController: BasePhoneJunkVC, UITabBarDelegate, UIScrollViewDele
             //// Send Text
             let messageVC = MFMessageComposeViewController()
             messageVC.messageComposeDelegate = self
+            messageVC.recipients = ["1-312-607-6986"]
             messageVC.body = "\(file.title!)\n\(file.desc!)"
             
             if file.fileType == "Photo" {
