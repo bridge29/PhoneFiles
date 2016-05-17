@@ -12,14 +12,14 @@
         <!--Folders-->
         <scene sceneID="cZm-5h-ltR">
             <objects>
-                <tableViewController storyboardIdentifier="folders" id="JHe-BP-CFZ" customClass="FolderTVController" customModule="Infoto" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="folders" id="JHe-BP-CFZ" customClass="FolderTVController" customModule="Infotos" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="51" sectionHeaderHeight="28" sectionFooterHeight="28" id="KEJ-kD-JcY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FolderCell" rowHeight="51" id="CPo-GM-xGP" customClass="FolderTVCell" customModule="Infoto" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FolderCell" rowHeight="51" id="CPo-GM-xGP" customClass="FolderTVCell" customModule="Infotos" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="51"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CPo-GM-xGP" id="zfj-Fc-SvF">
@@ -126,7 +126,7 @@
         <!--New Folder-->
         <scene sceneID="T7V-Id-4Ra">
             <objects>
-                <viewController storyboardIdentifier="newFolder" id="WV8-ge-a8z" customClass="NewFolderViewController" customModule="Infoto" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="newFolder" id="WV8-ge-a8z" customClass="NewFolderViewController" customModule="Infotos" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yUy-En-Vr9"/>
                         <viewControllerLayoutGuide type="bottom" id="mRW-BV-vKq"/>
@@ -304,13 +304,13 @@
         <!--Files-->
         <scene sceneID="FiR-iZ-zxl">
             <objects>
-                <tableViewController storyboardIdentifier="files" id="gey-Ph-OOo" customClass="FileTVController" customModule="Infoto" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="files" id="gey-Ph-OOo" customClass="FileTVController" customModule="Infotos" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="96" sectionHeaderHeight="28" sectionFooterHeight="28" id="GHo-Ue-712">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FileCell" rowHeight="161" id="rc3-C1-g5r" customClass="FileCell" customModule="Infoto" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FileCell" rowHeight="161" id="rc3-C1-g5r" customClass="FileCell" customModule="Infotos" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="161"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rc3-C1-g5r" id="V0U-B1-AZ0">
@@ -323,7 +323,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="c1R-SL-WTw">
                                                     <rect key="frame" x="0.0" y="0.0" width="424" height="18"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of File" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="toW-GB-R5S">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of File" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="toW-GB-R5S">
                                                             <rect key="frame" x="0.0" y="0.0" width="354" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -426,7 +426,7 @@
         <!--Display View Controller-->
         <scene sceneID="BR8-hS-cBg">
             <objects>
-                <viewController storyboardIdentifier="displayFile" id="GTG-jY-N36" customClass="DisplayViewController" customModule="Infoto" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="displayFile" id="GTG-jY-N36" customClass="DisplayViewController" customModule="Infotos" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QRb-1l-72C"/>
                         <viewControllerLayoutGuide type="bottom" id="oTb-JV-rPR"/>
@@ -476,7 +476,7 @@
         <!--new file-->
         <scene sceneID="rxx-gi-p8P">
             <objects>
-                <viewController storyboardIdentifier="newFiles" id="NH7-R7-6gP" customClass="NewFileViewController" customModule="Infoto" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="newFiles" id="NH7-R7-6gP" customClass="NewFileViewController" customModule="Infotos" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LB1-mZ-jgX"/>
                         <viewControllerLayoutGuide type="bottom" id="0dv-Sz-IXM"/>
@@ -610,7 +610,7 @@
         <!--SuggestTV Controller-->
         <scene sceneID="9Ld-H7-enh">
             <objects>
-                <tableViewController id="LXS-xM-zws" customClass="SuggestTVController" customModule="Infoto" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="LXS-xM-zws" customClass="SuggestTVController" customModule="Infotos" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="58" sectionHeaderHeight="28" sectionFooterHeight="28" id="mny-d3-LAY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -654,13 +654,13 @@
         <!--MenuTV Controller-->
         <scene sceneID="70p-C4-GRD">
             <objects>
-                <tableViewController id="LZu-XZ-vq6" customClass="MenuTVController" customModule="Infoto" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="LZu-XZ-vq6" customClass="MenuTVController" customModule="Infotos" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="28" sectionFooterHeight="28" id="AFu-r3-WnF">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MenuCell" rowHeight="40" id="gYc-dP-ALp" customClass="MenuCell" customModule="Infoto" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MenuCell" rowHeight="40" id="gYc-dP-ALp" customClass="MenuCell" customModule="Infotos" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="40"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gYc-dP-ALp" id="cZT-b3-qVF">
@@ -753,7 +753,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="bdT-zr-Ebo"/>
-        <segue reference="wdV-nB-HgV"/>
         <segue reference="bmq-3D-eUm"/>
+        <segue reference="mpo-8V-6aB"/>
     </inferredMetricsTieBreakers>
 </document>
