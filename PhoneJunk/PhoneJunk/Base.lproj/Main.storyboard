@@ -486,7 +486,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="egm-qF-Y6d">
-                                <rect key="frame" x="50" y="484" width="500" height="30"/>
+                                <rect key="frame" x="50" y="473" width="500" height="30"/>
+                                <color key="backgroundColor" red="0.59578916749999999" green="0.80501281179999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="pfF-vu-h3H"/>
                                 </constraints>
@@ -494,41 +495,44 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="l2y-Yh-CAd">
-                                <rect key="frame" x="50" y="524" width="500" height="71"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="50" y="513" width="500" height="82"/>
+                                <color key="backgroundColor" red="0.59578916749999999" green="0.80501281179999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" address="YES"/>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3h-BN-AAN">
-                                <rect key="frame" x="50" y="114" width="500" height="300"/>
+                                <rect key="frame" x="50" y="118" width="500" height="300"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gxN-2D-LbX">
-                                <rect key="frame" x="50" y="114" width="500" height="300"/>
+                                <rect key="frame" x="50" y="118" width="500" height="300"/>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="cDl-Lw-iB7">
-                                <rect key="frame" x="50" y="76" width="500" height="30"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="cDl-Lw-iB7">
+                                <rect key="frame" x="50" y="76" width="500" height="34"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LnB-sN-VgU">
-                                        <rect key="frame" x="0.0" y="0.0" width="225" height="30"/>
-                                        <state key="normal" title="Take   "/>
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="Camera"/>
                                         <connections>
                                             <action selector="takeButtonPushed:" destination="NH7-R7-6gP" eventType="touchUpInside" id="YyK-nZ-vdL"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lzN-w4-yyJ">
-                                        <rect key="frame" x="275" y="0.0" width="225" height="30"/>
-                                        <state key="normal" title="Choose"/>
+                                        <rect key="frame" x="300" y="0.0" width="200" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="Photos"/>
                                         <connections>
                                             <action selector="chooseButtonPressed:" destination="NH7-R7-6gP" eventType="touchUpInside" id="NHa-GE-XEH"/>
                                         </connections>
                                     </button>
                                 </subviews>
                             </stackView>
-                            <pickerView contentMode="center" showsSelectionIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJU-hv-p04">
-                                <rect key="frame" x="50" y="424" width="500" height="45"/>
+                            <pickerView contentMode="scaleAspectFill" showsSelectionIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJU-hv-p04">
+                                <rect key="frame" x="50" y="418" width="500" height="55"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="rqu-a6-WKE"/>
+                                    <constraint firstAttribute="height" constant="55" id="rqu-a6-WKE"/>
                                 </constraints>
                             </pickerView>
                         </subviews>
@@ -552,11 +556,11 @@
                             <constraint firstItem="b3h-BN-AAN" firstAttribute="top" secondItem="cDl-Lw-iB7" secondAttribute="bottom" constant="8" id="nVX-wN-ut9"/>
                             <constraint firstItem="egm-qF-Y6d" firstAttribute="width" secondItem="DsZ-Pb-dWs" secondAttribute="width" multiplier="5/6" id="nqL-mo-7JW"/>
                             <constraint firstItem="0dv-Sz-IXM" firstAttribute="top" secondItem="l2y-Yh-CAd" secondAttribute="bottom" constant="5" id="rY6-BN-6Uz"/>
-                            <constraint firstItem="egm-qF-Y6d" firstAttribute="top" secondItem="kJU-hv-p04" secondAttribute="bottom" constant="15" id="s2W-KN-lxc"/>
+                            <constraint firstItem="egm-qF-Y6d" firstAttribute="top" secondItem="kJU-hv-p04" secondAttribute="bottom" id="s2W-KN-lxc"/>
                             <constraint firstItem="gxN-2D-LbX" firstAttribute="height" secondItem="b3h-BN-AAN" secondAttribute="height" id="sWW-a6-rML"/>
                             <constraint firstItem="cDl-Lw-iB7" firstAttribute="width" secondItem="b3h-BN-AAN" secondAttribute="width" id="tm9-qP-dFG"/>
                             <constraint firstItem="b3h-BN-AAN" firstAttribute="width" secondItem="DsZ-Pb-dWs" secondAttribute="width" multiplier="5/6" id="uct-Mn-L4F"/>
-                            <constraint firstItem="kJU-hv-p04" firstAttribute="top" secondItem="gxN-2D-LbX" secondAttribute="bottom" constant="10" id="xMX-KA-iqd"/>
+                            <constraint firstItem="kJU-hv-p04" firstAttribute="top" secondItem="gxN-2D-LbX" secondAttribute="bottom" id="xMX-KA-iqd"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -578,6 +582,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="cameraRollButton" destination="lzN-w4-yyJ" id="R8T-bY-4Zd"/>
                         <outlet property="dataView" destination="b3h-BN-AAN" id="BLc-XH-xWb"/>
                         <outlet property="descTextView" destination="l2y-Yh-CAd" id="pgb-jm-eKG"/>
                         <outlet property="folderView" destination="kJU-hv-p04" id="UHB-ah-Pjv"/>
@@ -627,14 +632,14 @@
                                             <rect key="frame" x="15" y="12" width="32" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KQm-cY-Kba">
                                             <rect key="frame" x="15" y="32" width="31" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -754,6 +759,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="bdT-zr-Ebo"/>
         <segue reference="bmq-3D-eUm"/>
-        <segue reference="mpo-8V-6aB"/>
+        <segue reference="wdV-nB-HgV"/>
     </inferredMetricsTieBreakers>
 </document>
